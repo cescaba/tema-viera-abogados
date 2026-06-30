@@ -177,8 +177,6 @@ Los templates pueden editarse directamente en el tema. Los principales son:
 **Versión:** 1.0.0
 **Requiere:** WordPress 5.0+, PHP 7.4+
 **Licencia:** GPL v2 o posterior
-**Autor:** Estudio de Abogados
+**Autor:** VC Studio
 
----
 
-¡Disfruta del tema! 🎉

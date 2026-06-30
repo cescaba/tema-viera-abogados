@@ -23,10 +23,13 @@ get_header();
 			<h1><?php esc_html_e( 'Resultados de búsqueda para: ', 'tema-viera-abogados' ); echo esc_html( get_search_query() ); ?></h1>
 			<?php
 		} elseif ( is_category() ) {
-			single_cat_title( '<h1>' );
-			echo '</h1>';
+			?>
+			<h1><?php single_cat_title(); ?></h1>
+			<?php
 		} elseif ( is_tag() ) {
-			single_tag_title( '<h1>', '</h1>' );
+			?>
+			<h1><?php single_tag_title(); ?></h1>
+			<?php
 		}
 		?>
 
@@ -40,7 +43,7 @@ get_header();
 					if ( has_post_thumbnail() ) {
 						?>
 						<div style="margin-bottom: var(--spacing-lg);">
-							<?php the_post_thumbnail( 'medium', array( 'style' => 'max-width: 100%; border-radius: 8px;' ) ); ?>
+							<?php the_post_thumbnail( 'medium', [ 'style' => 'max-width: 100%; border-radius: 8px;' ] ); ?>
 						</div>
 						<?php
 					}
@@ -71,13 +74,12 @@ get_header();
 			}
 
 			// Paginación
-			the_posts_pagination( array(
+			the_posts_pagination( [
 				'mid_size'      => 2,
 				'prev_text'     => esc_html__( '&laquo; Anterior', 'tema-viera-abogados' ),
 				'next_text'     => esc_html__( 'Siguiente &raquo;', 'tema-viera-abogados' ),
 				'screen_reader_text' => esc_html__( 'Navegación de posts', 'tema-viera-abogados' ),
-			) );
-		}
+			] );
 		?>
 		</div>
 		<?php
