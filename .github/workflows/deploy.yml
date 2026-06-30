@@ -1,30 +1,23 @@
-name: Deploy to FTP
+name: Deploy por FTP
 
 on:
   push:
     branches:
       - main
-      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy Theme Files to FTP
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Descargar código
+        uses: actions/checkout@v3
 
-      - name: Deploy files via FTP
-        env:
-          FTP_HOST: ${{ secrets.FTP_HOST }}
-          FTP_USER: ${{ secrets.FTP_USER }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        run: |
-          curl -T "*.php" "ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/" --ftp-create-dirs -v
-          curl -T "*.css" "ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/" --ftp-create-dirs -v
-          curl -T "*.js" "ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/" --ftp-create-dirs -v
-          curl -T "*.md" "ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/" --ftp-create-dirs -v
-          curl -T "inc/*" "ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/inc/" --ftp-create-dirs -v
-          curl -T "template-parts/*" "ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/template-parts/" --ftp-create-dirs -v
-          curl -T "js/*" "ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/js/" --ftp-create-dirs -v
+      - name: Subir por FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /
