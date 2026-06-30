@@ -1,0 +1,601 @@
+/*
+Theme Name: Tema Viera Abogados
+Theme URI: https://estudioabogados.local
+Author: VC Studio Peru 
+Author URI: https://estudioabogados.local
+Description: Theme profesional 100% nativo para landing page de estudio de abogados
+Version: 1.0.0
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: tema-viera-abogados
+Domain Path: /languages
+Requires at least: 5.0
+Requires PHP: 7.4
+*/
+
+/* ========================================
+   VARIABLES CSS - Paleta y Tipografía
+   ======================================== */
+
+:root {
+  /* Colores primarios */
+  --color-primary: #1a3a52;      /* Azul oscuro profesional */
+  --color-secondary: #d4af37;    /* Dorado elegante */
+  --color-accent: #2c5aa0;       /* Azul más claro */
+  --color-dark: #0f1419;         /* Casi negro */
+  --color-light: #f5f7fa;        /* Gris muy claro */
+  --color-border: #e0e4e8;       /* Gris para bordes */
+  --color-text: #2c3e50;         /* Gris oscuro para texto */
+  --color-text-light: #7f8c8d;   /* Gris para texto secundario */
+  --color-success: #27ae60;
+  --color-danger: #e74c3c;
+
+  /* Tipografía */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 32px;
+  --font-size-3xl: 48px;
+
+  /* Espaciado */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+  /* Z-index */
+  --z-sticky: 10;
+  --z-dropdown: 20;
+  --z-modal: 30;
+}
+
+/* ========================================
+   RESET Y ESTILOS BASE
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: #fff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
+}
+
+h1 {
+  font-size: var(--font-size-3xl);
+}
+
+h2 {
+  font-size: var(--font-size-2xl);
+}
+
+h3 {
+  font-size: var(--font-size-xl);
+}
+
+p {
+  margin-bottom: var(--spacing-md);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-secondary);
+}
+
+button, input[type="submit"], input[type="button"] {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================
+   CONTENEDOR Y LAYOUT GENERAL
+   ======================================== */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.row-2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-2xl);
+}
+
+.row-3 {
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .row-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .row-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   HEADER Y NAVEGACIÓN
+   ======================================== */
+
+header {
+  background-color: var(--color-dark);
+  color: #fff;
+  padding: var(--spacing-md) 0;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md) 0;
+}
+
+.logo {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.logo a {
+  color: var(--color-secondary);
+}
+
+.logo a:hover {
+  color: #fff;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: var(--spacing-xl);
+}
+
+nav a {
+  color: #fff;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: var(--color-secondary);
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    gap: var(--spacing-md);
+    flex-direction: column;
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+
+.hero {
+  min-height: 500px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(26, 58, 82, 0.75);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.hero h1 {
+  color: #fff;
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-3xl);
+}
+
+.hero .subtitle {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-xl);
+  line-height: 1.8;
+}
+
+/* ========================================
+   BOTONES
+   ======================================== */
+
+.btn {
+  display: inline-block;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  font-size: var(--font-size-base);
+}
+
+.btn-primary {
+  background-color: var(--color-secondary);
+  color: var(--color-dark);
+}
+
+.btn-primary:hover {
+  background-color: #e5c158;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background-color: var(--color-primary);
+  color: #fff;
+  border: 2px solid var(--color-secondary);
+}
+
+.btn-secondary:hover {
+  background-color: transparent;
+  color: var(--color-secondary);
+}
+
+/* ========================================
+   SECCIONES
+   ======================================== */
+
+section {
+  padding: var(--spacing-3xl) 0;
+}
+
+section:nth-child(even) {
+  background-color: var(--color-light);
+}
+
+.section-title {
+  font-size: var(--font-size-2xl);
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  color: var(--color-primary);
+  position: relative;
+  padding-bottom: var(--spacing-lg);
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: var(--color-secondary);
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-light);
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+/* ========================================
+   CARDS
+   ======================================== */
+
+.card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
+}
+
+.card-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: var(--spacing-lg);
+}
+
+.card-title {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-primary);
+}
+
+.card-text {
+  color: var(--color-text-light);
+  font-size: var(--font-size-sm);
+  line-height: 1.8;
+}
+
+.card-meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-secondary);
+  margin-top: var(--spacing-md);
+  font-weight: 600;
+}
+
+/* ========================================
+   SERVICIO CARD
+   ======================================== */
+
+.service-card {
+  padding: var(--spacing-xl);
+  background: #fff;
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--color-secondary);
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateX(5px);
+}
+
+.service-icon {
+  font-size: 40px;
+  margin-bottom: var(--spacing-md);
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.service-title {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-primary);
+}
+
+.service-description {
+  color: var(--color-text-light);
+  line-height: 1.8;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+footer {
+  background-color: var(--color-dark);
+  color: #fff;
+  padding: var(--spacing-3xl) 0 var(--spacing-lg);
+}
+
+footer h3 {
+  color: var(--color-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--color-secondary);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-2xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--spacing-lg);
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+/* ========================================
+   FORMULARIOS
+   ======================================== */
+
+form {
+  max-width: 500px;
+}
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ========================================
+   UTILIDADES
+   ======================================== */
+
+.text-center {
+  text-align: center;
+}
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--spacing-xs); }
+.mt-2 { margin-top: var(--spacing-sm); }
+.mt-3 { margin-top: var(--spacing-md); }
+.mt-4 { margin-top: var(--spacing-lg); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+
+.pt-4 { padding-top: var(--spacing-lg); }
+.pb-4 { padding-bottom: var(--spacing-lg); }
+
+.hidden {
+  display: none;
+}
+
+/* ========================================
+   RESPONSIVO MOBILE-FIRST
+   ======================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-3xl: 32px;
+    --font-size-2xl: 24px;
+    --font-size-xl: 20px;
+  }
+
+  section {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .hero {
+    min-height: 350px;
+  }
+
+  h1 {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .row, .row-2 {
+    grid-template-columns: 1fr;
+  }
+
+  nav ul {
+    gap: var(--spacing-sm);
+  }
+}
