@@ -485,30 +485,35 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (totalCards === 0) return;
 
-  let currentIndex = 0;
+  let currentPage = 0;
   
   function getCardsPerView() {
     return window.innerWidth <= 768 ? 1 : 2;
   }
 
+  function getTotalPages() {
+    return Math.ceil(totalCards / getCardsPerView());
+  }
+
   function renderSlider() {
-    const cardsPerView = getCardsPerView();
-    const maxIndex = Math.max(0, totalCards - cardsPerView);
+    const totalPages = getTotalPages();
     
     dotsContainer.innerHTML = '';
     
-    if (maxIndex <= 0) {
+    if (totalPages <= 1) {
       track.style.transform = `translateX(0)`;
       return;
     }
 
-    for (let i = 0; i <= maxIndex; i++) {
+    if (currentPage >= totalPages) currentPage = totalPages - 1;
+
+    for (let i = 0; i < totalPages; i++) {
       const dot = document.createElement('div');
       dot.classList.add('equipo-dot');
-      if (i === currentIndex) dot.classList.add('is-active');
+      if (i === currentPage) dot.classList.add('is-active');
       
       dot.addEventListener('click', () => {
-        currentIndex = i;
+        currentPage = i;
         updateSliderPosition();
       });
       
@@ -519,30 +524,98 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function updateSliderPosition() {
+    const totalPages = getTotalPages();
     const cardsPerView = getCardsPerView();
-    const maxIndex = Math.max(0, totalCards - cardsPerView);
     
-    if (currentIndex > maxIndex) currentIndex = maxIndex;
+    if (currentPage >= totalPages) currentPage = totalPages - 1;
 
     const dots = dotsContainer.querySelectorAll('.equipo-dot');
     dots.forEach((dot, idx) => {
-      dot.classList.toggle('is-active', idx === currentIndex);
+      dot.classList.toggle('is-active', idx === currentPage);
     });
 
-    // Calcular desplazamiento (Ancho de la tarjeta + gap de 20px)
     const cardWidth = cards[0].offsetWidth;
     const gap = 20; 
-    const moveAmount = (cardWidth + gap) * currentIndex;
+    const moveAmount = (cardWidth + gap) * cardsPerView * currentPage;
     
     track.style.transform = `translateX(-${moveAmount}px)`;
   }
 
-
   renderSlider();
 
- 
   window.addEventListener('resize', () => {
     setTimeout(renderSlider, 100);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const kpiSection = document.getElementById('kpis');
+  if (!kpiSection) return;
+
+  const counters = document.querySelectorAll('.kpi-counter');
+  const speed = 200;
+
+  const animateCounters = () => {
+    counters.forEach(counter => {
+      const updateCount = () => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText;
+
+        const inc = target / speed;
+
+        if (count < target) {
+          counter.innerText = Math.ceil(count + inc);
+          setTimeout(updateCount, 15);
+        } else {
+          counter.innerText = target;
+        }
+      };
+
+      updateCount();
+    });
+  };
+
+  const kpiObserverOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.5
+  };
+
+  const kpiObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounters();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, kpiObserverOptions);
+
+  kpiObserver.observe(kpiSection);
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const btnCargarMas = document.getElementById('btn-cargar-noticias');
+  const noticiasContainer = document.getElementById('noticias-container');
+  
+  if (!btnCargarMas || !noticiasContainer) return;
+
+  btnCargarMas.addEventListener('click', function() {
+    const hiddenBlocks = noticiasContainer.querySelectorAll('.noticias-block.d-none');
+    
+    if (hiddenBlocks.length > 0) {
+      hiddenBlocks[0].style.opacity = '0';
+      hiddenBlocks[0].classList.remove('d-none');
+      
+      setTimeout(() => {
+        hiddenBlocks[0].style.transition = 'opacity 0.5s ease';
+        hiddenBlocks[0].style.opacity = '1';
+      }, 50);
+
+      if (hiddenBlocks.length === 1) {
+        btnCargarMas.style.display = 'none';
+      }
+    }
   });
 });
 })();

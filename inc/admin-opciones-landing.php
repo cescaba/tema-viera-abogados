@@ -103,10 +103,6 @@ function tema_viera_register_settings() {
 	// Opciones de Contacto
 	register_setting(
 		'tema_viera_opciones_landing',
-		'tema_viera_abogados_contacto_titulo'
-	);
-	register_setting(
-		'tema_viera_opciones_landing',
 		'tema_viera_abogados_contacto_direccion'
 	);
 	register_setting(
@@ -116,10 +112,6 @@ function tema_viera_register_settings() {
 	register_setting(
 		'tema_viera_opciones_landing',
 		'tema_viera_abogados_contacto_email'
-	);
-	register_setting(
-		'tema_viera_opciones_landing',
-		'tema_viera_abogados_contacto_mensaje'
 	);
 
 	// Opciones de Texto Animado
@@ -159,6 +151,83 @@ function tema_viera_register_settings() {
 		'tema_viera_opciones_landing',
 		'tema_viera_abogados_clientes_logos'
 	);
+
+	// Opciones de Equipo / Fundador
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_equipo_pre'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_equipo_titulo'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_equipo_enlace_txt'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_equipo_enlace_url'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_fundador_img'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_fundador_tag'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_fundador_nombre'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_fundador_cargo'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_fundador_bio'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_fundador_linkedin'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
+		'tema_viera_abogados_equipo_items'
+	);
+
+	// Opciones de KPIs
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_1_prefix' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_1_num' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_1_suffix' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_1_label' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_2_prefix' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_2_num' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_2_suffix' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_2_label' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_3_prefix' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_3_num' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_3_suffix' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_3_label' );
+
+	// Opciones de Agenda / Cita
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_pre' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_titulo' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_desc' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_btn_txt' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_btn_url' );
+
+	// Opciones de Noticias
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_pre' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_titulo' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_btn' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_items' );
+
+	// Opciones de Redes Sociales (Footer)
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_social_ig' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_social_in' );
 }
 add_action( 'admin_init', 'tema_viera_register_settings' );
 
@@ -198,11 +267,9 @@ function tema_viera_opciones_landing_page() {
 	$abogados_titulo       = get_option( 'tema_viera_abogados_abogados_titulo', '' );
 	$abogados_subtitulo    = get_option( 'tema_viera_abogados_abogados_subtitulo', '' );
 
-	$contacto_titulo       = get_option( 'tema_viera_abogados_contacto_titulo', '' );
 	$contacto_direccion    = get_option( 'tema_viera_abogados_contacto_direccion', '' );
 	$contacto_telefono     = get_option( 'tema_viera_abogados_contacto_telefono', '' );
 	$contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
-	$contacto_mensaje      = get_option( 'tema_viera_abogados_contacto_mensaje', '' );
 
 	$exp_pre_titulo        = get_option( 'tema_viera_abogados_exp_pre_titulo', '' );
 	$exp_titulo            = get_option( 'tema_viera_abogados_exp_titulo', '' );
@@ -211,6 +278,46 @@ function tema_viera_opciones_landing_page() {
 
 	$clientes_titulo       = get_option( 'tema_viera_abogados_clientes_titulo', '' );
 	$clientes_logos_ids    = get_option( 'tema_viera_abogados_clientes_logos', array() );
+
+	$equipo_pre_titulo     = get_option( 'tema_viera_abogados_equipo_pre', '' );
+	$equipo_titulo         = get_option( 'tema_viera_abogados_equipo_titulo', '' );
+	$equipo_enlace_txt     = get_option( 'tema_viera_abogados_equipo_enlace_txt', '' );
+	$equipo_enlace_url     = get_option( 'tema_viera_abogados_equipo_enlace_url', '' );
+	$fundador_img_id       = get_option( 'tema_viera_abogados_fundador_img', '' );
+	$fundador_tag          = get_option( 'tema_viera_abogados_fundador_tag', '' );
+	$fundador_nombre       = get_option( 'tema_viera_abogados_fundador_nombre', '' );
+	$fundador_cargo        = get_option( 'tema_viera_abogados_fundador_cargo', '' );
+	$fundador_bio          = get_option( 'tema_viera_abogados_fundador_bio', '' );
+	$fundador_linkedin     = get_option( 'tema_viera_abogados_fundador_linkedin', '' );
+	$equipo_items          = get_option( 'tema_viera_abogados_equipo_items', array() );
+	$fundador_img_url      = $fundador_img_id ? wp_get_attachment_url( $fundador_img_id ) : '';
+
+	$kpi_1_prefix = get_option( 'tema_viera_abogados_kpi_1_prefix', '+' );
+	$kpi_1_num    = get_option( 'tema_viera_abogados_kpi_1_num', '50' );
+	$kpi_1_suffix = get_option( 'tema_viera_abogados_kpi_1_suffix', '' );
+	$kpi_1_label  = get_option( 'tema_viera_abogados_kpi_1_label', 'Empresas asesoradas' );
+	$kpi_2_prefix = get_option( 'tema_viera_abogados_kpi_2_prefix', '+' );
+	$kpi_2_num    = get_option( 'tema_viera_abogados_kpi_2_num', '35' );
+	$kpi_2_suffix = get_option( 'tema_viera_abogados_kpi_2_suffix', '' );
+	$kpi_2_label  = get_option( 'tema_viera_abogados_kpi_2_label', 'Años de experiencia' );
+	$kpi_3_prefix = get_option( 'tema_viera_abogados_kpi_3_prefix', '' );
+	$kpi_3_num    = get_option( 'tema_viera_abogados_kpi_3_num', '100' );
+	$kpi_3_suffix = get_option( 'tema_viera_abogados_kpi_3_suffix', '%' );
+	$kpi_3_label  = get_option( 'tema_viera_abogados_kpi_3_label', 'Clientes satisfechos' );
+
+	$agenda_pre_titulo = get_option( 'tema_viera_abogados_agenda_pre', 'AGENDA UNA REUNIÓN' );
+	$agenda_titulo     = get_option( 'tema_viera_abogados_agenda_titulo', 'HABLEMOS DE TU CASO' );
+	$agenda_desc       = get_option( 'tema_viera_abogados_agenda_desc', 'Agenda una reunión con nuestro equipo legal de forma rápida y sencilla. Estamos listos para escucharte y ayudarte.' );
+	$agenda_btn_txt    = get_option( 'tema_viera_abogados_agenda_btn_txt', 'AGENDA UNA CITA >' );
+	$agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#plugin-reserva' );
+
+	$noticias_pre_titulo = get_option( 'tema_viera_abogados_noticias_pre', 'MÁS SOBRE NOSOTROS' );
+	$noticias_titulo     = get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÁS' );
+	$noticias_btn        = get_option( 'tema_viera_abogados_noticias_btn', 'CARGAR MÁS ∨' );
+	$noticias_items      = get_option( 'tema_viera_abogados_noticias_items', array() );
+
+	$social_ig = get_option( 'tema_viera_abogados_social_ig', '#' );
+	$social_in = get_option( 'tema_viera_abogados_social_in', '#' );
 
 	// Obtener URLs de imágenes si existen
 	$logo_url = $logo_id ? wp_get_attachment_url( $logo_id ) : '';
@@ -570,14 +677,11 @@ function tema_viera_opciones_landing_page() {
 				</div>
 			</div>
 
-			<!-- SECCIÓN CONTACTO -->
+			<!-- SECCIÓN FOOTER -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'Sección Contacto', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Footer', 'tema-viera-abogados' ); ?></h2>
 
-				<div class="mi-tema-form-group">
-					<label for="contacto_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="contacto_titulo" name="contacto_titulo" value="<?php echo esc_attr( $contacto_titulo ); ?>" />
-				</div>
+				<h3 style="color:#1a3a52;"><?php esc_html_e( 'Contacto', 'tema-viera-abogados' ); ?></h3>
 
 				<div class="mi-tema-form-group">
 					<label for="contacto_direccion"><?php esc_html_e( 'Dirección', 'tema-viera-abogados' ); ?></label>
@@ -594,9 +698,229 @@ function tema_viera_opciones_landing_page() {
 					<input type="email" id="contacto_email" name="contacto_email" value="<?php echo esc_attr( $contacto_email ); ?>" />
 				</div>
 
+				<h3 style="margin-top:25px;color:#1a3a52;"><?php esc_html_e( 'Redes Sociales', 'tema-viera-abogados' ); ?></h3>
+
 				<div class="mi-tema-form-group">
-					<label for="contacto_mensaje"><?php esc_html_e( 'Mensaje o Descripción', 'tema-viera-abogados' ); ?></label>
-					<textarea id="contacto_mensaje" name="contacto_mensaje"><?php echo esc_textarea( $contacto_mensaje ); ?></textarea>
+					<label for="social_ig"><?php esc_html_e( 'Instagram URL', 'tema-viera-abogados' ); ?></label>
+					<input type="url" id="social_ig" name="social_ig" value="<?php echo esc_attr( $social_ig ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="social_in"><?php esc_html_e( 'LinkedIn URL', 'tema-viera-abogados' ); ?></label>
+					<input type="url" id="social_in" name="social_in" value="<?php echo esc_attr( $social_in ); ?>" />
+				</div>
+			</div>
+
+			<!-- SECCIÓN EQUIPO / FUNDADOR -->
+			<div class="mi-tema-form-section">
+				<h2><?php esc_html_e( 'Sección Equipo — Nuestro Equipo', 'tema-viera-abogados' ); ?></h2>
+
+				<div class="mi-tema-form-group">
+					<label for="equipo_pre_titulo"><?php esc_html_e( 'Pre-título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="equipo_pre_titulo" name="equipo_pre_titulo" value="<?php echo esc_attr( $equipo_pre_titulo ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="equipo_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="equipo_titulo" name="equipo_titulo" value="<?php echo esc_attr( $equipo_titulo ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="equipo_enlace_txt"><?php esc_html_e( 'Texto del enlace', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="equipo_enlace_txt" name="equipo_enlace_txt" value="<?php echo esc_attr( $equipo_enlace_txt ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="equipo_enlace_url"><?php esc_html_e( 'URL del enlace', 'tema-viera-abogados' ); ?></label>
+					<input type="url" id="equipo_enlace_url" name="equipo_enlace_url" value="<?php echo esc_attr( $equipo_enlace_url ); ?>" />
+				</div>
+
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Fundador', 'tema-viera-abogados' ); ?></h3>
+
+				<div class="mi-tema-form-group">
+					<label><?php esc_html_e( 'Foto del Fundador', 'tema-viera-abogados' ); ?></label>
+					<input type="hidden" id="fundador_img" name="fundador_img" value="<?php echo esc_attr( $fundador_img_id ); ?>" />
+					<button type="button" class="mi-tema-btn-upload" onclick="tema_viera_upload_media('fundador_img')">
+						<?php esc_html_e( 'Seleccionar Imagen', 'tema-viera-abogados' ); ?>
+					</button>
+					<?php if ( $fundador_img_url ) : ?>
+						<button type="button" class="mi-tema-btn-remove" onclick="tema_viera_remove_media('fundador_img')">
+							<?php esc_html_e( 'Eliminar Imagen', 'tema-viera-abogados' ); ?>
+						</button>
+						<div class="mi-tema-image-preview">
+							<img id="fundador_img_preview" src="<?php echo esc_url( $fundador_img_url ); ?>" alt="" />
+						</div>
+					<?php endif; ?>
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="fundador_tag"><?php esc_html_e( 'Etiqueta (ej: FUNDADOR)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="fundador_tag" name="fundador_tag" value="<?php echo esc_attr( $fundador_tag ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="fundador_nombre"><?php esc_html_e( 'Nombre', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+					<input type="text" id="fundador_nombre" name="fundador_nombre" value="<?php echo esc_attr( $fundador_nombre ); ?>" required />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="fundador_cargo"><?php esc_html_e( 'Cargo', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="fundador_cargo" name="fundador_cargo" value="<?php echo esc_attr( $fundador_cargo ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="fundador_bio"><?php esc_html_e( 'Biografía', 'tema-viera-abogados' ); ?></label>
+					<textarea id="fundador_bio" name="fundador_bio"><?php echo esc_textarea( $fundador_bio ); ?></textarea>
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="fundador_linkedin"><?php esc_html_e( 'LinkedIn URL', 'tema-viera-abogados' ); ?></label>
+					<input type="url" id="fundador_linkedin" name="fundador_linkedin" value="<?php echo esc_attr( $fundador_linkedin ); ?>" />
+				</div>
+
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Miembros del Equipo', 'tema-viera-abogados' ); ?></h3>
+
+				<div class="mi-tema-servicios-container">
+					<div id="equipo-items-list">
+						<?php
+						if ( ! empty( $equipo_items ) && is_array( $equipo_items ) ) {
+							foreach ( $equipo_items as $index => $miembro ) {
+								tema_viera_render_equipo_item( $index, $miembro );
+							}
+						}
+						?>
+					</div>
+
+					<button type="button" id="btn-add-equipo" class="button button-primary">
+						<?php esc_html_e( '+ Agregar Miembro', 'tema-viera-abogados' ); ?>
+					</button>
+				</div>
+			</div>
+
+			<!-- SECCIÓN KPIs -->
+			<div class="mi-tema-form-section">
+				<h2><?php esc_html_e( 'Sección KPIs — Indicadores', 'tema-viera-abogados' ); ?></h2>
+
+				<h3 style="margin-top:20px;color:#1a3a52;"><?php esc_html_e( 'KPI 1', 'tema-viera-abogados' ); ?></h3>
+				<div class="mi-tema-form-group">
+					<label for="kpi_1_prefix"><?php esc_html_e( 'Prefijo (ej: +)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_1_prefix" name="kpi_1_prefix" value="<?php echo esc_attr( $kpi_1_prefix ); ?>" maxlength="5" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_1_num"><?php esc_html_e( 'Número', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+					<input type="text" id="kpi_1_num" name="kpi_1_num" value="<?php echo esc_attr( $kpi_1_num ); ?>" required pattern="[0-9]+" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_1_suffix"><?php esc_html_e( 'Sufijo (ej: %, K)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_1_suffix" name="kpi_1_suffix" value="<?php echo esc_attr( $kpi_1_suffix ); ?>" maxlength="5" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_1_label"><?php esc_html_e( 'Etiqueta', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_1_label" name="kpi_1_label" value="<?php echo esc_attr( $kpi_1_label ); ?>" />
+				</div>
+
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'KPI 2', 'tema-viera-abogados' ); ?></h3>
+				<div class="mi-tema-form-group">
+					<label for="kpi_2_prefix"><?php esc_html_e( 'Prefijo (ej: +)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_2_prefix" name="kpi_2_prefix" value="<?php echo esc_attr( $kpi_2_prefix ); ?>" maxlength="5" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_2_num"><?php esc_html_e( 'Número', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+					<input type="text" id="kpi_2_num" name="kpi_2_num" value="<?php echo esc_attr( $kpi_2_num ); ?>" required pattern="[0-9]+" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_2_suffix"><?php esc_html_e( 'Sufijo (ej: %, K)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_2_suffix" name="kpi_2_suffix" value="<?php echo esc_attr( $kpi_2_suffix ); ?>" maxlength="5" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_2_label"><?php esc_html_e( 'Etiqueta', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_2_label" name="kpi_2_label" value="<?php echo esc_attr( $kpi_2_label ); ?>" />
+				</div>
+
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'KPI 3', 'tema-viera-abogados' ); ?></h3>
+				<div class="mi-tema-form-group">
+					<label for="kpi_3_prefix"><?php esc_html_e( 'Prefijo (ej: +)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_3_prefix" name="kpi_3_prefix" value="<?php echo esc_attr( $kpi_3_prefix ); ?>" maxlength="5" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_3_num"><?php esc_html_e( 'Número', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+					<input type="text" id="kpi_3_num" name="kpi_3_num" value="<?php echo esc_attr( $kpi_3_num ); ?>" required pattern="[0-9]+" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_3_suffix"><?php esc_html_e( 'Sufijo (ej: %, K)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_3_suffix" name="kpi_3_suffix" value="<?php echo esc_attr( $kpi_3_suffix ); ?>" maxlength="5" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_3_label"><?php esc_html_e( 'Etiqueta', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_3_label" name="kpi_3_label" value="<?php echo esc_attr( $kpi_3_label ); ?>" />
+				</div>
+			</div>
+
+			<!-- SECCIÓN AGENDAR CITA -->
+			<div class="mi-tema-form-section">
+				<h2><?php esc_html_e( 'Sección Agendar Cita', 'tema-viera-abogados' ); ?></h2>
+
+				<div class="mi-tema-form-group">
+					<label for="agenda_pre_titulo"><?php esc_html_e( 'Pre-título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="agenda_pre_titulo" name="agenda_pre_titulo" value="<?php echo esc_attr( $agenda_pre_titulo ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="agenda_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="agenda_titulo" name="agenda_titulo" value="<?php echo esc_attr( $agenda_titulo ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="agenda_desc"><?php esc_html_e( 'Descripción', 'tema-viera-abogados' ); ?></label>
+					<textarea id="agenda_desc" name="agenda_desc"><?php echo esc_textarea( $agenda_desc ); ?></textarea>
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="agenda_btn_txt"><?php esc_html_e( 'Texto del Botón', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="agenda_btn_txt" name="agenda_btn_txt" value="<?php echo esc_attr( $agenda_btn_txt ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="agenda_btn_url"><?php esc_html_e( 'URL del Botón', 'tema-viera-abogados' ); ?></label>
+					<input type="url" id="agenda_btn_url" name="agenda_btn_url" value="<?php echo esc_attr( $agenda_btn_url ); ?>" />
+				</div>
+			</div>
+
+			<!-- SECCIÓN NOTICIAS -->
+			<div class="mi-tema-form-section">
+				<h2><?php esc_html_e( 'Sección Noticias y Casos', 'tema-viera-abogados' ); ?></h2>
+
+				<div class="mi-tema-form-group">
+					<label for="noticias_pre_titulo"><?php esc_html_e( 'Pre-título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="noticias_pre_titulo" name="noticias_pre_titulo" value="<?php echo esc_attr( $noticias_pre_titulo ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="noticias_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="noticias_titulo" name="noticias_titulo" value="<?php echo esc_attr( $noticias_titulo ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="noticias_btn"><?php esc_html_e( 'Texto botón "Cargar Más"', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="noticias_btn" name="noticias_btn" value="<?php echo esc_attr( $noticias_btn ); ?>" />
+				</div>
+
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Noticias', 'tema-viera-abogados' ); ?></h3>
+
+				<div class="mi-tema-servicios-container">
+					<div id="noticias-items-list">
+						<?php
+						if ( ! empty( $noticias_items ) && is_array( $noticias_items ) ) {
+							foreach ( $noticias_items as $index => $noticia ) {
+								tema_viera_render_noticia_item( $index, $noticia );
+							}
+						}
+						?>
+					</div>
+
+					<button type="button" id="btn-add-noticia" class="button button-primary">
+						<?php esc_html_e( '+ Agregar Noticia', 'tema-viera-abogados' ); ?>
+					</button>
 				</div>
 			</div>
 
@@ -693,6 +1017,110 @@ function tema_viera_opciones_landing_page() {
 		// Remover un sector
 		function removeSector( index ) {
 			var item = document.querySelector('.mi-tema-sector-item[data-index="' + index + '"]');
+			if ( item ) {
+				item.remove();
+			}
+		}
+
+		// Variable global para rastrear el índice de equipo
+		var equipoIndex = <?php echo isset( $equipo_items ) ? count( (array) $equipo_items ) : 0; ?>;
+
+		// Agregar un nuevo miembro del equipo dinámicamente
+		var btnAddEquipo = document.getElementById('btn-add-equipo');
+		if (btnAddEquipo) {
+			btnAddEquipo.addEventListener('click', function( e ) {
+				e.preventDefault();
+				var container = document.getElementById('equipo-items-list');
+				var html = '<div class="mi-tema-servicio-item mi-tema-equipo-item" data-index="' + equipoIndex + '">' +
+					'<button type="button" class="btn-remove-servicio" onclick="removeEquipo(' + equipoIndex + ')">Eliminar</button>' +
+					'<div style="margin-bottom: 10px;">' +
+						'<label>Imagen del Miembro</label>' +
+						'<div>' +
+							'<input type="hidden" id="equipo_img_' + equipoIndex + '" name="equipo[' + equipoIndex + '][imagen]" value="" />' +
+							'<div class="mi-tema-img-preview" style="display: none; margin-bottom: 8px;">' +
+								'<img id="equipo_img_' + equipoIndex + '_preview" src="" style="max-width: 150px; max-height: 100px; display: block;" />' +
+								'<button type="button" class="button button-small" onclick="tema_viera_remove_media(\'equipo_img_' + equipoIndex + '\')" style="margin-top: 5px;">Quitar imagen</button>' +
+							'</div>' +
+							'<button type="button" class="button" onclick="tema_viera_upload_sector_media(\'equipo_img_' + equipoIndex + '\')">Subir Imagen</button>' +
+						'</div>' +
+					'</div>' +
+					'<div style="margin-bottom: 10px;">' +
+						'<label>Nombre <span style="color:red;">*</span></label>' +
+						'<input type="text" name="equipo[' + equipoIndex + '][nombre]" value="" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
+					'</div>' +
+					'<div style="margin-bottom: 10px;">' +
+						'<label>Cargo <span style="color:red;">*</span></label>' +
+						'<input type="text" name="equipo[' + equipoIndex + '][cargo]" value="" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
+					'</div>' +
+					'<div style="margin-bottom: 10px;">' +
+						'<label>Descripción / Bio</label>' +
+						'<textarea name="equipo[' + equipoIndex + '][descripcion]" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"></textarea>' +
+					'</div>' +
+					'<div style="margin-bottom: 10px;">' +
+						'<label>Email</label>' +
+						'<input type="email" name="equipo[' + equipoIndex + '][email]" value="" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
+					'</div>' +
+					'<div>' +
+						'<label>LinkedIn URL</label>' +
+						'<input type="url" name="equipo[' + equipoIndex + '][linkedin]" value="" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
+					'</div>' +
+				'</div>';
+				container.insertAdjacentHTML('beforeend', html);
+				equipoIndex++;
+			});
+		}
+
+		// Remover un miembro del equipo
+		function removeEquipo( index ) {
+			var item = document.querySelector('.mi-tema-equipo-item[data-index="' + index + '"]');
+			if ( item ) {
+				item.remove();
+			}
+		}
+
+		// Variable global para rastrear el índice de noticias
+		var noticiaIndex = <?php echo isset( $noticias_items ) ? count( (array) $noticias_items ) : 0; ?>;
+
+		// Agregar una nueva noticia dinámicamente
+		var btnAddNoticia = document.getElementById('btn-add-noticia');
+		if (btnAddNoticia) {
+			btnAddNoticia.addEventListener('click', function( e ) {
+				e.preventDefault();
+				var container = document.getElementById('noticias-items-list');
+				var html = '<div class="mi-tema-servicio-item mi-tema-noticia-item" data-index="' + noticiaIndex + '">' +
+					'<button type="button" class="btn-remove-servicio" onclick="removeNoticia(' + noticiaIndex + ')">Eliminar</button>' +
+					'<div style="margin-bottom: 10px;">' +
+						'<label>Imagen</label>' +
+						'<div>' +
+							'<input type="hidden" id="noticia_img_' + noticiaIndex + '" name="noticias[' + noticiaIndex + '][imagen]" value="" />' +
+							'<div class="mi-tema-img-preview" style="display: none; margin-bottom: 8px;">' +
+								'<img id="noticia_img_' + noticiaIndex + '_preview" src="" style="max-width: 150px; max-height: 100px; display: block;" />' +
+								'<button type="button" class="button button-small" onclick="tema_viera_remove_media(\'noticia_img_' + noticiaIndex + '\')" style="margin-top: 5px;">Quitar imagen</button>' +
+							'</div>' +
+							'<button type="button" class="button" onclick="tema_viera_upload_sector_media(\'noticia_img_' + noticiaIndex + '\')">Subir Imagen</button>' +
+						'</div>' +
+					'</div>' +
+					'<div style="margin-bottom: 10px;">' +
+						'<label>Categoría</label>' +
+						'<input type="text" name="noticias[' + noticiaIndex + '][categoria]" value="" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
+					'</div>' +
+					'<div style="margin-bottom: 10px;">' +
+						'<label>Título <span style="color:red;">*</span></label>' +
+						'<input type="text" name="noticias[' + noticiaIndex + '][titulo]" value="" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
+					'</div>' +
+					'<div>' +
+						'<label>Enlace</label>' +
+						'<input type="url" name="noticias[' + noticiaIndex + '][enlace]" value="" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
+					'</div>' +
+				'</div>';
+				container.insertAdjacentHTML('beforeend', html);
+				noticiaIndex++;
+			});
+		}
+
+		// Remover una noticia
+		function removeNoticia( index ) {
+			var item = document.querySelector('.mi-tema-noticia-item[data-index="' + index + '"]');
 			if ( item ) {
 				item.remove();
 			}
@@ -1048,6 +1476,122 @@ function tema_viera_render_sector_item( $index, $sector ) {
 }
 
 /**
+ * Renderizar un item individual de miembro del equipo
+ *
+ * @param int $index Índice del miembro
+ * @param array $miembro Datos del miembro
+ */
+function tema_viera_render_equipo_item( $index, $miembro ) {
+	$imagen_id  = isset( $miembro['imagen'] ) ? $miembro['imagen'] : '';
+	$imagen_url = $imagen_id ? wp_get_attachment_url( $imagen_id ) : '';
+	$nombre     = isset( $miembro['nombre'] ) ? $miembro['nombre'] : '';
+	$cargo      = isset( $miembro['cargo'] ) ? $miembro['cargo'] : '';
+	$descripcion = isset( $miembro['descripcion'] ) ? $miembro['descripcion'] : '';
+	$email      = isset( $miembro['email'] ) ? $miembro['email'] : '';
+	$linkedin   = isset( $miembro['linkedin'] ) ? $miembro['linkedin'] : '';
+	?>
+	<div class="mi-tema-servicio-item mi-tema-equipo-item" data-index="<?php echo esc_attr( $index ); ?>">
+		<button type="button" class="btn-remove-servicio" onclick="removeEquipo(<?php echo esc_attr( $index ); ?>)">
+			<?php esc_html_e( 'Eliminar', 'tema-viera-abogados' ); ?>
+		</button>
+
+		<div style="margin-bottom: 10px;">
+			<label><?php esc_html_e( 'Imagen del Miembro', 'tema-viera-abogados' ); ?></label>
+			<div>
+				<input type="hidden" id="equipo_img_<?php echo esc_attr( $index ); ?>" name="equipo[<?php echo esc_attr( $index ); ?>][imagen]" value="<?php echo esc_attr( $imagen_id ); ?>" />
+				<div class="mi-tema-img-preview" style="<?php echo $imagen_url ? '' : 'display: none;'; ?> margin-bottom: 8px;">
+					<img id="equipo_img_<?php echo esc_attr( $index ); ?>_preview" src="<?php echo esc_url( $imagen_url ); ?>" style="max-width: 150px; max-height: 100px; display: block;" />
+					<button type="button" class="button button-small" onclick="tema_viera_remove_media('equipo_img_<?php echo esc_attr( $index ); ?>')" style="margin-top: 5px;">
+						<?php esc_html_e( 'Quitar imagen', 'tema-viera-abogados' ); ?>
+					</button>
+				</div>
+				<button type="button" class="button" onclick="tema_viera_upload_sector_media('equipo_img_<?php echo esc_attr( $index ); ?>')">
+					<?php esc_html_e( 'Subir Imagen', 'tema-viera-abogados' ); ?>
+				</button>
+			</div>
+		</div>
+
+		<div style="margin-bottom: 10px;">
+			<label><?php esc_html_e( 'Nombre', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+			<input type="text" name="equipo[<?php echo esc_attr( $index ); ?>][nombre]" value="<?php echo esc_attr( $nombre ); ?>" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
+		</div>
+
+		<div style="margin-bottom: 10px;">
+			<label><?php esc_html_e( 'Cargo', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+			<input type="text" name="equipo[<?php echo esc_attr( $index ); ?>][cargo]" value="<?php echo esc_attr( $cargo ); ?>" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
+		</div>
+
+		<div style="margin-bottom: 10px;">
+			<label><?php esc_html_e( 'Descripción / Bio', 'tema-viera-abogados' ); ?></label>
+			<textarea name="equipo[<?php echo esc_attr( $index ); ?>][descripcion]" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"><?php echo esc_textarea( $descripcion ); ?></textarea>
+		</div>
+
+		<div style="margin-bottom: 10px;">
+			<label><?php esc_html_e( 'Email', 'tema-viera-abogados' ); ?></label>
+			<input type="email" name="equipo[<?php echo esc_attr( $index ); ?>][email]" value="<?php echo esc_attr( $email ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
+		</div>
+
+		<div>
+			<label><?php esc_html_e( 'LinkedIn URL', 'tema-viera-abogados' ); ?></label>
+			<input type="url" name="equipo[<?php echo esc_attr( $index ); ?>][linkedin]" value="<?php echo esc_attr( $linkedin ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
+		</div>
+	</div>
+	<?php
+}
+
+/**
+ * Renderizar un item individual de noticia
+ *
+ * @param int $index Índice de la noticia
+ * @param array $noticia Datos de la noticia
+ */
+function tema_viera_render_noticia_item( $index, $noticia ) {
+	$imagen_id  = isset( $noticia['imagen'] ) ? $noticia['imagen'] : '';
+	$imagen_url = $imagen_id ? wp_get_attachment_url( $imagen_id ) : '';
+	$categoria  = isset( $noticia['categoria'] ) ? $noticia['categoria'] : '';
+	$titulo     = isset( $noticia['titulo'] ) ? $noticia['titulo'] : '';
+	$enlace     = isset( $noticia['enlace'] ) ? $noticia['enlace'] : '';
+	?>
+	<div class="mi-tema-servicio-item mi-tema-noticia-item" data-index="<?php echo esc_attr( $index ); ?>">
+		<button type="button" class="btn-remove-servicio" onclick="removeNoticia(<?php echo esc_attr( $index ); ?>)">
+			<?php esc_html_e( 'Eliminar', 'tema-viera-abogados' ); ?>
+		</button>
+
+		<div style="margin-bottom: 10px;">
+			<label><?php esc_html_e( 'Imagen', 'tema-viera-abogados' ); ?></label>
+			<div>
+				<input type="hidden" id="noticia_img_<?php echo esc_attr( $index ); ?>" name="noticias[<?php echo esc_attr( $index ); ?>][imagen]" value="<?php echo esc_attr( $imagen_id ); ?>" />
+				<div class="mi-tema-img-preview" style="<?php echo $imagen_url ? '' : 'display: none;'; ?> margin-bottom: 8px;">
+					<img id="noticia_img_<?php echo esc_attr( $index ); ?>_preview" src="<?php echo esc_url( $imagen_url ); ?>" style="max-width: 150px; max-height: 100px; display: block;" />
+					<button type="button" class="button button-small" onclick="tema_viera_remove_media('noticia_img_<?php echo esc_attr( $index ); ?>')" style="margin-top: 5px;">
+						<?php esc_html_e( 'Quitar imagen', 'tema-viera-abogados' ); ?>
+					</button>
+				</div>
+				<button type="button" class="button" onclick="tema_viera_upload_sector_media('noticia_img_<?php echo esc_attr( $index ); ?>')">
+					<?php esc_html_e( 'Subir Imagen', 'tema-viera-abogados' ); ?>
+				</button>
+			</div>
+		</div>
+
+		<div style="margin-bottom: 10px;">
+			<label><?php esc_html_e( 'Categoría', 'tema-viera-abogados' ); ?></label>
+			<input type="text" name="noticias[<?php echo esc_attr( $index ); ?>][categoria]" value="<?php echo esc_attr( $categoria ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
+		</div>
+
+		<div style="margin-bottom: 10px;">
+			<label><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+			<input type="text" name="noticias[<?php echo esc_attr( $index ); ?>][titulo]" value="<?php echo esc_attr( $titulo ); ?>" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
+		</div>
+
+		<div>
+			<label><?php esc_html_e( 'Enlace', 'tema-viera-abogados' ); ?></label>
+			<input type="url" name="noticias[<?php echo esc_attr( $index ); ?>][enlace]" value="<?php echo esc_attr( $enlace ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
+		</div>
+	</div>
+	<?php
+}
+
+/**
  * Procesar y guardar las opciones de la landing
  */
 function tema_viera_procesar_opciones_landing() {
@@ -1149,9 +1693,6 @@ function tema_viera_procesar_opciones_landing() {
 	}
 
 	// Procesar Contacto
-	if ( isset( $_POST['contacto_titulo'] ) ) {
-		update_option( 'tema_viera_abogados_contacto_titulo', sanitize_text_field( $_POST['contacto_titulo'] ) );
-	}
 	if ( isset( $_POST['contacto_direccion'] ) ) {
 		update_option( 'tema_viera_abogados_contacto_direccion', sanitize_text_field( $_POST['contacto_direccion'] ) );
 	}
@@ -1161,7 +1702,161 @@ function tema_viera_procesar_opciones_landing() {
 	if ( isset( $_POST['contacto_email'] ) ) {
 		update_option( 'tema_viera_abogados_contacto_email', sanitize_email( $_POST['contacto_email'] ) );
 	}
-	if ( isset( $_POST['contacto_mensaje'] ) ) {
-		update_option( 'tema_viera_abogados_contacto_mensaje', wp_kses_post( $_POST['contacto_mensaje'] ) );
+
+	// Procesar Equipo / Fundador
+	if ( isset( $_POST['equipo_pre_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_equipo_pre', sanitize_text_field( $_POST['equipo_pre_titulo'] ) );
+	}
+	if ( isset( $_POST['equipo_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_equipo_titulo', sanitize_text_field( $_POST['equipo_titulo'] ) );
+	}
+	if ( isset( $_POST['equipo_enlace_txt'] ) ) {
+		update_option( 'tema_viera_abogados_equipo_enlace_txt', sanitize_text_field( $_POST['equipo_enlace_txt'] ) );
+	}
+	if ( isset( $_POST['equipo_enlace_url'] ) ) {
+		update_option( 'tema_viera_abogados_equipo_enlace_url', esc_url_raw( $_POST['equipo_enlace_url'] ) );
+	}
+	if ( isset( $_POST['fundador_img'] ) ) {
+		update_option( 'tema_viera_abogados_fundador_img', intval( $_POST['fundador_img'] ) );
+	}
+	if ( isset( $_POST['fundador_tag'] ) ) {
+		update_option( 'tema_viera_abogados_fundador_tag', sanitize_text_field( $_POST['fundador_tag'] ) );
+	}
+
+	// Fundador nombre (requerido)
+	if ( isset( $_POST['fundador_nombre'] ) && ! empty( trim( $_POST['fundador_nombre'] ) ) ) {
+		update_option( 'tema_viera_abogados_fundador_nombre', sanitize_text_field( $_POST['fundador_nombre'] ) );
+	} elseif ( isset( $_POST['fundador_nombre'] ) ) {
+		update_option( 'tema_viera_abogados_fundador_nombre', '' );
+	}
+
+	if ( isset( $_POST['fundador_cargo'] ) ) {
+		update_option( 'tema_viera_abogados_fundador_cargo', sanitize_text_field( $_POST['fundador_cargo'] ) );
+	}
+	if ( isset( $_POST['fundador_bio'] ) ) {
+		update_option( 'tema_viera_abogados_fundador_bio', wp_kses_post( $_POST['fundador_bio'] ) );
+	}
+	if ( isset( $_POST['fundador_linkedin'] ) ) {
+		update_option( 'tema_viera_abogados_fundador_linkedin', esc_url_raw( $_POST['fundador_linkedin'] ) );
+	}
+
+	if ( isset( $_POST['equipo'] ) && is_array( $_POST['equipo'] ) ) {
+		$equipo_items = array();
+		foreach ( $_POST['equipo'] as $miembro ) {
+			$nombre      = isset( $miembro['nombre'] ) ? sanitize_text_field( $miembro['nombre'] ) : '';
+			$cargo       = isset( $miembro['cargo'] ) ? sanitize_text_field( $miembro['cargo'] ) : '';
+			$email       = isset( $miembro['email'] ) ? sanitize_email( $miembro['email'] ) : '';
+			$linkedin    = isset( $miembro['linkedin'] ) ? esc_url_raw( $miembro['linkedin'] ) : '';
+
+			if ( empty( $nombre ) || empty( $cargo ) ) {
+				continue;
+			}
+
+			$equipo_items[] = array(
+				'imagen'      => isset( $miembro['imagen'] ) ? intval( $miembro['imagen'] ) : 0,
+				'nombre'      => $nombre,
+				'cargo'       => $cargo,
+				'descripcion' => isset( $miembro['descripcion'] ) ? wp_kses_post( $miembro['descripcion'] ) : '',
+				'email'       => $email,
+				'linkedin'    => $linkedin,
+			);
+		}
+		update_option( 'tema_viera_abogados_equipo_items', $equipo_items );
+	}
+
+	// Procesar KPIs
+	if ( isset( $_POST['kpi_1_prefix'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_1_prefix', sanitize_text_field( $_POST['kpi_1_prefix'] ) );
+	}
+	if ( isset( $_POST['kpi_1_num'] ) ) {
+		$kpi_1_num = preg_replace( '/[^0-9]/', '', $_POST['kpi_1_num'] );
+		update_option( 'tema_viera_abogados_kpi_1_num', $kpi_1_num !== '' ? $kpi_1_num : '0' );
+	}
+	if ( isset( $_POST['kpi_1_suffix'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_1_suffix', sanitize_text_field( $_POST['kpi_1_suffix'] ) );
+	}
+	if ( isset( $_POST['kpi_1_label'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_1_label', sanitize_text_field( $_POST['kpi_1_label'] ) );
+	}
+	if ( isset( $_POST['kpi_2_prefix'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_2_prefix', sanitize_text_field( $_POST['kpi_2_prefix'] ) );
+	}
+	if ( isset( $_POST['kpi_2_num'] ) ) {
+		$kpi_2_num = preg_replace( '/[^0-9]/', '', $_POST['kpi_2_num'] );
+		update_option( 'tema_viera_abogados_kpi_2_num', $kpi_2_num !== '' ? $kpi_2_num : '0' );
+	}
+	if ( isset( $_POST['kpi_2_suffix'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_2_suffix', sanitize_text_field( $_POST['kpi_2_suffix'] ) );
+	}
+	if ( isset( $_POST['kpi_2_label'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_2_label', sanitize_text_field( $_POST['kpi_2_label'] ) );
+	}
+	if ( isset( $_POST['kpi_3_prefix'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_3_prefix', sanitize_text_field( $_POST['kpi_3_prefix'] ) );
+	}
+	if ( isset( $_POST['kpi_3_num'] ) ) {
+		$kpi_3_num = preg_replace( '/[^0-9]/', '', $_POST['kpi_3_num'] );
+		update_option( 'tema_viera_abogados_kpi_3_num', $kpi_3_num !== '' ? $kpi_3_num : '0' );
+	}
+	if ( isset( $_POST['kpi_3_suffix'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_3_suffix', sanitize_text_field( $_POST['kpi_3_suffix'] ) );
+	}
+	if ( isset( $_POST['kpi_3_label'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_3_label', sanitize_text_field( $_POST['kpi_3_label'] ) );
+	}
+
+	// Procesar Agenda / Cita
+	if ( isset( $_POST['agenda_pre_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_agenda_pre', sanitize_text_field( $_POST['agenda_pre_titulo'] ) );
+	}
+	if ( isset( $_POST['agenda_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_agenda_titulo', sanitize_text_field( $_POST['agenda_titulo'] ) );
+	}
+	if ( isset( $_POST['agenda_desc'] ) ) {
+		update_option( 'tema_viera_abogados_agenda_desc', wp_kses_post( $_POST['agenda_desc'] ) );
+	}
+	if ( isset( $_POST['agenda_btn_txt'] ) ) {
+		update_option( 'tema_viera_abogados_agenda_btn_txt', sanitize_text_field( $_POST['agenda_btn_txt'] ) );
+	}
+	if ( isset( $_POST['agenda_btn_url'] ) ) {
+		update_option( 'tema_viera_abogados_agenda_btn_url', esc_url_raw( $_POST['agenda_btn_url'] ) );
+	}
+
+	// Procesar Noticias
+	if ( isset( $_POST['noticias_pre_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_noticias_pre', sanitize_text_field( $_POST['noticias_pre_titulo'] ) );
+	}
+	if ( isset( $_POST['noticias_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_noticias_titulo', sanitize_text_field( $_POST['noticias_titulo'] ) );
+	}
+	if ( isset( $_POST['noticias_btn'] ) ) {
+		update_option( 'tema_viera_abogados_noticias_btn', sanitize_text_field( $_POST['noticias_btn'] ) );
+	}
+
+	if ( isset( $_POST['noticias'] ) && is_array( $_POST['noticias'] ) ) {
+		$noticias_items = array();
+		foreach ( $_POST['noticias'] as $noticia ) {
+			$titulo = isset( $noticia['titulo'] ) ? sanitize_text_field( $noticia['titulo'] ) : '';
+
+			if ( empty( $titulo ) ) {
+				continue;
+			}
+
+			$noticias_items[] = array(
+				'imagen'    => isset( $noticia['imagen'] ) ? intval( $noticia['imagen'] ) : 0,
+				'categoria' => isset( $noticia['categoria'] ) ? sanitize_text_field( $noticia['categoria'] ) : '',
+				'titulo'    => $titulo,
+				'enlace'    => isset( $noticia['enlace'] ) ? esc_url_raw( $noticia['enlace'] ) : '',
+			);
+		}
+		update_option( 'tema_viera_abogados_noticias_items', $noticias_items );
+	}
+
+	// Procesar Redes Sociales
+	if ( isset( $_POST['social_ig'] ) ) {
+		update_option( 'tema_viera_abogados_social_ig', esc_url_raw( $_POST['social_ig'] ) );
+	}
+	if ( isset( $_POST['social_in'] ) ) {
+		update_option( 'tema_viera_abogados_social_in', esc_url_raw( $_POST['social_in'] ) );
 	}
 }

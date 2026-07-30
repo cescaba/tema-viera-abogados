@@ -10,67 +10,119 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$contacto_titulo   = get_option( 'tema_viera_abogados_contacto_titulo', esc_html__( 'Contacto', 'tema-viera-abogados' ) );
-$contacto_telefono = get_option( 'tema_viera_abogados_contacto_telefono', '' );
-$contacto_email    = get_option( 'tema_viera_abogados_contacto_email', '' );
-$contacto_direccion = get_option( 'tema_viera_abogados_contacto_direccion', '' );
+$contacto_telefono  = get_option( 'tema_viera_abogados_contacto_telefono', '+51 987 654 321' );
+$contacto_email     = get_option( 'tema_viera_abogados_contacto_email', 'contacto@viera.pe' );
+$contacto_direccion = get_option( 'tema_viera_abogados_contacto_direccion', 'Francisco del Castillo 236, Miraflores' );
+
+$social_instagram   = get_option( 'tema_viera_abogados_social_ig', '#' );
+$social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
 ?>
 
-<footer>
-	<div class="container">
-		<div class="footer-content">
-			<!-- Sección Sobre Nosotros en Footer -->
-			<div class="footer-section">
-				<h3><?php echo esc_html( get_bloginfo( 'name' ) ); ?></h3>
-				<p><?php echo esc_html( get_bloginfo( 'description' ) ); ?></p>
-			</div>
+<footer class="site-footer">
+  <div class="footer-container">
+    
+    <div class="footer-logo-col"><svg xmlns="http://www.w3.org/2000/svg" width="390" height="339" viewBox="0 0 390 339" fill="none">
+				<g clip-path="url(#clip0_138_126)">
+				<path d="M138.376 138.53H148.034L169.06 185.483L190.214 138.53H199.957L168.932 206.948L138.376 138.53Z" fill="white"/>
+				<path d="M217.778 138.403H208.761V204.704H217.778V138.403Z" fill="white"/>
+				<path d="M231.795 138.403H268.846V147.463H240.812V164.017H268.846V172.951H240.812V195.771H268.846V204.704H231.795V138.403Z" fill="white"/>
+				<path d="M281.025 138.403H295.513C302.735 138.403 308.59 140.181 313.119 143.737C317.649 147.294 319.914 151.824 319.914 157.413C319.914 161.858 318.461 165.753 315.513 169.183C312.564 172.57 307.991 174.983 301.795 176.38L321.239 204.746H310.769L292.222 177.481H290.171V204.746H281.025V138.403ZM290.171 146.447V169.564C303.632 169.86 310.384 165.965 310.384 157.963C310.384 155.169 309.615 152.84 308.034 151.062C306.453 149.284 304.359 148.056 301.752 147.421C299.102 146.743 295.256 146.447 290.171 146.447Z" fill="white"/>
+				<path d="M358.376 135.862L389.957 204.704H380.384L372.649 187.726H344.273L336.581 204.704H327.094L358.376 135.862ZM358.376 156.566L347.692 180.19H369.23L358.376 156.566Z" fill="white"/>
+				<path d="M167.949 215.373L181.154 244.121H177.137L173.889 237.05H162.052L158.846 244.121H154.872L167.949 215.373ZM167.906 224.01L163.419 233.875H172.393L167.906 224.01Z" fill="white"/>
+				<path d="M185.171 216.432H189.615C192.521 216.432 194.914 217.067 196.752 218.294C198.59 219.565 199.53 221.131 199.53 223.036C199.53 225.365 198.162 227.312 195.47 228.879C199.701 230.276 201.795 232.689 201.795 236.119C201.795 238.49 200.726 240.437 198.547 241.919C196.367 243.401 193.462 244.121 189.829 244.121H185.256V216.432H185.171ZM188.932 219.776V227.948C191.026 227.905 192.65 227.524 193.761 226.762C194.872 226 195.427 224.942 195.427 223.587C195.427 222.401 194.914 221.47 193.932 220.792C192.906 220.073 191.581 219.734 189.872 219.734C189.53 219.734 189.188 219.734 188.932 219.776ZM188.932 231.25V240.734H189.231C192.521 240.734 194.744 240.226 195.983 239.167C197.179 238.109 197.778 237.05 197.778 235.992C197.778 234.552 197.094 233.409 195.769 232.562C194.444 231.716 192.564 231.292 190.256 231.292H188.932V231.25Z" fill="white"/>
+				<path d="M205.897 230.107C205.897 226.127 207.436 222.698 210.47 219.861C213.504 217.024 217.18 215.585 221.453 215.585C225.598 215.585 229.188 217.024 232.222 219.903C235.214 222.782 236.752 226.169 236.752 230.149C236.752 234.341 235.256 237.855 232.308 240.734C229.316 243.613 225.684 245.052 221.368 245.052C217.094 245.052 213.462 243.613 210.47 240.691C207.393 237.77 205.897 234.256 205.897 230.107ZM232.65 230.276C232.65 227.228 231.538 224.645 229.316 222.571C227.094 220.496 224.359 219.438 221.111 219.438C218.034 219.438 215.385 220.496 213.205 222.613C211.026 224.73 209.915 227.313 209.915 230.276C209.915 233.282 211.026 235.865 213.291 237.939C215.556 240.014 218.333 241.072 221.581 241.072C224.573 241.072 227.18 240.014 229.359 237.855C231.581 235.738 232.65 233.198 232.65 230.276Z" fill="white"/>
+				<path d="M268.675 220.835L265.855 223.586C262.991 220.835 259.701 219.437 255.983 219.437C252.692 219.437 250 220.496 247.82 222.57C245.641 224.645 244.573 227.27 244.573 230.403C244.573 233.155 245.641 235.61 247.735 237.812C249.829 240.014 252.778 241.114 256.453 241.114C262.008 241.114 265.513 238.701 266.966 233.917H259.402V230.149H271.325C271.325 232.054 271.196 233.536 270.94 234.679C270.684 235.822 270.171 237.05 269.359 238.405C268.547 239.76 267.479 240.987 266.154 242.046C264.829 243.104 263.376 243.909 261.837 244.374C260.299 244.84 258.504 245.052 256.367 245.052C251.538 245.052 247.692 243.57 244.829 240.564C241.966 237.558 240.513 234.129 240.513 230.276C240.513 226.211 241.966 222.74 244.914 219.903C247.863 217.066 251.41 215.627 255.598 215.627C258.077 215.627 260.342 216.008 262.393 216.728C264.444 217.405 266.538 218.802 268.675 220.835Z" fill="white"/>
+				<path d="M286.752 215.373L299.957 244.121H295.94L292.692 237.05H280.854L277.649 244.121H273.675L286.752 215.373ZM286.752 224.01L282.265 233.875H291.239L286.752 224.01Z" fill="white"/>
+				<path d="M303.505 216.432H310.257C315.641 216.432 319.616 217.829 322.223 220.665C324.829 223.46 326.154 226.677 326.154 230.276C326.154 233.917 324.787 237.135 322.094 239.929C319.402 242.724 315.47 244.121 310.3 244.121H303.462V216.432H303.505ZM307.308 220.115V240.353H307.522C310.342 240.353 312.479 240.226 313.932 239.972C315.385 239.718 316.71 239.167 317.992 238.32C319.274 237.474 320.3 236.33 321.069 234.933C321.838 233.536 322.223 231.97 322.223 230.276C322.223 228.159 321.624 226.212 320.385 224.518C319.188 222.782 317.735 221.639 316.026 221.046C314.359 220.454 312.052 220.157 309.231 220.157H307.308V220.115Z" fill="white"/>
+				<path d="M329.401 230.107C329.401 226.127 330.94 222.698 333.974 219.861C337.008 217.024 340.683 215.585 344.957 215.585C349.102 215.585 352.692 217.024 355.726 219.903C358.718 222.782 360.256 226.169 360.256 230.149C360.256 234.341 358.76 237.855 355.812 240.734C352.82 243.613 349.188 245.052 344.871 245.052C340.598 245.052 336.965 243.613 333.974 240.691C330.897 237.77 329.401 234.256 329.401 230.107ZM356.154 230.276C356.154 227.228 355.042 224.645 352.82 222.571C350.598 220.496 347.863 219.438 344.615 219.438C341.538 219.438 338.889 220.496 336.709 222.613C334.53 224.73 333.418 227.313 333.418 230.276C333.418 233.282 334.53 235.865 336.795 237.939C339.059 240.014 341.837 241.072 345.085 241.072C348.077 241.072 350.683 240.014 352.863 237.855C355.042 235.738 356.154 233.198 356.154 230.276Z" fill="white"/>
+				<path d="M382.222 219.522L379.146 221.978C378.334 221.131 377.607 220.496 376.923 220.115C376.24 219.691 375.299 219.48 374.06 219.48C372.693 219.48 371.581 219.776 370.727 220.411C369.872 221.046 369.445 221.808 369.445 222.782C369.445 223.629 369.829 224.349 370.556 224.984C371.282 225.619 372.564 226.339 374.359 227.101C376.154 227.863 377.564 228.582 378.547 229.218C379.53 229.895 380.385 230.615 381.026 231.419C381.667 232.223 382.137 233.07 382.479 233.917C382.778 234.806 382.949 235.738 382.949 236.711C382.949 238.998 382.094 240.987 380.428 242.596C378.718 244.205 376.71 245.01 374.316 245.01C371.966 245.01 369.915 244.374 368.12 243.104C366.325 241.834 364.958 239.929 363.975 237.389L367.778 236.33C369.146 239.463 371.282 240.987 374.146 240.987C375.513 240.987 376.71 240.564 377.607 239.76C378.547 238.955 378.975 237.897 378.975 236.627C378.975 235.865 378.718 235.102 378.248 234.383C377.778 233.621 377.18 232.986 376.453 232.52C375.727 232.012 374.616 231.461 373.034 230.826C371.453 230.191 370.257 229.599 369.402 229.09C368.547 228.582 367.821 227.947 367.222 227.185C366.624 226.466 366.154 225.746 365.855 224.984C365.556 224.264 365.428 223.502 365.428 222.655C365.428 220.665 366.24 218.972 367.821 217.575C369.445 216.177 371.368 215.5 373.675 215.5C375.214 215.5 376.752 215.839 378.291 216.474C379.915 217.194 381.197 218.167 382.222 219.522Z" fill="white"/>
+				<path d="M109.829 0L47.6496 137.895L28.4615 94.964H0L47.3077 200.978L138.376 0H109.829Z" fill="white"/>
+				<path d="M31.6669 339L93.8036 201.105L113.034 244.036H141.496L94.1883 138.021L3.07715 339H31.6669Z" fill="white"/>
+				</g>
+				<defs>
+				<clipPath id="clip0_138_126">
+				<rect width="390" height="339" fill="white"/>
+				</clipPath>
+				</defs>
+				</svg>
+    </div>
 
-			<!-- Sección Enlaces -->
-			<div class="footer-section">
-				<h3><?php esc_html_e( 'Enlaces', 'tema-viera-abogados' ); ?></h3>
-				<?php
-				wp_nav_menu( array(
-					'theme_location' => 'footer-menu',
-					'fallback_cb'    => function() {
-						echo '<ul>';
-						echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Inicio', 'tema-viera-abogados' ) . '</a></li>';
-						echo '<li><a href="#sobre-nosotros">' . esc_html__( 'Sobre Nosotros', 'tema-viera-abogados' ) . '</a></li>';
-						echo '<li><a href="#servicios">' . esc_html__( 'Servicios', 'tema-viera-abogados' ) . '</a></li>';
-						echo '<li><a href="#abogados">' . esc_html__( 'Nuestro Equipo', 'tema-viera-abogados' ) . '</a></li>';
-						echo '</ul>';
-					},
-					'container'      => false,
-				) );
-				?>
-			</div>
+    <div class="footer-links-col">
+      
+      <div class="footer-nav-column">
+        <h3>MENU</h3>
+        <?php
+        wp_nav_menu( array(
+          'theme_location' => 'footer-menu',
+          'container'      => false,
+          'fallback_cb'    => function() {
+            echo '<ul>';
+            echo '<li><a href="#servicios">Servicio</a></li>';
+            echo '<li><a href="#experiencia">Experiencia</a></li>';
+            echo '<li><a href="#equipo">Equipo</a></li>';
+            echo '<li><a href="#blog">Blog</a></li>';
+            echo '</ul>';
+          },
+        ) );
+        ?>
+      </div>
 
-			<!-- Sección Contacto -->
-			<div class="footer-section">
-				<h3><?php esc_html_e( 'Contacto', 'tema-viera-abogados' ); ?></h3>
-				<ul>
-					<?php if ( $contacto_direccion ) : ?>
-						<li><?php echo esc_html( $contacto_direccion ); ?></li>
-					<?php endif; ?>
-					<?php if ( $contacto_telefono ) : ?>
-						<li>
-							<a href="<?php echo esc_attr( 'tel:' . $contacto_telefono ); ?>">
-								<?php echo esc_html( $contacto_telefono ); ?>
-							</a>
-						</li>
-					<?php endif; ?>
-					<?php if ( $contacto_email ) : ?>
-						<li>
-							<a href="<?php echo esc_attr( 'mailto:' . $contacto_email ); ?>">
-								<?php echo esc_html( $contacto_email ); ?>
-							</a>
-						</li>
-					<?php endif; ?>
-				</ul>
-			</div>
-		</div>
+      <div class="footer-nav-column">
+        <h3>PRIVACIDAD Y LEGAL</h3>
+        <?php
+        wp_nav_menu( array(
+          'theme_location' => 'legal-menu',
+          'container'      => false,
+          'fallback_cb'    => function() {
+            echo '<ul>';
+            echo '<li><a href="#terminos">Términos de privacidad</a></li>';
+            echo '<li><a href="#reclamaciones">Libro de reclamaciones</a></li>';
+            echo '<li><a href="#legal">Información legal</a></li>';
+            echo '</ul>';
+          },
+        ) );
+        ?>
+      </div>
 
-		<div class="footer-bottom">
-			<p>&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?>. <?php esc_html_e( 'Todos los derechos reservados.', 'tema-viera-abogados' ); ?></p>
-		</div>
-	</div>
+      <div class="footer-nav-column">
+        <h3>CONTACTO</h3>
+        <ul>
+          <?php if ( $contacto_telefono ) : ?>
+            <li>
+              <a href="<?php echo esc_attr( 'tel:' . preg_replace('/[^0-9+]/', '', $contacto_telefono) ); ?>">
+                <?php echo esc_html( $contacto_telefono ); ?>
+              </a>
+            </li>
+          <?php endif; ?>
+          <?php if ( $contacto_email ) : ?>
+            <li>
+              <a href="<?php echo esc_attr( 'mailto:' . $contacto_email ); ?>">
+                <?php echo esc_html( $contacto_email ); ?>
+              </a>
+            </li>
+          <?php endif; ?>
+          <?php if ( $contacto_direccion ) : ?>
+            <li class="direccion-text"><?php echo esc_html( $contacto_direccion ); ?></li>
+          <?php endif; ?>
+        </ul>
+      </div>
+
+      <div class="footer-nav-column">
+        <h3>SEGUIR</h3>
+        <ul>
+          <?php if ( $social_instagram ) : ?>
+            <li>
+              <a href="<?php echo esc_url( $social_instagram ); ?>" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+            </li>
+          <?php endif; ?>
+          <?php if ( $social_linkedin ) : ?>
+            <li>
+              <a href="<?php echo esc_url( $social_linkedin ); ?>" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+            </li>
+          <?php endif; ?>
+        </ul>
+      </div>
+
+    </div>
+  </div>
 </footer>

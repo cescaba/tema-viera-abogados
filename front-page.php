@@ -346,8 +346,8 @@ $equipo_items      = get_option( 'tema_viera_abogados_equipo_items', array() );
         <?php endif; ?>
       </div>
       
-      <?php if ( $equipo_enlace_txt && $equipo_enlace_url ) : ?>
-        <a href="<?php echo esc_url( $equipo_enlace_url ); ?>" class="equipo-enlace">
+      <?php if ( $equipo_enlace_txt ) : ?>
+        <a href="<?php echo esc_url( $equipo_enlace_url ?: '#' ); ?>" class="equipo-enlace">
           <?php echo esc_html( $equipo_enlace_txt ); ?>
         </a>
       <?php endif; ?>
@@ -366,11 +366,9 @@ $equipo_items      = get_option( 'tema_viera_abogados_equipo_items', array() );
           <div class="fundador-bio">
             <?php echo wp_kses_post( $fundador_bio ); ?>
           </div>
-          <?php if ( $fundador_linkedin ) : ?>
-            <a href="<?php echo esc_url( $fundador_linkedin ); ?>" target="_blank" class="linkedin-btn dark" aria-label="LinkedIn">
-              in
-            </a>
-          <?php endif; ?>
+          <a href="<?php echo esc_url( $fundador_linkedin ?: '#' ); ?>" target="_blank" class="linkedin-btn dark" aria-label="LinkedIn">
+            in
+          </a>
         </div>
       </div>
 
@@ -400,11 +398,9 @@ $equipo_items      = get_option( 'tema_viera_abogados_equipo_items', array() );
                       </a>
                     <?php endif; ?>
 
-                    <?php if ( !empty($miembro['linkedin']) ) : ?>
-                      <a href="<?php echo esc_url( $miembro['linkedin'] ); ?>" target="_blank" class="linkedin-btn light" aria-label="LinkedIn">
-                        in
-                      </a>
-                    <?php endif; ?>
+                    <a href="<?php echo esc_url( !empty($miembro['linkedin']) ? $miembro['linkedin'] : '#' ); ?>" target="_blank" class="linkedin-btn light" aria-label="LinkedIn">
+                      in
+                    </a>
                   </div>
                 </div>
               <?php endforeach; ?>
@@ -420,115 +416,178 @@ $equipo_items      = get_option( 'tema_viera_abogados_equipo_items', array() );
   </div>
 </section>
 
-<!-- ========================================
-	 SECCIÓN ABOGADOS
-	 ======================================== -->
 <?php
-$abogados_query = tema_viera_get_abogados();
-if ( $abogados_query->have_posts() ) :
-	?>
-	<section id="abogados">
-		<div class="container">
-			<?php if ( $abogados_titulo ) : ?>
-				<h2 class="section-title"><?php echo esc_html( $abogados_titulo ); ?></h2>
-			<?php endif; ?>
+$kpi_1_prefix = get_option( 'tema_viera_abogados_kpi_1_prefix', '+' );
+$kpi_1_num    = get_option( 'tema_viera_abogados_kpi_1_num', '50' );
+$kpi_1_suffix = get_option( 'tema_viera_abogados_kpi_1_suffix', '' );
+$kpi_1_label  = get_option( 'tema_viera_abogados_kpi_1_label', 'Empresas asesoradas' );
 
-			<?php if ( $abogados_subtitulo ) : ?>
-				<p class="section-subtitle"><?php echo esc_html( $abogados_subtitulo ); ?></p>
-			<?php endif; ?>
+$kpi_2_prefix = get_option( 'tema_viera_abogados_kpi_2_prefix', '+' );
+$kpi_2_num    = get_option( 'tema_viera_abogados_kpi_2_num', '35' );
+$kpi_2_suffix = get_option( 'tema_viera_abogados_kpi_2_suffix', '' );
+$kpi_2_label  = get_option( 'tema_viera_abogados_kpi_2_label', 'Años de experiencia' );
 
-			<div class="row-3">
-				<?php
-				while ( $abogados_query->have_posts() ) :
-					$abogados_query->the_post();
-					get_template_part( 'template-parts/abogado-card' );
-				endwhile;
-				wp_reset_postdata();
-				?>
-			</div>
-		</div>
-	</section>
-<?php
-endif;
+$kpi_3_prefix = get_option( 'tema_viera_abogados_kpi_3_prefix', '' );
+$kpi_3_num    = get_option( 'tema_viera_abogados_kpi_3_num', '100' );
+$kpi_3_suffix = get_option( 'tema_viera_abogados_kpi_3_suffix', '%' );
+$kpi_3_label  = get_option( 'tema_viera_abogados_kpi_3_label', 'Clientes satisfechos' );
 ?>
 
 <!-- ========================================
-	 SECCIÓN CONTACTO
-	 ======================================== -->
-<section id="contacto">
-	<div class="container">
-		<div class="row-2">
-			<div>
-				<?php if ( $contacto_titulo ) : ?>
-					<h2 class="section-title"><?php echo esc_html( $contacto_titulo ); ?></h2>
-				<?php endif; ?>
+   SECCIÓN KPIs
+   ======================================== -->
+<section class="section-kpis" id="kpis">
+  <div class="container">
+    <div class="kpis-grid">
+      
+      <div class="kpi-item">
+        <div class="kpi-number-wrap">
+          <span class="kpi-symbol"><?php echo esc_html( $kpi_1_prefix ); ?></span>
+          <span class="kpi-counter" data-target="<?php echo esc_attr( $kpi_1_num ); ?>">0</span>
+          <span class="kpi-symbol"><?php echo esc_html( $kpi_1_suffix ); ?></span>
+        </div>
+        <p class="kpi-label"><?php echo esc_html( $kpi_1_label ); ?></p>
+      </div>
 
-				<?php if ( $contacto_mensaje ) : ?>
-					<div style="margin-bottom: var(--spacing-lg); line-height: 1.8;">
-						<?php echo wp_kses_post( $contacto_mensaje ); ?>
-					</div>
-				<?php endif; ?>
+      <div class="kpi-item">
+        <div class="kpi-number-wrap">
+          <span class="kpi-symbol"><?php echo esc_html( $kpi_2_prefix ); ?></span>
+          <span class="kpi-counter" data-target="<?php echo esc_attr( $kpi_2_num ); ?>">0</span>
+          <span class="kpi-symbol"><?php echo esc_html( $kpi_2_suffix ); ?></span>
+        </div>
+        <p class="kpi-label"><?php echo esc_html( $kpi_2_label ); ?></p>
+      </div>
 
-				<div style="margin-bottom: var(--spacing-lg);">
-					<?php if ( $contacto_direccion ) : ?>
-						<p>
-							<strong><?php esc_html_e( 'Dirección:', 'tema-viera-abogados' ); ?></strong><br>
-							<?php echo esc_html( $contacto_direccion ); ?>
-						</p>
-					<?php endif; ?>
+      <div class="kpi-item">
+        <div class="kpi-number-wrap">
+          <span class="kpi-symbol"><?php echo esc_html( $kpi_3_prefix ); ?></span>
+          <span class="kpi-counter" data-target="<?php echo esc_attr( $kpi_3_num ); ?>">0</span>
+          <span class="kpi-symbol"><?php echo esc_html( $kpi_3_suffix ); ?></span>
+        </div>
+        <p class="kpi-label"><?php echo esc_html( $kpi_3_label ); ?></p>
+      </div>
 
-					<?php if ( $contacto_telefono ) : ?>
-						<p>
-							<strong><?php esc_html_e( 'Teléfono:', 'tema-viera-abogados' ); ?></strong><br>
-							<a href="<?php echo esc_attr( 'tel:' . $contacto_telefono ); ?>">
-								<?php echo esc_html( $contacto_telefono ); ?>
-							</a>
-						</p>
-					<?php endif; ?>
-
-					<?php if ( $contacto_email ) : ?>
-						<p>
-							<strong><?php esc_html_e( 'Email:', 'tema-viera-abogados' ); ?></strong><br>
-							<a href="<?php echo esc_attr( 'mailto:' . $contacto_email ); ?>">
-								<?php echo esc_html( $contacto_email ); ?>
-							</a>
-						</p>
-					<?php endif; ?>
-				</div>
-			</div>
-
-			<div>
-				<form method="post" id="contact-form" style="background: var(--color-light); padding: var(--spacing-xl); border-radius: var(--radius-lg);">
-					<?php wp_nonce_field( 'contact_form_nonce', 'contact_nonce' ); ?>
-
-					<div class="form-group">
-						<label for="contact_name"><?php esc_html_e( 'Nombre', 'tema-viera-abogados' ); ?></label>
-						<input type="text" id="contact_name" name="contact_name" required />
-					</div>
-
-					<div class="form-group">
-						<label for="contact_email_form"><?php esc_html_e( 'Email', 'tema-viera-abogados' ); ?></label>
-						<input type="email" id="contact_email_form" name="contact_email_form" required />
-					</div>
-
-					<div class="form-group">
-						<label for="contact_phone"><?php esc_html_e( 'Teléfono', 'tema-viera-abogados' ); ?></label>
-						<input type="tel" id="contact_phone" name="contact_phone" />
-					</div>
-
-					<div class="form-group">
-						<label for="contact_message"><?php esc_html_e( 'Mensaje', 'tema-viera-abogados' ); ?></label>
-						<textarea id="contact_message" name="contact_message" required></textarea>
-					</div>
-
-					<button type="submit" class="btn btn-primary">
-						<?php esc_html_e( 'Enviar Mensaje', 'tema-viera-abogados' ); ?>
-					</button>
-				</form>
-			</div>
-		</div>
-	</div>
+    </div>
+  </div>
 </section>
+
+<?php
+$agenda_pre_titulo = get_option( 'tema_viera_abogados_agenda_pre', 'AGENDA UNA REUNIÓN' );
+$agenda_titulo     = get_option( 'tema_viera_abogados_agenda_titulo', 'HABLEMOS DE TU CASO' );
+$agenda_desc       = get_option( 'tema_viera_abogados_agenda_desc', 'Agenda una reunión con nuestro equipo legal de forma rápida y sencilla. Estamos listos para escucharte y ayudarte.' );
+$agenda_btn_txt    = get_option( 'tema_viera_abogados_agenda_btn_txt', 'AGENDA UNA CITA >' );
+$agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#plugin-reserva' );
+?>
+
+<!-- ========================================
+   SECCIÓN AGENDAR CITA
+   ======================================== -->
+<section id="agendar-cita" class="section-agenda">
+  <div class="container">
+    <div class="agenda-grid">
+      
+      <div class="agenda-content-col">
+        <?php if ( $agenda_pre_titulo ) : ?>
+          <span class="agenda-pre-titulo"><?php echo esc_html( $agenda_pre_titulo ); ?></span>
+        <?php endif; ?>
+        
+        <?php if ( $agenda_titulo ) : ?>
+          <h2 class="agenda-titulo"><?php echo esc_html( $agenda_titulo ); ?></h2>
+        <?php endif; ?>
+
+        <?php if ( $agenda_desc ) : ?>
+          <p class="agenda-desc"><?php echo esc_html( $agenda_desc ); ?></p>
+        <?php endif; ?>
+
+        <?php if ( $agenda_btn_txt && $agenda_btn_url ) : ?>
+          <a href="<?php echo esc_url( $agenda_btn_url ); ?>" class="btn-outline-dark">
+            <?php echo esc_html( $agenda_btn_txt ); ?>
+          </a>
+        <?php endif; ?>
+      </div>
+
+      <!-- Contenedor del Plugin -->
+      <div class="agenda-plugin-col" id="plugin-reserva">
+        
+        <div class="plugin-placeholder"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<?php
+$noticias_pre_titulo = get_option( 'tema_viera_abogados_noticias_pre', 'MÁS SOBRE NOSOTROS' );
+$noticias_titulo     = get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÁS' );
+$btn_cargar_mas      = get_option( 'tema_viera_abogados_noticias_btn', 'CARGAR MÁS ∨' );
+
+$noticias_items = get_option( 'tema_viera_abogados_noticias_items', array() ); 
+
+$bloques_noticias = array_chunk( $noticias_items, 5 );
+?>
+
+<!-- ========================================
+   SECCIÓN NOTICIAS Y CASOS
+   ======================================== -->
+<section id="noticias" class="section-noticias">
+  <div class="container">
+    
+    <div class="noticias-header">
+      <?php if ( $noticias_pre_titulo ) : ?>
+        <span class="noticias-pre-titulo"><?php echo esc_html( $noticias_pre_titulo ); ?></span>
+      <?php endif; ?>
+      <?php if ( $noticias_titulo ) : ?>
+        <h2 class="noticias-titulo"><?php echo esc_html( $noticias_titulo ); ?></h2>
+      <?php endif; ?>
+    </div>
+
+    <div class="noticias-container" id="noticias-container">
+      <?php if ( ! empty( $bloques_noticias ) ) : ?>
+        
+        <?php foreach ( $bloques_noticias as $index => $bloque ) : 
+          $inverted_class = ( $index % 2 !== 0 ) ? 'is-inverted' : '';
+          $hidden_class   = ( $index !== 0 ) ? 'd-none' : '';
+        ?>
+          <div class="noticias-block <?php echo $inverted_class . ' ' . $hidden_class; ?>">
+            
+            <?php foreach ( $bloque as $noticia ) : 
+              $img_url = !empty($noticia['imagen']) ? wp_get_attachment_url( $noticia['imagen'] ) : '';
+              $enlace  = !empty($noticia['enlace']) ? $noticia['enlace'] : '#';
+            ?>
+              <a href="<?php echo esc_url( $enlace ); ?>" class="noticia-card">
+                
+                <div class="noticia-img-wrap">
+                  <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $noticia['titulo'] ?? '' ); ?>">
+                  <div class="noticia-overlay-color"></div>
+                  <div class="noticia-overlay-gradient"></div>
+                </div>
+
+                <div class="noticia-content">
+                  <span class="noticia-categoria"><?php echo esc_html( $noticia['categoria'] ?? 'AGENDA UNA REUNIÓN' ); ?></span>
+                  <h3 class="noticia-title"><?php echo esc_html( $noticia['titulo'] ?? 'HABLEMOS DE TU CASO' ); ?></h3>
+                </div>
+
+              </a>
+            <?php endforeach; ?>
+
+          </div>
+        <?php endforeach; ?>
+
+      <?php endif; ?>
+    </div>
+
+    <?php if ( count($bloques_noticias) > 1 ) : ?>
+      <div class="noticias-action">
+        <button id="btn-cargar-noticias" class="btn-outline-dark-square">
+          <?php echo esc_html( $btn_cargar_mas ); ?>
+        </button>
+      </div>
+    <?php endif; ?>
+
+  </div>
+</section>
+
 
 <?php
 get_footer();
