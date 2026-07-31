@@ -43,7 +43,7 @@ $contacto_telefono     = get_option( 'tema_viera_abogados_contacto_telefono', ''
 $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
 ?>
 
-<section class="hero-viera" <?php echo $hero_imagen_url ? 'style="background: linear-gradient(90deg, rgba(7, 17, 44, 0.12) 31.45%, rgba(7, 17, 44, 0) 55.01%), url(\'' . esc_url( $hero_imagen_url ) . '\'); background-size: cover; background-position: center; background-repeat: no-repeat;"' : 'style="background: linear-gradient(90deg, rgba(7, 17, 44, 0.80) 31.45%, rgba(7, 17, 44, 0) 55.01%);"'; ?>>
+<section class="hero-viera" <?php echo $hero_imagen_url ? 'style="background: linear-gradient(90deg, rgba(7, 17, 44, 0.89) 31.45%, rgba(7, 17, 44, 0) 55.01%), url(\'' . esc_url( $hero_imagen_url ) . '\'); background-size: cover; background-position: center; background-repeat: no-repeat;"' : 'style="background: linear-gradient(90deg, rgba(7, 17, 44, 0.89) 31.45%, rgba(7, 17, 44, 0) 55.01%);"'; ?>>
   
   <div class="hero-overlay"></div>
 
