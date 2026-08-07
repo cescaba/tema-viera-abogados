@@ -106,6 +106,7 @@ add_action( 'wp_enqueue_scripts', 'tema_viera_abogados_remove_jquery', 1 );
  */
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/cpt-abogados.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/metaboxes-abogados.php';
+require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/metaboxes-posts.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-landing.php';
 
 /**
@@ -161,3 +162,19 @@ function tema_viera_get_abogados( $posts_per_page = -1 ) {
 function tema_viera_get_abogado_meta( $post_id, $field ) {
 	return get_post_meta( $post_id, '_abogado_' . $field, true );
 }
+
+/**
+ * Registrar categoría "Destacados" para noticias
+ */
+function tema_viera_register_destacados_category() {
+	if ( ! term_exists( 'Destacados', 'category' ) ) {
+		wp_insert_term(
+			'Destacados',
+			'category',
+			array(
+				'slug' => 'destacados',
+			)
+		);
+	}
+}
+add_action( 'after_setup_theme', 'tema_viera_register_destacados_category' );

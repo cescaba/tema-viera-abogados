@@ -69,14 +69,18 @@ $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
         <?php if ( $hero_btn1_texto ) : ?>
           <a href="#servicios" class="btn-solid-white">
             <?php echo esc_html( $hero_btn1_texto ); ?> 
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink: 0;">
+            <path d="M4.875 9.75L8.125 6.5L4.875 3.25" stroke="currentColor" stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </a>
         <?php endif; ?>
 
         <?php if ( $hero_btn2_texto ) : ?>
           <a href="#contacto" class="btn-outline-white">
             <?php echo esc_html( $hero_btn2_texto ); ?>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink: 0;">
+            <path d="M4.875 9.75L8.125 6.5L4.875 3.25" stroke="currentColor" stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </a>
         <?php endif; ?>
       </div>
@@ -313,21 +317,55 @@ $clientes_logos  = get_option( 'tema_viera_abogados_clientes_logos', array() );
 
 
 <?php
-$equipo_pre_titulo = get_option( 'tema_viera_abogados_equipo_pre', 'SECTORES' ); // Puede ser EQUIPO o similar
+$equipo_pre_titulo = get_option( 'tema_viera_abogados_equipo_pre', 'SECTORES' );
 $equipo_titulo     = get_option( 'tema_viera_abogados_equipo_titulo', 'NUESTRO EQUIPO' );
 $equipo_enlace_txt = get_option( 'tema_viera_abogados_equipo_enlace_txt', 'CONOCE A TODO EL EQUIPO →' );
 $equipo_enlace_url = get_option( 'tema_viera_abogados_equipo_enlace_url', '#equipo-completo' );
 
-$fundador_img_id   = get_option( 'tema_viera_abogados_fundador_img', '' );
-$fundador_tag      = get_option( 'tema_viera_abogados_fundador_tag', 'FUNDADOR' );
-$fundador_nombre   = get_option( 'tema_viera_abogados_fundador_nombre', 'Rafael Viera' );
-$fundador_cargo    = get_option( 'tema_viera_abogados_fundador_cargo', 'Fundador & Socio Principal' );
-$fundador_bio      = get_option( 'tema_viera_abogados_fundador_bio', 'Con más de 20 años de experiencia en litigios...' );
-$fundador_linkedin = get_option( 'tema_viera_abogados_fundador_linkedin', '#' );
+$fundador_post_id     = get_option( 'tema_viera_abogados_fundador_post_id', '' );
+$equipo_seleccionados = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );
 
-$fundador_img_url  = $fundador_img_id ? wp_get_attachment_url( $fundador_img_id ) : '';
+// Obtener datos del fundador desde el CPT o fallback a opciones legacy
+if ( $fundador_post_id && get_post( $fundador_post_id ) ) {
+	$fundador_img_url  = get_the_post_thumbnail_url( $fundador_post_id, 'medium_large' );
+	$fundador_tag      = tema_viera_get_abogado_meta( $fundador_post_id, 'tag' );
+	$fundador_tag      = $fundador_tag ?: 'FUNDADOR';
+	$fundador_nombre   = get_the_title( $fundador_post_id );
+	$fundador_cargo    = tema_viera_get_abogado_meta( $fundador_post_id, 'cargo' );
+	$fundador_bio      = tema_viera_get_abogado_meta( $fundador_post_id, 'biografia' );
+	$fundador_linkedin = tema_viera_get_abogado_meta( $fundador_post_id, 'linkedin' );
+} else {
+	// Fallback legacy
+	$fundador_img_id   = get_option( 'tema_viera_abogados_fundador_img', '' );
+	$fundador_img_url  = $fundador_img_id ? wp_get_attachment_url( $fundador_img_id ) : '';
+	$fundador_tag      = get_option( 'tema_viera_abogados_fundador_tag', 'FUNDADOR' );
+	$fundador_nombre   = get_option( 'tema_viera_abogados_fundador_nombre', '' );
+	$fundador_cargo    = get_option( 'tema_viera_abogados_fundador_cargo', '' );
+	$fundador_bio      = get_option( 'tema_viera_abogados_fundador_bio', '' );
+	$fundador_linkedin = get_option( 'tema_viera_abogados_fundador_linkedin', '#' );
+}
 
-$equipo_items      = get_option( 'tema_viera_abogados_equipo_items', array() ); 
+// Construir array de miembros del equipo desde CPT o fallback legacy
+$equipo_items = array();
+if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
+	foreach ( $equipo_seleccionados as $post_id ) {
+		if ( $post_id == $fundador_post_id || ! get_post( $post_id ) ) {
+			continue;
+		}
+		$img_id = get_post_thumbnail_id( $post_id );
+		$equipo_items[] = array(
+			'imagen'      => $img_id ? $img_id : 0,
+			'nombre'      => get_the_title( $post_id ),
+			'cargo'       => tema_viera_get_abogado_meta( $post_id, 'cargo' ),
+			'descripcion' => tema_viera_get_abogado_meta( $post_id, 'biografia' ),
+			'email'       => tema_viera_get_abogado_meta( $post_id, 'email' ),
+			'linkedin'    => tema_viera_get_abogado_meta( $post_id, 'linkedin' ),
+		);
+	}
+} else {
+	// Fallback legacy
+	$equipo_items = get_option( 'tema_viera_abogados_equipo_items', array() );
+}
 ?>
 
 <!-- ========================================
@@ -522,9 +560,12 @@ $noticias_pre_titulo = get_option( 'tema_viera_abogados_noticias_pre', 'MÁS SOB
 $noticias_titulo     = get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÁS' );
 $btn_cargar_mas      = get_option( 'tema_viera_abogados_noticias_btn', 'CARGAR MÁS ∨' );
 
-$noticias_items = get_option( 'tema_viera_abogados_noticias_items', array() ); 
+$noticias_query = new WP_Query( array(
+	'category_name'  => 'destacados',
+	'posts_per_page' => 6,
+) );
 
-$bloques_noticias = array_chunk( $noticias_items, 5 );
+$bloques_noticias = array_chunk( $noticias_query->posts, 5 );
 ?>
 
 <!-- ========================================
@@ -543,7 +584,7 @@ $bloques_noticias = array_chunk( $noticias_items, 5 );
     </div>
 
     <div class="noticias-container" id="noticias-container">
-      <?php if ( ! empty( $bloques_noticias ) ) : ?>
+      <?php if ( $noticias_query->have_posts() ) : ?>
         
         <?php foreach ( $bloques_noticias as $index => $bloque ) : 
           $inverted_class = ( $index % 2 !== 0 ) ? 'is-inverted' : '';
@@ -551,37 +592,42 @@ $bloques_noticias = array_chunk( $noticias_items, 5 );
         ?>
           <div class="noticias-block <?php echo $inverted_class . ' ' . $hidden_class; ?>">
             
-            <?php foreach ( $bloque as $noticia ) : 
-              $img_url = !empty($noticia['imagen']) ? wp_get_attachment_url( $noticia['imagen'] ) : '';
-              $enlace  = !empty($noticia['enlace']) ? $noticia['enlace'] : '#';
+            <?php foreach ( $bloque as $post_item ) : 
+              $img_url   = get_the_post_thumbnail_url( $post_item->ID, 'medium_large' );
+              $enlace    = get_permalink( $post_item->ID );
+              $subtitulo = get_post_meta( $post_item->ID, '_post_subtitulo', true );
             ?>
               <a href="<?php echo esc_url( $enlace ); ?>" class="noticia-card">
                 
                 <div class="noticia-img-wrap">
-                  <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $noticia['titulo'] ?? '' ); ?>">
+                  <?php if ( $img_url ) : ?>
+                    <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( get_the_title( $post_item->ID ) ); ?>">
+                  <?php endif; ?>
                   <div class="noticia-overlay-color"></div>
                   <div class="noticia-overlay-gradient"></div>
                 </div>
 
                 <div class="noticia-content">
-                  <span class="noticia-categoria"><?php echo esc_html( $noticia['categoria'] ?? 'AGENDA UNA REUNIÓN' ); ?></span>
-                  <h3 class="noticia-title"><?php echo esc_html( $noticia['titulo'] ?? 'HABLEMOS DE TU CASO' ); ?></h3>
+                  <span class="noticia-categoria"><?php echo esc_html( $subtitulo ?: get_the_title( $post_item->ID ) ); ?></span>
+                  <h3 class="noticia-title"><?php echo esc_html( get_the_title( $post_item->ID ) ); ?></h3>
                 </div>
 
               </a>
             <?php endforeach; ?>
 
           </div>
-        <?php endforeach; ?>
+        <?php endforeach;
+        wp_reset_postdata();
+        ?>
 
       <?php endif; ?>
     </div>
 
     <?php if ( count($bloques_noticias) > 1 ) : ?>
       <div class="noticias-action">
-        <button id="btn-cargar-noticias" class="btn-outline-dark-square">
+        <a href="<?php echo esc_url( get_category_link( get_cat_ID( 'Destacados' ) ) ); ?>" class="btn-outline-dark-square">
           <?php echo esc_html( $btn_cargar_mas ); ?>
-        </button>
+        </a>
       </div>
     <?php endif; ?>
 

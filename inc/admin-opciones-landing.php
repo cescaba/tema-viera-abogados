@@ -171,31 +171,11 @@ function tema_viera_register_settings() {
 	);
 	register_setting(
 		'tema_viera_opciones_landing',
-		'tema_viera_abogados_fundador_img'
+		'tema_viera_abogados_fundador_post_id'
 	);
 	register_setting(
 		'tema_viera_opciones_landing',
-		'tema_viera_abogados_fundador_tag'
-	);
-	register_setting(
-		'tema_viera_opciones_landing',
-		'tema_viera_abogados_fundador_nombre'
-	);
-	register_setting(
-		'tema_viera_opciones_landing',
-		'tema_viera_abogados_fundador_cargo'
-	);
-	register_setting(
-		'tema_viera_opciones_landing',
-		'tema_viera_abogados_fundador_bio'
-	);
-	register_setting(
-		'tema_viera_opciones_landing',
-		'tema_viera_abogados_fundador_linkedin'
-	);
-	register_setting(
-		'tema_viera_opciones_landing',
-		'tema_viera_abogados_equipo_items'
+		'tema_viera_abogados_equipo_seleccionados'
 	);
 
 	// Opciones de KPIs
@@ -223,7 +203,6 @@ function tema_viera_register_settings() {
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_pre' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_titulo' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_btn' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_items' );
 
 	// Opciones de Redes Sociales (Footer)
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_social_ig' );
@@ -283,14 +262,8 @@ function tema_viera_opciones_landing_page() {
 	$equipo_titulo         = get_option( 'tema_viera_abogados_equipo_titulo', '' );
 	$equipo_enlace_txt     = get_option( 'tema_viera_abogados_equipo_enlace_txt', '' );
 	$equipo_enlace_url     = get_option( 'tema_viera_abogados_equipo_enlace_url', '' );
-	$fundador_img_id       = get_option( 'tema_viera_abogados_fundador_img', '' );
-	$fundador_tag          = get_option( 'tema_viera_abogados_fundador_tag', '' );
-	$fundador_nombre       = get_option( 'tema_viera_abogados_fundador_nombre', '' );
-	$fundador_cargo        = get_option( 'tema_viera_abogados_fundador_cargo', '' );
-	$fundador_bio          = get_option( 'tema_viera_abogados_fundador_bio', '' );
-	$fundador_linkedin     = get_option( 'tema_viera_abogados_fundador_linkedin', '' );
-	$equipo_items          = get_option( 'tema_viera_abogados_equipo_items', array() );
-	$fundador_img_url      = $fundador_img_id ? wp_get_attachment_url( $fundador_img_id ) : '';
+	$fundador_post_id      = get_option( 'tema_viera_abogados_fundador_post_id', '' );
+	$equipo_seleccionados  = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );
 
 	$kpi_1_prefix = get_option( 'tema_viera_abogados_kpi_1_prefix', '+' );
 	$kpi_1_num    = get_option( 'tema_viera_abogados_kpi_1_num', '50' );
@@ -314,7 +287,6 @@ function tema_viera_opciones_landing_page() {
 	$noticias_pre_titulo = get_option( 'tema_viera_abogados_noticias_pre', 'MÁS SOBRE NOSOTROS' );
 	$noticias_titulo     = get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÁS' );
 	$noticias_btn        = get_option( 'tema_viera_abogados_noticias_btn', 'CARGAR MÁS ∨' );
-	$noticias_items      = get_option( 'tema_viera_abogados_noticias_items', array() );
 
 	$social_ig = get_option( 'tema_viera_abogados_social_ig', '#' );
 	$social_in = get_option( 'tema_viera_abogados_social_in', '#' );
@@ -736,64 +708,78 @@ function tema_viera_opciones_landing_page() {
 				</div>
 
 				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Fundador', 'tema-viera-abogados' ); ?></h3>
+				<p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'Selecciona un abogado del CPT para mostrar como fundador destacado. Asegúrate de haber creado al abogado en la sección "Abogados" previamente.', 'tema-viera-abogados' ); ?></p>
 
 				<div class="mi-tema-form-group">
-					<label><?php esc_html_e( 'Foto del Fundador', 'tema-viera-abogados' ); ?></label>
-					<input type="hidden" id="fundador_img" name="fundador_img" value="<?php echo esc_attr( $fundador_img_id ); ?>" />
-					<button type="button" class="mi-tema-btn-upload" onclick="tema_viera_upload_media('fundador_img')">
-						<?php esc_html_e( 'Seleccionar Imagen', 'tema-viera-abogados' ); ?>
-					</button>
-					<?php if ( $fundador_img_url ) : ?>
-						<button type="button" class="mi-tema-btn-remove" onclick="tema_viera_remove_media('fundador_img')">
-							<?php esc_html_e( 'Eliminar Imagen', 'tema-viera-abogados' ); ?>
-						</button>
-						<div class="mi-tema-image-preview">
-							<img id="fundador_img_preview" src="<?php echo esc_url( $fundador_img_url ); ?>" alt="" />
-						</div>
-					<?php endif; ?>
-				</div>
-
-				<div class="mi-tema-form-group">
-					<label for="fundador_tag"><?php esc_html_e( 'Etiqueta (ej: FUNDADOR)', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="fundador_tag" name="fundador_tag" value="<?php echo esc_attr( $fundador_tag ); ?>" />
-				</div>
-
-				<div class="mi-tema-form-group">
-					<label for="fundador_nombre"><?php esc_html_e( 'Nombre', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
-					<input type="text" id="fundador_nombre" name="fundador_nombre" value="<?php echo esc_attr( $fundador_nombre ); ?>" required />
-				</div>
-
-				<div class="mi-tema-form-group">
-					<label for="fundador_cargo"><?php esc_html_e( 'Cargo', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="fundador_cargo" name="fundador_cargo" value="<?php echo esc_attr( $fundador_cargo ); ?>" />
-				</div>
-
-				<div class="mi-tema-form-group">
-					<label for="fundador_bio"><?php esc_html_e( 'Biografía', 'tema-viera-abogados' ); ?></label>
-					<textarea id="fundador_bio" name="fundador_bio"><?php echo esc_textarea( $fundador_bio ); ?></textarea>
-				</div>
-
-				<div class="mi-tema-form-group">
-					<label for="fundador_linkedin"><?php esc_html_e( 'LinkedIn URL', 'tema-viera-abogados' ); ?></label>
-					<input type="url" id="fundador_linkedin" name="fundador_linkedin" value="<?php echo esc_attr( $fundador_linkedin ); ?>" />
+					<label for="fundador_post_id"><?php esc_html_e( 'Abogado Fundador', 'tema-viera-abogados' ); ?></label>
+					<select id="fundador_post_id" name="fundador_post_id" style="max-width:500px;">
+						<option value=""><?php esc_html_e( '— Ninguno —', 'tema-viera-abogados' ); ?></option>
+						<?php
+						$abogados_query = new WP_Query( array(
+							'post_type'      => 'abogado',
+							'posts_per_page' => -1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						) );
+						if ( $abogados_query->have_posts() ) :
+							while ( $abogados_query->have_posts() ) :
+								$abogados_query->the_post();
+								$selected = ( get_the_ID() == $fundador_post_id ) ? 'selected' : '';
+								?>
+								<option value="<?php echo esc_attr( get_the_ID() ); ?>" <?php echo $selected; ?>>
+									<?php echo esc_html( get_the_title() ); ?>
+								</option>
+								<?php
+							endwhile;
+							wp_reset_postdata();
+						endif;
+						?>
+					</select>
 				</div>
 
 				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Miembros del Equipo', 'tema-viera-abogados' ); ?></h3>
+				<p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'Selecciona los abogados que aparecerán en la sección de equipo. Se mostrarán en el mismo orden que tienen en el CPT.', 'tema-viera-abogados' ); ?></p>
 
-				<div class="mi-tema-servicios-container">
-					<div id="equipo-items-list">
+				<div class="mi-tema-form-group">
+					<div style="max-height:300px; overflow-y:auto; border:1px solid #ddd; padding:15px; border-radius:4px; background:#f9f9f9; max-width:500px;">
 						<?php
-						if ( ! empty( $equipo_items ) && is_array( $equipo_items ) ) {
-							foreach ( $equipo_items as $index => $miembro ) {
-								tema_viera_render_equipo_item( $index, $miembro );
-							}
-						}
+						$abogados_query2 = new WP_Query( array(
+							'post_type'      => 'abogado',
+							'posts_per_page' => -1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						) );
+						if ( $abogados_query2->have_posts() ) :
+							while ( $abogados_query2->have_posts() ) :
+								$abogados_query2->the_post();
+								$checked = ( is_array( $equipo_seleccionados ) && in_array( get_the_ID(), $equipo_seleccionados ) ) ? 'checked' : '';
+								?>
+								<label style="display:flex; align-items:center; gap:8px; padding:6px 0; cursor:pointer;">
+									<input type="checkbox" name="equipo_seleccionados[]" value="<?php echo esc_attr( get_the_ID() ); ?>" <?php echo $checked; ?> />
+									<?php
+									$thumb_id = get_post_thumbnail_id();
+									if ( $thumb_id ) {
+										$thumb_url = wp_get_attachment_image_url( $thumb_id, array(40, 40) );
+										echo '<img src="' . esc_url( $thumb_url ) . '" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover;" />';
+									}
+									?>
+									<span><?php echo esc_html( get_the_title() ); ?></span>
+									<?php
+									$abogado_cargo = get_post_meta( get_the_ID(), '_abogado_cargo', true );
+									if ( $abogado_cargo ) {
+										echo '<span style="color:#888;font-size:12px;">(' . esc_html( $abogado_cargo ) . ')</span>';
+									}
+									?>
+								</label>
+								<?php
+							endwhile;
+							wp_reset_postdata();
+						else:
 						?>
+							<p style="color:#999;"><?php esc_html_e( 'No hay abogados registrados aún. Créalos en la sección "Abogados".', 'tema-viera-abogados' ); ?></p>
+						<?php endif; ?>
 					</div>
-
-					<button type="button" id="btn-add-equipo" class="button button-primary">
-						<?php esc_html_e( '+ Agregar Miembro', 'tema-viera-abogados' ); ?>
-					</button>
+					<p class="description" style="margin-top:5px;"><?php esc_html_e( 'Marca los abogados que quieres mostrar en esta sección. El fundador seleccionado arriba se excluirá automáticamente.', 'tema-viera-abogados' ); ?></p>
 				</div>
 			</div>
 
@@ -905,22 +891,25 @@ function tema_viera_opciones_landing_page() {
 					<input type="text" id="noticias_btn" name="noticias_btn" value="<?php echo esc_attr( $noticias_btn ); ?>" />
 				</div>
 
-				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Noticias', 'tema-viera-abogados' ); ?></h3>
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Noticias - Origen de datos', 'tema-viera-abogados' ); ?></h3>
 
 				<div class="mi-tema-servicios-container">
-					<div id="noticias-items-list">
-						<?php
-						if ( ! empty( $noticias_items ) && is_array( $noticias_items ) ) {
-							foreach ( $noticias_items as $index => $noticia ) {
-								tema_viera_render_noticia_item( $index, $noticia );
-							}
-						}
-						?>
-					</div>
-
-					<button type="button" id="btn-add-noticia" class="button button-primary">
-						<?php esc_html_e( '+ Agregar Noticia', 'tema-viera-abogados' ); ?>
-					</button>
+					<p style="margin-bottom:10px;">
+						<strong><?php esc_html_e( 'Las noticias ahora se gestionan desde Posts (Entradas) del blog.', 'tema-viera-abogados' ); ?></strong>
+					</p>
+					<p style="margin-bottom:8px;">
+						<?php esc_html_e( 'Para que una noticia aparezca en el landing:', 'tema-viera-abogados' ); ?>
+					</p>
+					<ol style="margin-left:20px; margin-bottom:10px;">
+						<li><?php esc_html_e( 'Ve a Entradas > Agregar nueva.', 'tema-viera-abogados' ); ?></li>
+						<li><?php esc_html_e( 'Escribe el contenido de la noticia.', 'tema-viera-abogados' ); ?></li>
+						<li><?php esc_html_e( 'Asigna una imagen destacada.', 'tema-viera-abogados' ); ?></li>
+						<li><?php esc_html_e( 'En "Categorías", selecciona la categoría "Destacados".', 'tema-viera-abogados' ); ?></li>
+						<li><?php esc_html_e( 'Publica la entrada.', 'tema-viera-abogados' ); ?></li>
+					</ol>
+					<p>
+						<?php esc_html_e( 'Las 6 noticias más recientes de la categoría "Destacados" se mostrarán automáticamente en el landing.', 'tema-viera-abogados' ); ?>
+					</p>
 				</div>
 			</div>
 
@@ -1017,110 +1006,6 @@ function tema_viera_opciones_landing_page() {
 		// Remover un sector
 		function removeSector( index ) {
 			var item = document.querySelector('.mi-tema-sector-item[data-index="' + index + '"]');
-			if ( item ) {
-				item.remove();
-			}
-		}
-
-		// Variable global para rastrear el índice de equipo
-		var equipoIndex = <?php echo isset( $equipo_items ) ? count( (array) $equipo_items ) : 0; ?>;
-
-		// Agregar un nuevo miembro del equipo dinámicamente
-		var btnAddEquipo = document.getElementById('btn-add-equipo');
-		if (btnAddEquipo) {
-			btnAddEquipo.addEventListener('click', function( e ) {
-				e.preventDefault();
-				var container = document.getElementById('equipo-items-list');
-				var html = '<div class="mi-tema-servicio-item mi-tema-equipo-item" data-index="' + equipoIndex + '">' +
-					'<button type="button" class="btn-remove-servicio" onclick="removeEquipo(' + equipoIndex + ')">Eliminar</button>' +
-					'<div style="margin-bottom: 10px;">' +
-						'<label>Imagen del Miembro</label>' +
-						'<div>' +
-							'<input type="hidden" id="equipo_img_' + equipoIndex + '" name="equipo[' + equipoIndex + '][imagen]" value="" />' +
-							'<div class="mi-tema-img-preview" style="display: none; margin-bottom: 8px;">' +
-								'<img id="equipo_img_' + equipoIndex + '_preview" src="" style="max-width: 150px; max-height: 100px; display: block;" />' +
-								'<button type="button" class="button button-small" onclick="tema_viera_remove_media(\'equipo_img_' + equipoIndex + '\')" style="margin-top: 5px;">Quitar imagen</button>' +
-							'</div>' +
-							'<button type="button" class="button" onclick="tema_viera_upload_sector_media(\'equipo_img_' + equipoIndex + '\')">Subir Imagen</button>' +
-						'</div>' +
-					'</div>' +
-					'<div style="margin-bottom: 10px;">' +
-						'<label>Nombre <span style="color:red;">*</span></label>' +
-						'<input type="text" name="equipo[' + equipoIndex + '][nombre]" value="" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
-					'</div>' +
-					'<div style="margin-bottom: 10px;">' +
-						'<label>Cargo <span style="color:red;">*</span></label>' +
-						'<input type="text" name="equipo[' + equipoIndex + '][cargo]" value="" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
-					'</div>' +
-					'<div style="margin-bottom: 10px;">' +
-						'<label>Descripción / Bio</label>' +
-						'<textarea name="equipo[' + equipoIndex + '][descripcion]" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"></textarea>' +
-					'</div>' +
-					'<div style="margin-bottom: 10px;">' +
-						'<label>Email</label>' +
-						'<input type="email" name="equipo[' + equipoIndex + '][email]" value="" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
-					'</div>' +
-					'<div>' +
-						'<label>LinkedIn URL</label>' +
-						'<input type="url" name="equipo[' + equipoIndex + '][linkedin]" value="" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
-					'</div>' +
-				'</div>';
-				container.insertAdjacentHTML('beforeend', html);
-				equipoIndex++;
-			});
-		}
-
-		// Remover un miembro del equipo
-		function removeEquipo( index ) {
-			var item = document.querySelector('.mi-tema-equipo-item[data-index="' + index + '"]');
-			if ( item ) {
-				item.remove();
-			}
-		}
-
-		// Variable global para rastrear el índice de noticias
-		var noticiaIndex = <?php echo isset( $noticias_items ) ? count( (array) $noticias_items ) : 0; ?>;
-
-		// Agregar una nueva noticia dinámicamente
-		var btnAddNoticia = document.getElementById('btn-add-noticia');
-		if (btnAddNoticia) {
-			btnAddNoticia.addEventListener('click', function( e ) {
-				e.preventDefault();
-				var container = document.getElementById('noticias-items-list');
-				var html = '<div class="mi-tema-servicio-item mi-tema-noticia-item" data-index="' + noticiaIndex + '">' +
-					'<button type="button" class="btn-remove-servicio" onclick="removeNoticia(' + noticiaIndex + ')">Eliminar</button>' +
-					'<div style="margin-bottom: 10px;">' +
-						'<label>Imagen</label>' +
-						'<div>' +
-							'<input type="hidden" id="noticia_img_' + noticiaIndex + '" name="noticias[' + noticiaIndex + '][imagen]" value="" />' +
-							'<div class="mi-tema-img-preview" style="display: none; margin-bottom: 8px;">' +
-								'<img id="noticia_img_' + noticiaIndex + '_preview" src="" style="max-width: 150px; max-height: 100px; display: block;" />' +
-								'<button type="button" class="button button-small" onclick="tema_viera_remove_media(\'noticia_img_' + noticiaIndex + '\')" style="margin-top: 5px;">Quitar imagen</button>' +
-							'</div>' +
-							'<button type="button" class="button" onclick="tema_viera_upload_sector_media(\'noticia_img_' + noticiaIndex + '\')">Subir Imagen</button>' +
-						'</div>' +
-					'</div>' +
-					'<div style="margin-bottom: 10px;">' +
-						'<label>Categoría</label>' +
-						'<input type="text" name="noticias[' + noticiaIndex + '][categoria]" value="" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
-					'</div>' +
-					'<div style="margin-bottom: 10px;">' +
-						'<label>Título <span style="color:red;">*</span></label>' +
-						'<input type="text" name="noticias[' + noticiaIndex + '][titulo]" value="" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
-					'</div>' +
-					'<div>' +
-						'<label>Enlace</label>' +
-						'<input type="url" name="noticias[' + noticiaIndex + '][enlace]" value="" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
-					'</div>' +
-				'</div>';
-				container.insertAdjacentHTML('beforeend', html);
-				noticiaIndex++;
-			});
-		}
-
-		// Remover una noticia
-		function removeNoticia( index ) {
-			var item = document.querySelector('.mi-tema-noticia-item[data-index="' + index + '"]');
 			if ( item ) {
 				item.remove();
 			}
@@ -1476,122 +1361,6 @@ function tema_viera_render_sector_item( $index, $sector ) {
 }
 
 /**
- * Renderizar un item individual de miembro del equipo
- *
- * @param int $index Índice del miembro
- * @param array $miembro Datos del miembro
- */
-function tema_viera_render_equipo_item( $index, $miembro ) {
-	$imagen_id  = isset( $miembro['imagen'] ) ? $miembro['imagen'] : '';
-	$imagen_url = $imagen_id ? wp_get_attachment_url( $imagen_id ) : '';
-	$nombre     = isset( $miembro['nombre'] ) ? $miembro['nombre'] : '';
-	$cargo      = isset( $miembro['cargo'] ) ? $miembro['cargo'] : '';
-	$descripcion = isset( $miembro['descripcion'] ) ? $miembro['descripcion'] : '';
-	$email      = isset( $miembro['email'] ) ? $miembro['email'] : '';
-	$linkedin   = isset( $miembro['linkedin'] ) ? $miembro['linkedin'] : '';
-	?>
-	<div class="mi-tema-servicio-item mi-tema-equipo-item" data-index="<?php echo esc_attr( $index ); ?>">
-		<button type="button" class="btn-remove-servicio" onclick="removeEquipo(<?php echo esc_attr( $index ); ?>)">
-			<?php esc_html_e( 'Eliminar', 'tema-viera-abogados' ); ?>
-		</button>
-
-		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'Imagen del Miembro', 'tema-viera-abogados' ); ?></label>
-			<div>
-				<input type="hidden" id="equipo_img_<?php echo esc_attr( $index ); ?>" name="equipo[<?php echo esc_attr( $index ); ?>][imagen]" value="<?php echo esc_attr( $imagen_id ); ?>" />
-				<div class="mi-tema-img-preview" style="<?php echo $imagen_url ? '' : 'display: none;'; ?> margin-bottom: 8px;">
-					<img id="equipo_img_<?php echo esc_attr( $index ); ?>_preview" src="<?php echo esc_url( $imagen_url ); ?>" style="max-width: 150px; max-height: 100px; display: block;" />
-					<button type="button" class="button button-small" onclick="tema_viera_remove_media('equipo_img_<?php echo esc_attr( $index ); ?>')" style="margin-top: 5px;">
-						<?php esc_html_e( 'Quitar imagen', 'tema-viera-abogados' ); ?>
-					</button>
-				</div>
-				<button type="button" class="button" onclick="tema_viera_upload_sector_media('equipo_img_<?php echo esc_attr( $index ); ?>')">
-					<?php esc_html_e( 'Subir Imagen', 'tema-viera-abogados' ); ?>
-				</button>
-			</div>
-		</div>
-
-		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'Nombre', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
-			<input type="text" name="equipo[<?php echo esc_attr( $index ); ?>][nombre]" value="<?php echo esc_attr( $nombre ); ?>" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
-		</div>
-
-		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'Cargo', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
-			<input type="text" name="equipo[<?php echo esc_attr( $index ); ?>][cargo]" value="<?php echo esc_attr( $cargo ); ?>" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
-		</div>
-
-		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'Descripción / Bio', 'tema-viera-abogados' ); ?></label>
-			<textarea name="equipo[<?php echo esc_attr( $index ); ?>][descripcion]" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"><?php echo esc_textarea( $descripcion ); ?></textarea>
-		</div>
-
-		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'Email', 'tema-viera-abogados' ); ?></label>
-			<input type="email" name="equipo[<?php echo esc_attr( $index ); ?>][email]" value="<?php echo esc_attr( $email ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
-		</div>
-
-		<div>
-			<label><?php esc_html_e( 'LinkedIn URL', 'tema-viera-abogados' ); ?></label>
-			<input type="url" name="equipo[<?php echo esc_attr( $index ); ?>][linkedin]" value="<?php echo esc_attr( $linkedin ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
-		</div>
-	</div>
-	<?php
-}
-
-/**
- * Renderizar un item individual de noticia
- *
- * @param int $index Índice de la noticia
- * @param array $noticia Datos de la noticia
- */
-function tema_viera_render_noticia_item( $index, $noticia ) {
-	$imagen_id  = isset( $noticia['imagen'] ) ? $noticia['imagen'] : '';
-	$imagen_url = $imagen_id ? wp_get_attachment_url( $imagen_id ) : '';
-	$categoria  = isset( $noticia['categoria'] ) ? $noticia['categoria'] : '';
-	$titulo     = isset( $noticia['titulo'] ) ? $noticia['titulo'] : '';
-	$enlace     = isset( $noticia['enlace'] ) ? $noticia['enlace'] : '';
-	?>
-	<div class="mi-tema-servicio-item mi-tema-noticia-item" data-index="<?php echo esc_attr( $index ); ?>">
-		<button type="button" class="btn-remove-servicio" onclick="removeNoticia(<?php echo esc_attr( $index ); ?>)">
-			<?php esc_html_e( 'Eliminar', 'tema-viera-abogados' ); ?>
-		</button>
-
-		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'Imagen', 'tema-viera-abogados' ); ?></label>
-			<div>
-				<input type="hidden" id="noticia_img_<?php echo esc_attr( $index ); ?>" name="noticias[<?php echo esc_attr( $index ); ?>][imagen]" value="<?php echo esc_attr( $imagen_id ); ?>" />
-				<div class="mi-tema-img-preview" style="<?php echo $imagen_url ? '' : 'display: none;'; ?> margin-bottom: 8px;">
-					<img id="noticia_img_<?php echo esc_attr( $index ); ?>_preview" src="<?php echo esc_url( $imagen_url ); ?>" style="max-width: 150px; max-height: 100px; display: block;" />
-					<button type="button" class="button button-small" onclick="tema_viera_remove_media('noticia_img_<?php echo esc_attr( $index ); ?>')" style="margin-top: 5px;">
-						<?php esc_html_e( 'Quitar imagen', 'tema-viera-abogados' ); ?>
-					</button>
-				</div>
-				<button type="button" class="button" onclick="tema_viera_upload_sector_media('noticia_img_<?php echo esc_attr( $index ); ?>')">
-					<?php esc_html_e( 'Subir Imagen', 'tema-viera-abogados' ); ?>
-				</button>
-			</div>
-		</div>
-
-		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'Categoría', 'tema-viera-abogados' ); ?></label>
-			<input type="text" name="noticias[<?php echo esc_attr( $index ); ?>][categoria]" value="<?php echo esc_attr( $categoria ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
-		</div>
-
-		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
-			<input type="text" name="noticias[<?php echo esc_attr( $index ); ?>][titulo]" value="<?php echo esc_attr( $titulo ); ?>" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
-		</div>
-
-		<div>
-			<label><?php esc_html_e( 'Enlace', 'tema-viera-abogados' ); ?></label>
-			<input type="url" name="noticias[<?php echo esc_attr( $index ); ?>][enlace]" value="<?php echo esc_attr( $enlace ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
-		</div>
-	</div>
-	<?php
-}
-
-/**
  * Procesar y guardar las opciones de la landing
  */
 function tema_viera_procesar_opciones_landing() {
@@ -1716,52 +1485,15 @@ function tema_viera_procesar_opciones_landing() {
 	if ( isset( $_POST['equipo_enlace_url'] ) ) {
 		update_option( 'tema_viera_abogados_equipo_enlace_url', esc_url_raw( $_POST['equipo_enlace_url'] ) );
 	}
-	if ( isset( $_POST['fundador_img'] ) ) {
-		update_option( 'tema_viera_abogados_fundador_img', intval( $_POST['fundador_img'] ) );
+	if ( isset( $_POST['fundador_post_id'] ) ) {
+		update_option( 'tema_viera_abogados_fundador_post_id', intval( $_POST['fundador_post_id'] ) );
 	}
-	if ( isset( $_POST['fundador_tag'] ) ) {
-		update_option( 'tema_viera_abogados_fundador_tag', sanitize_text_field( $_POST['fundador_tag'] ) );
-	}
-
-	// Fundador nombre (requerido)
-	if ( isset( $_POST['fundador_nombre'] ) && ! empty( trim( $_POST['fundador_nombre'] ) ) ) {
-		update_option( 'tema_viera_abogados_fundador_nombre', sanitize_text_field( $_POST['fundador_nombre'] ) );
-	} elseif ( isset( $_POST['fundador_nombre'] ) ) {
-		update_option( 'tema_viera_abogados_fundador_nombre', '' );
-	}
-
-	if ( isset( $_POST['fundador_cargo'] ) ) {
-		update_option( 'tema_viera_abogados_fundador_cargo', sanitize_text_field( $_POST['fundador_cargo'] ) );
-	}
-	if ( isset( $_POST['fundador_bio'] ) ) {
-		update_option( 'tema_viera_abogados_fundador_bio', wp_kses_post( $_POST['fundador_bio'] ) );
-	}
-	if ( isset( $_POST['fundador_linkedin'] ) ) {
-		update_option( 'tema_viera_abogados_fundador_linkedin', esc_url_raw( $_POST['fundador_linkedin'] ) );
-	}
-
-	if ( isset( $_POST['equipo'] ) && is_array( $_POST['equipo'] ) ) {
-		$equipo_items = array();
-		foreach ( $_POST['equipo'] as $miembro ) {
-			$nombre      = isset( $miembro['nombre'] ) ? sanitize_text_field( $miembro['nombre'] ) : '';
-			$cargo       = isset( $miembro['cargo'] ) ? sanitize_text_field( $miembro['cargo'] ) : '';
-			$email       = isset( $miembro['email'] ) ? sanitize_email( $miembro['email'] ) : '';
-			$linkedin    = isset( $miembro['linkedin'] ) ? esc_url_raw( $miembro['linkedin'] ) : '';
-
-			if ( empty( $nombre ) || empty( $cargo ) ) {
-				continue;
-			}
-
-			$equipo_items[] = array(
-				'imagen'      => isset( $miembro['imagen'] ) ? intval( $miembro['imagen'] ) : 0,
-				'nombre'      => $nombre,
-				'cargo'       => $cargo,
-				'descripcion' => isset( $miembro['descripcion'] ) ? wp_kses_post( $miembro['descripcion'] ) : '',
-				'email'       => $email,
-				'linkedin'    => $linkedin,
-			);
-		}
-		update_option( 'tema_viera_abogados_equipo_items', $equipo_items );
+	if ( isset( $_POST['equipo_seleccionados'] ) && is_array( $_POST['equipo_seleccionados'] ) ) {
+		$seleccionados = array_map( 'intval', $_POST['equipo_seleccionados'] );
+		$seleccionados = array_filter( $seleccionados, function( $id ) { return $id > 0; } );
+		update_option( 'tema_viera_abogados_equipo_seleccionados', array_values( $seleccionados ) );
+	} else {
+		update_option( 'tema_viera_abogados_equipo_seleccionados', array() );
 	}
 
 	// Procesar KPIs
@@ -1831,25 +1563,6 @@ function tema_viera_procesar_opciones_landing() {
 	}
 	if ( isset( $_POST['noticias_btn'] ) ) {
 		update_option( 'tema_viera_abogados_noticias_btn', sanitize_text_field( $_POST['noticias_btn'] ) );
-	}
-
-	if ( isset( $_POST['noticias'] ) && is_array( $_POST['noticias'] ) ) {
-		$noticias_items = array();
-		foreach ( $_POST['noticias'] as $noticia ) {
-			$titulo = isset( $noticia['titulo'] ) ? sanitize_text_field( $noticia['titulo'] ) : '';
-
-			if ( empty( $titulo ) ) {
-				continue;
-			}
-
-			$noticias_items[] = array(
-				'imagen'    => isset( $noticia['imagen'] ) ? intval( $noticia['imagen'] ) : 0,
-				'categoria' => isset( $noticia['categoria'] ) ? sanitize_text_field( $noticia['categoria'] ) : '',
-				'titulo'    => $titulo,
-				'enlace'    => isset( $noticia['enlace'] ) ? esc_url_raw( $noticia['enlace'] ) : '',
-			);
-		}
-		update_option( 'tema_viera_abogados_noticias_items', $noticias_items );
 	}
 
 	// Procesar Redes Sociales

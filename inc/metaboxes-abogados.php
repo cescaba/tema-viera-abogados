@@ -39,6 +39,8 @@ function tema_viera_render_abogado_metabox( $post ) {
 
 	// Obtener los valores guardados previamente
 	$especialidad = tema_viera_get_abogado_meta( $post->ID, 'especialidad' );
+	$cargo        = tema_viera_get_abogado_meta( $post->ID, 'cargo' );
+	$tag          = tema_viera_get_abogado_meta( $post->ID, 'tag' );
 	$email        = tema_viera_get_abogado_meta( $post->ID, 'email' );
 	$telefono     = tema_viera_get_abogado_meta( $post->ID, 'telefono' );
 	$linkedin     = tema_viera_get_abogado_meta( $post->ID, 'linkedin' );
@@ -98,6 +100,40 @@ function tema_viera_render_abogado_metabox( $post ) {
 			/>
 			<div class="mi-tema-help-text">
 				<?php esc_html_e( 'Especialidad legal del abogado', 'tema-viera-abogados' ); ?>
+			</div>
+		</div>
+
+		<!-- Campo: Cargo -->
+		<div class="mi-tema-abogado-field">
+			<label for="tema_viera_cargo">
+				<?php esc_html_e( 'Cargo', 'tema-viera-abogados' ); ?>
+			</label>
+			<input
+				type="text"
+				id="tema_viera_cargo"
+				name="tema_viera_cargo"
+				value="<?php echo esc_attr( $cargo ); ?>"
+				placeholder="<?php esc_attr_e( 'Ej: Socio Principal, Abogado Senior', 'tema-viera-abogados' ); ?>"
+			/>
+			<div class="mi-tema-help-text">
+				<?php esc_html_e( 'Cargo o puesto del abogado', 'tema-viera-abogados' ); ?>
+			</div>
+		</div>
+
+		<!-- Campo: Tag (etiqueta) -->
+		<div class="mi-tema-abogado-field">
+			<label for="tema_viera_tag">
+				<?php esc_html_e( 'Etiqueta', 'tema-viera-abogados' ); ?>
+			</label>
+			<input
+				type="text"
+				id="tema_viera_tag"
+				name="tema_viera_tag"
+				value="<?php echo esc_attr( $tag ); ?>"
+				placeholder="<?php esc_attr_e( 'Ej: FUNDADOR, SOCIO', 'tema-viera-abogados' ); ?>"
+			/>
+			<div class="mi-tema-help-text">
+				<?php esc_html_e( 'Etiqueta destacada (se muestra sobre el nombre)', 'tema-viera-abogados' ); ?>
 			</div>
 		</div>
 
@@ -205,6 +241,18 @@ function tema_viera_save_abogado_metabox( $post_id ) {
 	if ( isset( $_POST['tema_viera_especialidad'] ) ) {
 		$especialidad = sanitize_text_field( $_POST['tema_viera_especialidad'] );
 		update_post_meta( $post_id, '_abogado_especialidad', $especialidad );
+	}
+
+	// Procesar y guardar cargo
+	if ( isset( $_POST['tema_viera_cargo'] ) ) {
+		$cargo = sanitize_text_field( $_POST['tema_viera_cargo'] );
+		update_post_meta( $post_id, '_abogado_cargo', $cargo );
+	}
+
+	// Procesar y guardar tag
+	if ( isset( $_POST['tema_viera_tag'] ) ) {
+		$tag = sanitize_text_field( $_POST['tema_viera_tag'] );
+		update_post_meta( $post_id, '_abogado_tag', $tag );
 	}
 
 	// Procesar y guardar email
