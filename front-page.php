@@ -320,7 +320,7 @@ $clientes_logos  = get_option( 'tema_viera_abogados_clientes_logos', array() );
 $equipo_pre_titulo = get_option( 'tema_viera_abogados_equipo_pre', 'SECTORES' );
 $equipo_titulo     = get_option( 'tema_viera_abogados_equipo_titulo', 'NUESTRO EQUIPO' );
 $equipo_enlace_txt = get_option( 'tema_viera_abogados_equipo_enlace_txt', 'CONOCE A TODO EL EQUIPO →' );
-$equipo_enlace_url = get_option( 'tema_viera_abogados_equipo_enlace_url', '#equipo-completo' );
+$equipo_enlace_url = get_option( 'tema_viera_abogados_equipo_enlace_url', home_url( '/equipo/' ) );
 
 $fundador_post_id     = get_option( 'tema_viera_abogados_fundador_post_id', '' );
 $equipo_seleccionados = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );

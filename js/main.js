@@ -778,4 +778,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+// Animacion fade-in escalonada para grilla de equipo
+document.addEventListener('DOMContentLoaded', function() {
+  var cards = document.querySelectorAll('.equipo-grid-card[data-animate]');
+  if (!cards.length) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var card = entry.target;
+        setTimeout(function() {
+          card.classList.add('is-visible');
+        }, Array.from(card.parentNode.children).indexOf(card) * 100);
+        observer.unobserve(card);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px 60px 0px',
+    threshold: 0.1
+  });
+
+  cards.forEach(function(card) {
+    observer.observe(card);
+  });
+});
+
 })();
