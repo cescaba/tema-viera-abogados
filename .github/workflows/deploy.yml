@@ -13,7 +13,19 @@ jobs:
       - name: Descargar código
         uses: actions/checkout@v3
 
-      - name: Subir por FTP
+      - name: Subir por FTP (intento 1)
+        id: ftp_deploy_primary
+        continue-on-error: true
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /
+
+      - name: Reintentar subida por FTP
+        if: steps.ftp_deploy_primary.outcome == 'failure'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_HOST }}
