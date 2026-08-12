@@ -1160,7 +1160,8 @@ img {
 .experiencia-imagen-col {
   position: relative;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
 }
 
 .experiencia-img-main {
@@ -1342,6 +1343,7 @@ img {
     gap: 40px;
   }
   .experiencia-imagen-col {
+    aspect-ratio: auto;
     height: 400px;
     order: 2;
   }
