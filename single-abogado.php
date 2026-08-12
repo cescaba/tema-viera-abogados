@@ -37,7 +37,7 @@ if ( have_posts() ) {
 
 				<div class="row-2">
 					<!-- Imagen y Información de Contacto -->
-					<div>
+					<div class="reveal">
 						<?php
 						if ( has_post_thumbnail() ) {
 							the_post_thumbnail( 'abogado-single', array(
@@ -99,7 +99,7 @@ if ( have_posts() ) {
 					</div>
 
 					<!-- Contenido Principal -->
-					<div>
+					<div class="reveal" data-delay="120">
 						<h1><?php the_title(); ?></h1>
 
 						<?php if ( $especialidad ) : ?>

@@ -16,7 +16,7 @@ $post_id      = get_the_ID();
 $especialidad = tema_viera_get_abogado_meta( $post_id, 'especialidad' );
 ?>
 
-<article class="card">
+<article class="card reveal">
 	<?php
 	if ( has_post_thumbnail() ) {
 		?>

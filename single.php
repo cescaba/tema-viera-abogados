@@ -31,7 +31,7 @@ if ( have_posts() ) :
 				<div class="hero-overlay"></div>
 
 				<div class="container hero-container" style="display:flex; align-items:flex-end; min-height:420px;">
-					<div class="hero-content-box" style="padding-bottom:60px;">
+					<div class="hero-content-box reveal" style="padding-bottom:60px;">
 						
 						<nav style="margin-bottom:24px;">
 							<a href="<?php echo esc_url( home_url( '/' ) ); ?>" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px;">
@@ -78,7 +78,7 @@ if ( have_posts() ) :
 
 			<section style="padding:80px 0; background:var(--color-white);">
 				<div class="container" style="max-width:800px; margin:0 auto;">
-					<div class="section-content" style="font-size:16px; line-height:1.8; color:var(--color-text, #333);">
+					<div class="section-content reveal" style="font-size:16px; line-height:1.8; color:var(--color-text, #333);">
 						<?php the_content(); ?>
 					</div>
 

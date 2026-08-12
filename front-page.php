@@ -48,7 +48,7 @@ $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
   <div class="hero-overlay"></div>
 
   <div class="container hero-container">
-    <div class="hero-content-box">
+    <div class="hero-content-box reveal">
       
       <?php if ( $hero_overline ) : ?>
         <span class="hero-overline"><?php echo esc_html( $hero_overline ); ?></span>
@@ -92,7 +92,7 @@ $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
 
 <?php if ( ! empty( $awards_logos_ids ) && is_array( $awards_logos_ids ) ) : ?>
 <section class="awards-section">
-  <div class="awards-banner">
+  <div class="awards-banner reveal">
     <div class="awards-header">
       <span class="awards-pretitle">RECONOCIMIENTOS</span>
       <h3 class="awards-title">INTERNACIONALES</h3>
@@ -132,11 +132,11 @@ $texto_animado_2 = get_option( 'tema_viera_abogados_texto_animado_2', 'OTROS NO 
   <section id="servicios" class="section-servicios">
     <div class="container">
       <?php if ( $servicios_titulo ) : ?>
-        <h2 class="section-title-left"><?php echo esc_html( $servicios_titulo ); ?></h2>
+        <h2 class="section-title-left reveal"><?php echo esc_html( $servicios_titulo ); ?></h2>
       <?php endif; ?>
 
       <?php if ( ! empty( $servicios_items ) && is_array( $servicios_items ) ) : ?>
-        <div class="servicios-container" id="servicios-container">
+        <div class="servicios-container reveal" id="servicios-container">
           
           <div class="servicios-grid" id="servicios-grid">
             <?php foreach ( $servicios_items as $index => $servicio ) : 
@@ -216,7 +216,7 @@ $sectores = get_option( 'tema_viera_abogados_sectores_items', array() );
   <div class="container">
     <div class="experiencia-grid">
       
-      <div class="experiencia-imagen-col">
+      <div class="experiencia-imagen-col reveal">
         <div class="experiencia-logo-mark">
           <svg viewBox="0 0 293 701" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M227.042 0L98.5026 285.06L58.8365 196.312H0L97.7959 415.468L286.055 0H227.042Z" fill="var(--color-primary)"/>
@@ -234,7 +234,7 @@ $sectores = get_option( 'tema_viera_abogados_sectores_items', array() );
         <div class="experiencia-img-overlay"></div>
       </div>
 
-      <div class="experiencia-content-col">
+      <div class="experiencia-content-col reveal" data-delay="120">
         <?php if ( $exp_pre_titulo ) : ?>
           <span class="exp-pre-titulo"><?php echo esc_html( $exp_pre_titulo ); ?></span>
         <?php endif; ?>
@@ -374,7 +374,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
 <section id="equipo" class="section-equipo">
   <div class="container">
     
-    <div class="equipo-header">
+    <div class="equipo-header reveal">
       <div class="equipo-titles">
         <?php if ( $equipo_pre_titulo ) : ?>
           <span class="equipo-pre-title"><?php echo esc_html( $equipo_pre_titulo ); ?></span>
@@ -391,7 +391,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
       <?php endif; ?>
     </div>
 
-    <div class="equipo-layout">
+    <div class="equipo-layout reveal" data-delay="120">
       
       <div class="fundador-card">
         <div class="fundador-img-box">
@@ -476,7 +476,7 @@ $kpi_3_label  = get_option( 'tema_viera_abogados_kpi_3_label', 'Clientes satisfe
    ======================================== -->
 <section class="section-kpis" id="kpis">
   <div class="container">
-    <div class="kpis-grid">
+    <div class="kpis-grid reveal">
       
       <div class="kpi-item">
         <div class="kpi-number-wrap">
@@ -524,7 +524,7 @@ $agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#plugin-
   <div class="container">
     <div class="agenda-grid">
       
-      <div class="agenda-content-col">
+      <div class="agenda-content-col reveal">
         <?php if ( $agenda_pre_titulo ) : ?>
           <span class="agenda-pre-titulo"><?php echo esc_html( $agenda_pre_titulo ); ?></span>
         <?php endif; ?>
@@ -545,7 +545,7 @@ $agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#plugin-
       </div>
 
       <!-- Contenedor del Plugin -->
-      <div class="agenda-plugin-col" id="plugin-reserva">
+      <div class="agenda-plugin-col reveal" id="plugin-reserva" data-delay="120">
         
         <div class="plugin-placeholder"></div>
       </div>
@@ -574,7 +574,7 @@ $bloques_noticias = array_chunk( $noticias_query->posts, 5 );
 <section id="noticias" class="section-noticias">
   <div class="container">
     
-    <div class="noticias-header">
+    <div class="noticias-header reveal">
       <?php if ( $noticias_pre_titulo ) : ?>
         <span class="noticias-pre-titulo"><?php echo esc_html( $noticias_pre_titulo ); ?></span>
       <?php endif; ?>
@@ -583,7 +583,7 @@ $bloques_noticias = array_chunk( $noticias_query->posts, 5 );
       <?php endif; ?>
     </div>
 
-    <div class="noticias-container" id="noticias-container">
+    <div class="noticias-container reveal" id="noticias-container" data-delay="120">
       <?php if ( $noticias_query->have_posts() ) : ?>
         
         <?php foreach ( $bloques_noticias as $index => $bloque ) : 

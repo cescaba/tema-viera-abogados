@@ -33,7 +33,7 @@ get_header();
 		}
 		?>
 
-		<div style="margin-top: var(--spacing-2xl);">
+		<div class="reveal" style="margin-top: var(--spacing-2xl);">
 			<?php
 			while ( have_posts() ) {
 				the_post();

@@ -805,4 +805,42 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// Animacion generica de aparicion al scroll para elementos .reveal
+document.addEventListener('DOMContentLoaded', function() {
+  var revealEls = document.querySelectorAll('.reveal');
+  if (!revealEls.length) return;
+
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function(el) {
+      el.classList.add('is-visible');
+    });
+    return;
+  }
+
+  var revealObserver = new IntersectionObserver(function(entries, obs) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+
+        setTimeout(function() {
+          el.classList.add('is-visible');
+        }, delay);
+
+        obs.unobserve(el);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -8% 0px',
+    threshold: 0.15
+  });
+
+  revealEls.forEach(function(el) {
+    revealObserver.observe(el);
+  });
+});
+
 })();

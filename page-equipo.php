@@ -31,7 +31,7 @@ $perfil_logos_ids    = get_option( 'tema_viera_abogados_perfil_logos', array() )
 	<div class="perfil-hero-layout">
 
 		<div class="perfil-content-col">
-			<div class="perfil-content-inner">
+			<div class="perfil-content-inner reveal">
 
 				<?php if ( $perfil_pre_titulo ) : ?>
 					<span class="perfil-pre-titulo"><?php echo esc_html( $perfil_pre_titulo ); ?></span>
@@ -81,7 +81,7 @@ $perfil_logos_ids    = get_option( 'tema_viera_abogados_perfil_logos', array() )
 			</div>
 		</div>
 
-		<div class="perfil-image-col">
+		<div class="perfil-image-col reveal" data-delay="120">
 			<?php if ( $perfil_img_url ) : ?>
 				<img src="<?php echo esc_url( $perfil_img_url ); ?>" alt="<?php echo esc_attr( strip_tags( $perfil_nombre ) ); ?>">
 			<?php endif; ?>
@@ -112,7 +112,7 @@ $sidebar_linkedin      = get_option( 'tema_viera_abogados_sidebar_linkedin', '#'
 	<div class="container">
 		<div class="perfil-detalle-grid">
 
-			<div class="perfil-main-col">
+			<div class="perfil-main-col reveal">
 
 				<?php if ( $detalle_pre_titulo ) : ?>
 					<span class="detalle-pre-titulo"><?php echo esc_html( $detalle_pre_titulo ); ?></span>
@@ -132,7 +132,7 @@ $sidebar_linkedin      = get_option( 'tema_viera_abogados_sidebar_linkedin', '#'
 
 			</div>
 
-			<div class="perfil-sidebar-col">
+			<div class="perfil-sidebar-col reveal" data-delay="120">
 
 				<?php if ( $sidebar_esp_titulo && ! empty( $sidebar_esp_items ) ) : ?>
 					<div class="sidebar-block">
@@ -200,7 +200,7 @@ if ( ! empty( $equipo_grid_ids ) && is_array( $equipo_grid_ids ) ) {
 <section class="section-equipo-grid">
 	<div class="container">
 
-		<div class="equipo-grid-header">
+		<div class="equipo-grid-header reveal">
 			<?php if ( $equipo_grid_titulo ) : ?>
 				<h2 class="equipo-grid-titulo"><?php echo esc_html( $equipo_grid_titulo ); ?></h2>
 			<?php endif; ?>

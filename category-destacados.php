@@ -17,7 +17,7 @@ get_header();
 
 <div class="container" style="padding-top: var(--spacing-2xl); padding-bottom: var(--spacing-2xl);">
 
-	<header style="margin-bottom: var(--spacing-2xl);">
+	<header class="reveal" style="margin-bottom: var(--spacing-2xl);">
 		<?php
 		$destacados_term = get_term_by( 'slug', 'destacados', 'category' );
 		?>
@@ -32,7 +32,7 @@ get_header();
 	<?php
 	if ( have_posts() ) :
 		?>
-		<div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap:30px;">
+		<div class="reveal" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap:30px;">
 			<?php
 			while ( have_posts() ) :
 				the_post();

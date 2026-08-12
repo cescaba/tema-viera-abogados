@@ -23,7 +23,7 @@ get_header();
 	<?php
 	if ( have_posts() ) {
 		?>
-		<div class="row-3">
+		<div class="row-3 reveal">
 			<?php
 			while ( have_posts() ) {
 				the_post();
