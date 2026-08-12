@@ -123,7 +123,7 @@ $sidebar_linkedin      = get_option( 'tema_viera_abogados_sidebar_linkedin', '#'
 				<?php endif; ?>
 
 				<div class="detalle-contenido-texto">
-					<?php echo wp_kses_post( $detalle_contenido ); ?>
+					<?php echo wp_kses_post( nl2br( $detalle_contenido ) ); ?>
 				</div>
 
 				<?php if ( $detalle_rec_titulo ) : ?>
