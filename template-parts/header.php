@@ -38,11 +38,12 @@ if ( ! defined( 'ABSPATH' ) ) {
           wp_nav_menu( array(
             'theme_location' => 'primary-menu',
             'fallback_cb'    => function() {
+              $is_equipo = is_page('equipo');
               echo '<ul>';
-              echo '<li class="current-menu-item"><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'INICIO', 'tema-viera-abogados' ) . '</a></li>';
+              echo '<li' . ( is_front_page() ? ' class="current-menu-item"' : '' ) . '><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'INICIO', 'tema-viera-abogados' ) . '</a></li>';
               echo '<li><a href="#servicios">' . esc_html__( 'SERVICIOS', 'tema-viera-abogados' ) . '</a></li>';
               echo '<li><a href="#experiencia">' . esc_html__( 'EXPERIENCIA', 'tema-viera-abogados' ) . '</a></li>';
-              echo '<li><a href="' . esc_url( home_url( '/equipo/' ) ) . '">' . esc_html__( 'EQUIPO', 'tema-viera-abogados' ) . '</a></li>';
+              echo '<li' . ( $is_equipo ? ' class="current-menu-item"' : '' ) . '><a href="' . esc_url( home_url( '/equipo/' ) ) . '">' . esc_html__( 'EQUIPO', 'tema-viera-abogados' ) . '</a></li>';
               echo '</ul>';
             },
             'container'      => false,

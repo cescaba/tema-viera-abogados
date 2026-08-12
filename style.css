@@ -2676,7 +2676,7 @@ img {
 
 .equipo-grid-img {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 272 / 366;
   overflow: hidden;
   background-color: #e9ecef;
 }
@@ -2689,7 +2689,7 @@ img {
 }
 
 .equipo-grid-content {
-  padding: 20px 15px;
+  padding: 14px 15px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -2697,24 +2697,25 @@ img {
 
 .equipo-card-nombre {
   font-family: var(--font-main);
-  font-size: 16px;
+  font-size: 15px;
   color: var(--color-primary);
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   font-weight: normal;
+  line-height: 1.2;
 }
 
 .equipo-card-cargo {
   font-size: 10px;
   color: #A0AAB5;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   display: block;
 }
 
 .equipo-card-bio {
   font-size: 10px;
   color: var(--color-text-light);
-  line-height: 1.5;
-  margin-bottom: 20px;
+  line-height: 1.4;
+  margin-bottom: 10px;
   flex-grow: 1;
 }
 
@@ -2722,7 +2723,7 @@ img {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 15px;
+  gap: 8px;
 }
 
 .equipo-card-email {
