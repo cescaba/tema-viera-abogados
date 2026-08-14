@@ -298,6 +298,7 @@ function tema_viera_opciones_landing_page() {
 
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Opciones de Landing Page', 'tema-viera-abogados' ); ?></h1>
+		<?php tema_viera_translation_button( 'Landing' ); ?>
 
 		<form method="post" id="mi-tema-opciones-form">
 			<?php wp_nonce_field( 'tema_viera_opciones_landing_action', 'tema_viera_opciones_landing_nonce' ); ?>

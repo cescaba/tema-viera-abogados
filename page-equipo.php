@@ -14,12 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
-$perfil_pre_titulo   = get_option( 'tema_viera_abogados_perfil_pre', 'NUESTRO EQUIPO · VIERA ABOGADOS' );
-$perfil_nombre       = get_option( 'tema_viera_abogados_perfil_nombre', 'RAFAEL<br>VIERA' );
-$perfil_cargo        = get_option( 'tema_viera_abogados_perfil_cargo', 'Socio fundador' );
-$perfil_cita         = get_option( 'tema_viera_abogados_perfil_cita', '“Rafael Viera is able to untangle complex cases with great wit, creativity and legal acumen.”' );
-$perfil_cita_autor   = get_option( 'tema_viera_abogados_perfil_cita_autor', 'Chambers Latin America' );
-$perfil_pre_logos    = get_option( 'tema_viera_abogados_perfil_pre_logos', 'Reconocimientos internacionales' );
+$perfil_pre_titulo   = tema_viera_t( get_option( 'tema_viera_abogados_perfil_pre', 'NUESTRO EQUIPO · VIERA ABOGADOS' ) );
+$perfil_nombre       = tema_viera_t( get_option( 'tema_viera_abogados_perfil_nombre', 'RAFAEL<br>VIERA' ) );
+$perfil_cargo        = tema_viera_t( get_option( 'tema_viera_abogados_perfil_cargo', 'Socio fundador' ) );
+$perfil_cita         = tema_viera_t( get_option( 'tema_viera_abogados_perfil_cita', '“Rafael Viera is able to untangle complex cases with great wit, creativity and legal acumen.”' ) );
+$perfil_cita_autor   = tema_viera_t( get_option( 'tema_viera_abogados_perfil_cita_autor', 'Chambers Latin America' ) );
+$perfil_pre_logos    = tema_viera_t( get_option( 'tema_viera_abogados_perfil_pre_logos', 'Reconocimientos internacionales' ) );
 
 $perfil_img_id       = get_option( 'tema_viera_abogados_perfil_img', '' );
 $perfil_img_url      = $perfil_img_id ? wp_get_attachment_url( $perfil_img_id ) : '';
@@ -91,18 +91,18 @@ $perfil_logos_ids    = get_option( 'tema_viera_abogados_perfil_logos', array() )
 </section>
 
 <?php
-$detalle_pre_titulo    = get_option( 'tema_viera_abogados_detalle_pre', 'EXPERIENCIA' );
-$detalle_titulo        = get_option( 'tema_viera_abogados_detalle_titulo', 'PERFIL DEL FUNDADOR' );
-$detalle_contenido     = get_option( 'tema_viera_abogados_detalle_contenido', '<p>Rafael es socio fundador de Viera Abogados y...</p>' );
-$detalle_rec_titulo    = get_option( 'tema_viera_abogados_detalle_rec_titulo', 'RECONOCIMIENTOS' );
+$detalle_pre_titulo    = tema_viera_t( get_option( 'tema_viera_abogados_detalle_pre', 'EXPERIENCIA' ) );
+$detalle_titulo        = tema_viera_t( get_option( 'tema_viera_abogados_detalle_titulo', 'PERFIL DEL FUNDADOR' ) );
+$detalle_contenido     = tema_viera_t( get_option( 'tema_viera_abogados_detalle_contenido', '<p>Rafael es socio fundador de Viera Abogados y...</p>' ) );
+$detalle_rec_titulo    = tema_viera_t( get_option( 'tema_viera_abogados_detalle_rec_titulo', 'RECONOCIMIENTOS' ) );
 
-$sidebar_esp_titulo    = get_option( 'tema_viera_abogados_sidebar_esp_titulo', 'ESPECIALIDADES' );
-$sidebar_esp_items     = get_option( 'tema_viera_abogados_sidebar_esp_items', array( 'Arbitraje', 'Litigios Civiles', 'Litigios Comerciales', 'Procesos Constitucionales', 'Resolución de Controversias' ) );
+$sidebar_esp_titulo    = tema_viera_t( get_option( 'tema_viera_abogados_sidebar_esp_titulo', 'ESPECIALIDADES' ) );
+$sidebar_esp_items     = array_map( 'tema_viera_t', (array) get_option( 'tema_viera_abogados_sidebar_esp_items', array( 'Arbitraje', 'Litigios Civiles', 'Litigios Comerciales', 'Procesos Constitucionales', 'Resolución de Controversias' ) ) );
 
-$sidebar_mem_titulo    = get_option( 'tema_viera_abogados_sidebar_mem_titulo', 'MEMBRESÍAS' );
-$sidebar_mem_items     = get_option( 'tema_viera_abogados_sidebar_mem_items', array( 'Colegio de Abogados de Lima', 'Centro de Arbitraje - Cámara de Comercio de Lima' ) );
+$sidebar_mem_titulo    = tema_viera_t( get_option( 'tema_viera_abogados_sidebar_mem_titulo', 'MEMBRESÍAS' ) );
+$sidebar_mem_items     = array_map( 'tema_viera_t', (array) get_option( 'tema_viera_abogados_sidebar_mem_items', array( 'Colegio de Abogados de Lima', 'Centro de Arbitraje - Cámara de Comercio de Lima' ) ) );
 
-$sidebar_correo_tit    = get_option( 'tema_viera_abogados_sidebar_correo_tit', 'CORREO' );
+$sidebar_correo_tit    = tema_viera_t( get_option( 'tema_viera_abogados_sidebar_correo_tit', 'CORREO' ) );
 $sidebar_correo        = get_option( 'tema_viera_abogados_sidebar_correo', 'rafael.viera@viera.com.pe' );
 
 $sidebar_linkedin      = get_option( 'tema_viera_abogados_sidebar_linkedin', '#' );
@@ -180,11 +180,12 @@ $sidebar_linkedin      = get_option( 'tema_viera_abogados_sidebar_linkedin', '#'
 </section>
 
 <?php
-$equipo_grid_titulo = get_option( 'tema_viera_abogados_equipo_grid_tit', 'NUESTROS EQUIPO' );
-$equipo_grid_desc   = get_option( 'tema_viera_abogados_equipo_grid_desc', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac turpis erat. Mauris gravida ac risus condimentum efficitur. Fusce posuere, nulla vitae dignissim matti.' );
+$equipo_grid_titulo = tema_viera_t( get_option( 'tema_viera_abogados_equipo_grid_tit', 'NUESTROS EQUIPO' ) );
+$equipo_grid_desc   = tema_viera_t( get_option( 'tema_viera_abogados_equipo_grid_desc', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac turpis erat. Mauris gravida ac risus condimentum efficitur. Fusce posuere, nulla vitae dignissim matti.' ) );
 $equipo_grid_ids    = get_option( 'tema_viera_abogados_equipo_grid_ids', array() );
 
 if ( ! empty( $equipo_grid_ids ) && is_array( $equipo_grid_ids ) ) {
+	$equipo_grid_ids = array_map( 'tema_viera_post_translated', $equipo_grid_ids );
 	$equipo_grid_query = new WP_Query( array(
 		'post_type'      => 'abogado',
 		'post__in'       => $equipo_grid_ids,

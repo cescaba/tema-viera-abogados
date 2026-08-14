@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $contacto_telefono  = get_option( 'tema_viera_abogados_contacto_telefono', '+51 987 654 321' );
 $contacto_email     = get_option( 'tema_viera_abogados_contacto_email', 'contacto@viera.pe' );
-$contacto_direccion = get_option( 'tema_viera_abogados_contacto_direccion', 'Francisco del Castillo 236, Miraflores' );
+$contacto_direccion = tema_viera_t( get_option( 'tema_viera_abogados_contacto_direccion', 'Francisco del Castillo 236, Miraflores' ) );
 
 $social_instagram   = get_option( 'tema_viera_abogados_social_ig', '#' );
 $social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
@@ -50,17 +50,17 @@ $social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
     <div class="footer-links-col">
       
       <div class="footer-nav-column">
-        <h3>MENU</h3>
+        <h3><?php echo esc_html( tema_viera_t( 'MENU' ) ); ?></h3>
         <?php
         wp_nav_menu( array(
           'theme_location' => 'footer-menu',
           'container'      => false,
           'fallback_cb'    => function() {
             echo '<ul>';
-            echo '<li><a href="#servicios">Servicio</a></li>';
-            echo '<li><a href="#experiencia">Experiencia</a></li>';
-            echo '<li><a href="#equipo">Equipo</a></li>';
-            echo '<li><a href="#blog">Blog</a></li>';
+            echo '<li><a href="#servicios">' . esc_html( tema_viera_t( 'Servicio' ) ) . '</a></li>';
+            echo '<li><a href="#experiencia">' . esc_html( tema_viera_t( 'Experiencia' ) ) . '</a></li>';
+            echo '<li><a href="#equipo">' . esc_html( tema_viera_t( 'Equipo' ) ) . '</a></li>';
+            echo '<li><a href="#blog">' . esc_html( tema_viera_t( 'Blog' ) ) . '</a></li>';
             echo '</ul>';
           },
         ) );
@@ -68,16 +68,16 @@ $social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
       </div>
 
       <div class="footer-nav-column">
-        <h3>PRIVACIDAD Y LEGAL</h3>
+        <h3><?php echo esc_html( tema_viera_t( 'PRIVACIDAD Y LEGAL' ) ); ?></h3>
         <?php
         wp_nav_menu( array(
           'theme_location' => 'legal-menu',
           'container'      => false,
           'fallback_cb'    => function() {
             echo '<ul>';
-            echo '<li><a href="#terminos">Términos de privacidad</a></li>';
-            echo '<li><a href="#reclamaciones">Libro de reclamaciones</a></li>';
-            echo '<li><a href="#legal">Información legal</a></li>';
+            echo '<li><a href="#terminos">' . esc_html( tema_viera_t( 'Términos de privacidad' ) ) . '</a></li>';
+            echo '<li><a href="#reclamaciones">' . esc_html( tema_viera_t( 'Libro de reclamaciones' ) ) . '</a></li>';
+            echo '<li><a href="#legal">' . esc_html( tema_viera_t( 'Información legal' ) ) . '</a></li>';
             echo '</ul>';
           },
         ) );
@@ -85,7 +85,7 @@ $social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
       </div>
 
       <div class="footer-nav-column">
-        <h3>CONTACTO</h3>
+        <h3><?php echo esc_html( tema_viera_t( 'CONTACTO' ) ); ?></h3>
         <ul>
           <?php if ( $contacto_telefono ) : ?>
             <li>
@@ -108,16 +108,16 @@ $social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
       </div>
 
       <div class="footer-nav-column">
-        <h3>SEGUIR</h3>
+        <h3><?php echo esc_html( tema_viera_t( 'SEGUIR' ) ); ?></h3>
         <ul>
           <?php if ( $social_instagram ) : ?>
             <li>
-              <a href="<?php echo esc_url( $social_instagram ); ?>" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+              <a href="<?php echo esc_url( $social_instagram ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( tema_viera_t( 'INSTAGRAM' ) ); ?></a>
             </li>
           <?php endif; ?>
           <?php if ( $social_linkedin ) : ?>
             <li>
-              <a href="<?php echo esc_url( $social_linkedin ); ?>" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+              <a href="<?php echo esc_url( $social_linkedin ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( tema_viera_t( 'LINKEDIN' ) ); ?></a>
             </li>
           <?php endif; ?>
         </ul>

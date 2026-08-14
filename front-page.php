@@ -13,32 +13,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 get_header();
-$hero_overline         = get_option( 'tema_viera_abogados_hero_overline', 'ESTUDIO JURÍDICO · LIMA, PERÚ' );
-$hero_titulo           = get_option( 'tema_viera_abogados_hero_titulo', 'SOMOS EXPERTOS EN LITIGIOS COMPLEJOS' );
-$hero_subtitulo        = get_option( 'tema_viera_abogados_hero_subtitulo', 'Resolvemos lo que otros no pueden.' );
+$hero_overline         = tema_viera_t( get_option( 'tema_viera_abogados_hero_overline', 'ESTUDIO JURÍDICO · LIMA, PERÚ' ) );
+$hero_titulo           = tema_viera_t( get_option( 'tema_viera_abogados_hero_titulo', 'SOMOS EXPERTOS EN LITIGIOS COMPLEJOS' ) );
+$hero_subtitulo        = tema_viera_t( get_option( 'tema_viera_abogados_hero_subtitulo', 'Resolvemos lo que otros no pueden.' ) );
 $hero_imagen_id        = get_option( 'tema_viera_abogados_hero_imagen', '' );
 
-$hero_btn1_texto       = get_option( 'tema_viera_abogados_hero_btn1_texto', 'NUESTROS SERVICIOS' );
-$hero_btn2_texto       = get_option( 'tema_viera_abogados_hero_btn2_texto', 'AGENDA UNA CITA' );
+$hero_btn1_texto       = tema_viera_t( get_option( 'tema_viera_abogados_hero_btn1_texto', 'NUESTROS SERVICIOS' ) );
+$hero_btn2_texto       = tema_viera_t( get_option( 'tema_viera_abogados_hero_btn2_texto', 'AGENDA UNA CITA' ) );
 
 $hero_imagen_url       = $hero_imagen_id ? wp_get_attachment_url( $hero_imagen_id ) : '';
 
 $awards_logos_ids      = get_option( 'tema_viera_abogados_awards_logos', array() );
 
-$sobre_titulo          = get_option( 'tema_viera_abogados_sobre_titulo', '' );
-$sobre_contenido       = get_option( 'tema_viera_abogados_sobre_contenido', '' );
+$sobre_titulo          = tema_viera_t( get_option( 'tema_viera_abogados_sobre_titulo', '' ) );
+$sobre_contenido       = tema_viera_t( get_option( 'tema_viera_abogados_sobre_contenido', '' ) );
 $sobre_imagen_id       = get_option( 'tema_viera_abogados_sobre_imagen', '' );
 $sobre_imagen_url      = $sobre_imagen_id ? wp_get_attachment_url( $sobre_imagen_id ) : '';
 
-$servicios_titulo      = get_option( 'tema_viera_abogados_servicios_titulo', '' );
+$servicios_titulo      = tema_viera_t( get_option( 'tema_viera_abogados_servicios_titulo', '' ) );
 $servicios_items       = get_option( 'tema_viera_abogados_servicios_items', array() );
 
-$abogados_titulo       = get_option( 'tema_viera_abogados_abogados_titulo', '' );
-$abogados_subtitulo    = get_option( 'tema_viera_abogados_abogados_subtitulo', '' );
+$abogados_titulo       = tema_viera_t( get_option( 'tema_viera_abogados_abogados_titulo', '' ) );
+$abogados_subtitulo    = tema_viera_t( get_option( 'tema_viera_abogados_abogados_subtitulo', '' ) );
 
-$contacto_titulo       = get_option( 'tema_viera_abogados_contacto_titulo', '' );
-$contacto_mensaje      = get_option( 'tema_viera_abogados_contacto_mensaje', '' );
-$contacto_direccion    = get_option( 'tema_viera_abogados_contacto_direccion', '' );
+$contacto_titulo       = tema_viera_t( get_option( 'tema_viera_abogados_contacto_titulo', '' ) );
+$contacto_mensaje      = tema_viera_t( get_option( 'tema_viera_abogados_contacto_mensaje', '' ) );
+$contacto_direccion    = tema_viera_t( get_option( 'tema_viera_abogados_contacto_direccion', '' ) );
 $contacto_telefono     = get_option( 'tema_viera_abogados_contacto_telefono', '' );
 $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
 ?>
@@ -94,8 +94,8 @@ $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
 <section class="awards-section">
   <div class="awards-banner reveal">
     <div class="awards-header">
-      <span class="awards-pretitle">RECONOCIMIENTOS</span>
-      <h3 class="awards-title">INTERNACIONALES</h3>
+      <span class="awards-pretitle"><?php echo esc_html( tema_viera_t( 'RECONOCIMIENTOS' ) ); ?></span>
+      <h3 class="awards-title"><?php echo esc_html( tema_viera_t( 'INTERNACIONALES' ) ); ?></h3>
     </div>
     
     <div class="awards-slider-wrapper">
@@ -121,8 +121,8 @@ $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
 <?php endif; ?>
 
 <?php
-$texto_animado_1 = get_option( 'tema_viera_abogados_texto_animado_1', 'RESOLVEMOS LO QUE' );
-$texto_animado_2 = get_option( 'tema_viera_abogados_texto_animado_2', 'OTROS NO PUEDEN' );
+$texto_animado_1 = tema_viera_t( get_option( 'tema_viera_abogados_texto_animado_1', 'RESOLVEMOS LO QUE' ) );
+$texto_animado_2 = tema_viera_t( get_option( 'tema_viera_abogados_texto_animado_2', 'OTROS NO PUEDEN' ) );
 ?>
 
 <!-- ========================================
@@ -141,22 +141,25 @@ $texto_animado_2 = get_option( 'tema_viera_abogados_texto_animado_2', 'OTROS NO 
           <div class="servicios-grid" id="servicios-grid">
             <?php foreach ( $servicios_items as $index => $servicio ) : 
               $detalles = isset($servicio['detalles']) ? (is_array($servicio['detalles']) ? $servicio['detalles'] : explode("\n", $servicio['detalles'])) : array();
+              $detalles = array_map( 'tema_viera_t', $detalles );
+              $serv_titulo = tema_viera_t( $servicio['titulo'] ?? '' );
+              $serv_desc   = tema_viera_t( $servicio['descripcion'] ?? '' );
             ?>
               <div class="service-card-viera" 
                    data-index="<?php echo esc_attr( $index ); ?>"
-                   data-titulo="<?php echo esc_attr( $servicio['titulo'] ?? '' ); ?>"
-                   data-descripcion="<?php echo esc_attr( $servicio['descripcion'] ?? '' ); ?>"
+                   data-titulo="<?php echo esc_attr( $serv_titulo ); ?>"
+                   data-descripcion="<?php echo esc_attr( $serv_desc ); ?>"
                    data-detalles='<?php echo esc_attr( json_encode( $detalles ) ); ?>'>
                 <div class="service-content">
-                  <?php if ( ! empty( $servicio['titulo'] ) ) : ?>
-                    <h3 class="service-title"><?php echo esc_html( $servicio['titulo'] ); ?></h3>
+                  <?php if ( ! empty( $serv_titulo ) ) : ?>
+                    <h3 class="service-title"><?php echo esc_html( $serv_titulo ); ?></h3>
                   <?php endif; ?>
 
-                  <?php if ( ! empty( $servicio['descripcion'] ) ) : ?>
-                    <p class="service-description"><?php echo wp_kses_post( $servicio['descripcion'] ); ?></p>
+                  <?php if ( ! empty( $serv_desc ) ) : ?>
+                    <p class="service-description"><?php echo wp_kses_post( $serv_desc ); ?></p>
                   <?php endif; ?>
                 </div>
-                <button class="btn-ver-mas" data-action="expand">VER MÁS <svg xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10" fill="none"><path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <button class="btn-ver-mas" data-action="expand"><?php echo esc_html( tema_viera_t( 'VER MÁS' ) ); ?> <svg xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10" fill="none"><path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               </div>
             <?php endforeach; ?>
           </div>
@@ -167,7 +170,7 @@ $texto_animado_2 = get_option( 'tema_viera_abogados_texto_animado_2', 'OTROS NO 
               <div class="expanded-text-side">
                 <h3 class="expanded-title" id="expanded-title"></h3>
                 <p class="expanded-description" id="expanded-description"></p>
-                <button class="btn-ocultar" id="btn-ocultar">OCULTAR <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <button class="btn-ocultar" id="btn-ocultar"><?php echo esc_html( tema_viera_t( 'OCULTAR' ) ); ?> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               </div>
               <div class="expanded-list-side" id="expanded-list-side">
               </div>
@@ -178,7 +181,7 @@ $texto_animado_2 = get_option( 'tema_viera_abogados_texto_animado_2', 'OTROS NO 
                 <div class="preview-content">
                   <h4 class="preview-title" id="preview-title"></h4>
                   <p class="preview-description" id="preview-description-text"></p>
-                  <span class="preview-link">VER MÁS ∨</span>
+                  <span class="preview-link"><?php echo esc_html( tema_viera_t( 'VER MÁS' ) ); ?> ∨</span>
                 </div>
               </div>
               <button class="btn-next-arrow" id="btn-next-arrow" aria-label="Siguiente servicio">
@@ -202,9 +205,9 @@ $texto_animado_2 = get_option( 'tema_viera_abogados_texto_animado_2', 'OTROS NO 
 </section>
 
 <?php
-$exp_pre_titulo = get_option( 'tema_viera_abogados_exp_pre_titulo', 'SECTORES' );
-$exp_titulo     = get_option( 'tema_viera_abogados_exp_titulo', 'NUESTRA EXPERIENCIA' );
-$exp_subtitulo  = get_option( 'tema_viera_abogados_exp_subtitulo', '15 años destacando por nuestras estrategias innovadoras y eficientes' );
+$exp_pre_titulo = tema_viera_t( get_option( 'tema_viera_abogados_exp_pre_titulo', 'SECTORES' ) );
+$exp_titulo     = tema_viera_t( get_option( 'tema_viera_abogados_exp_titulo', 'NUESTRA EXPERIENCIA' ) );
+$exp_subtitulo  = tema_viera_t( get_option( 'tema_viera_abogados_exp_subtitulo', '15 años destacando por nuestras estrategias innovadoras y eficientes' ) );
 
 $sectores = get_option( 'tema_viera_abogados_sectores_items', array() ); 
 ?>
@@ -253,17 +256,19 @@ $sectores = get_option( 'tema_viera_abogados_sectores_items', array() );
               <?php foreach ( $sectores as $index => $sector ) : 
                 $open_class = ( $index === 0 ) ? 'is-open' : '';
                 $imagen_url = !empty($sector['imagen']) ? wp_get_attachment_url( $sector['imagen'] ) : '';
+                $sector_titulo = tema_viera_t( $sector['titulo'] ?? '' );
+                $sector_desc   = tema_viera_t( $sector['descripcion'] ?? '' );
               ?>
                 <li class="sector-item <?php echo $open_class; ?>" data-image="<?php echo esc_url( $imagen_url ); ?>">
                   
                   <div class="sector-header">
-                    <span class="sector-nombre"><?php echo esc_html( $sector['titulo'] ); ?></span>
+                    <span class="sector-nombre"><?php echo esc_html( $sector_titulo ); ?></span>
                     <span class="sector-icon"></span>
                   </div>
 
                   <div class="sector-body">
                     <div class="sector-body-content">
-                      <?php echo wp_kses_post( $sector['descripcion'] ?? '' ); ?>
+                      <?php echo wp_kses_post( $sector_desc ); ?>
                     </div>
                   </div>
 
@@ -285,7 +290,7 @@ $sectores = get_option( 'tema_viera_abogados_sectores_items', array() );
 </section>
 
 <?php
-$clientes_titulo = get_option( 'tema_viera_abogados_clientes_titulo', 'ELLOS CONFÍAN EN NOSOTROS' );
+$clientes_titulo = tema_viera_t( get_option( 'tema_viera_abogados_clientes_titulo', 'ELLOS CONFÍAN EN NOSOTROS' ) );
 $clientes_logos  = get_option( 'tema_viera_abogados_clientes_logos', array() );
 ?>
 
@@ -317,31 +322,34 @@ $clientes_logos  = get_option( 'tema_viera_abogados_clientes_logos', array() );
 
 
 <?php
-$equipo_pre_titulo = get_option( 'tema_viera_abogados_equipo_pre', 'SECTORES' );
-$equipo_titulo     = get_option( 'tema_viera_abogados_equipo_titulo', 'NUESTRO EQUIPO' );
-$equipo_enlace_txt = get_option( 'tema_viera_abogados_equipo_enlace_txt', 'CONOCE A TODO EL EQUIPO →' );
-$equipo_enlace_url = get_option( 'tema_viera_abogados_equipo_enlace_url', home_url( '/equipo/' ) );
+$equipo_pre_titulo = tema_viera_t( get_option( 'tema_viera_abogados_equipo_pre', 'SECTORES' ) );
+$equipo_titulo     = tema_viera_t( get_option( 'tema_viera_abogados_equipo_titulo', 'NUESTRO EQUIPO' ) );
+$equipo_enlace_txt = tema_viera_t( get_option( 'tema_viera_abogados_equipo_enlace_txt', 'CONOCE A TODO EL EQUIPO →' ) );
+$equipo_enlace_url = get_option( 'tema_viera_abogados_equipo_enlace_url', '' );
 
 $fundador_post_id     = get_option( 'tema_viera_abogados_fundador_post_id', '' );
 $equipo_seleccionados = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );
 
+// Resolver el post traducido al idioma actual para fundador y equipo.
+$fundador_render_id = tema_viera_post_translated( $fundador_post_id );
+
 // Obtener datos del fundador desde el CPT o fallback a opciones legacy
-if ( $fundador_post_id && get_post( $fundador_post_id ) ) {
-	$fundador_img_url  = get_the_post_thumbnail_url( $fundador_post_id, 'medium_large' );
-	$fundador_tag      = tema_viera_get_abogado_meta( $fundador_post_id, 'tag' );
-	$fundador_tag      = $fundador_tag ?: 'FUNDADOR';
-	$fundador_nombre   = get_the_title( $fundador_post_id );
-	$fundador_cargo    = tema_viera_get_abogado_meta( $fundador_post_id, 'cargo' );
-	$fundador_bio      = tema_viera_get_abogado_meta( $fundador_post_id, 'biografia' );
-	$fundador_linkedin = tema_viera_get_abogado_meta( $fundador_post_id, 'linkedin' );
+if ( $fundador_render_id && get_post( $fundador_render_id ) ) {
+	$fundador_img_url  = get_the_post_thumbnail_url( $fundador_render_id, 'medium_large' );
+	$fundador_tag      = tema_viera_get_abogado_meta( $fundador_render_id, 'tag' );
+	$fundador_tag      = $fundador_tag ?: tema_viera_t( 'FUNDADOR' );
+	$fundador_nombre   = get_the_title( $fundador_render_id );
+	$fundador_cargo    = tema_viera_get_abogado_meta( $fundador_render_id, 'cargo' );
+	$fundador_bio      = tema_viera_get_abogado_meta( $fundador_render_id, 'biografia' );
+	$fundador_linkedin = tema_viera_get_abogado_meta( $fundador_render_id, 'linkedin' );
 } else {
 	// Fallback legacy
 	$fundador_img_id   = get_option( 'tema_viera_abogados_fundador_img', '' );
 	$fundador_img_url  = $fundador_img_id ? wp_get_attachment_url( $fundador_img_id ) : '';
-	$fundador_tag      = get_option( 'tema_viera_abogados_fundador_tag', 'FUNDADOR' );
-	$fundador_nombre   = get_option( 'tema_viera_abogados_fundador_nombre', '' );
-	$fundador_cargo    = get_option( 'tema_viera_abogados_fundador_cargo', '' );
-	$fundador_bio      = get_option( 'tema_viera_abogados_fundador_bio', '' );
+	$fundador_tag      = tema_viera_t( get_option( 'tema_viera_abogados_fundador_tag', 'FUNDADOR' ) );
+	$fundador_nombre   = tema_viera_t( get_option( 'tema_viera_abogados_fundador_nombre', '' ) );
+	$fundador_cargo    = tema_viera_t( get_option( 'tema_viera_abogados_fundador_cargo', '' ) );
+	$fundador_bio      = tema_viera_t( get_option( 'tema_viera_abogados_fundador_bio', '' ) );
 	$fundador_linkedin = get_option( 'tema_viera_abogados_fundador_linkedin', '#' );
 }
 
@@ -352,14 +360,15 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
 		if ( $post_id == $fundador_post_id || ! get_post( $post_id ) ) {
 			continue;
 		}
-		$img_id = get_post_thumbnail_id( $post_id );
+		$render_id = tema_viera_post_translated( $post_id );
+		$img_id = get_post_thumbnail_id( $render_id );
 		$equipo_items[] = array(
 			'imagen'      => $img_id ? $img_id : 0,
-			'nombre'      => get_the_title( $post_id ),
-			'cargo'       => tema_viera_get_abogado_meta( $post_id, 'cargo' ),
-			'descripcion' => tema_viera_get_abogado_meta( $post_id, 'biografia' ),
-			'email'       => tema_viera_get_abogado_meta( $post_id, 'email' ),
-			'linkedin'    => tema_viera_get_abogado_meta( $post_id, 'linkedin' ),
+			'nombre'      => get_the_title( $render_id ),
+			'cargo'       => tema_viera_get_abogado_meta( $render_id, 'cargo' ),
+			'descripcion' => tema_viera_get_abogado_meta( $render_id, 'biografia' ),
+			'email'       => tema_viera_get_abogado_meta( $render_id, 'email' ),
+			'linkedin'    => tema_viera_get_abogado_meta( $render_id, 'linkedin' ),
 		);
 	}
 } else {
@@ -385,7 +394,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
       </div>
       
       <?php if ( $equipo_enlace_txt ) : ?>
-        <a href="<?php echo esc_url( $equipo_enlace_url ?: '#' ); ?>" class="equipo-enlace">
+        <a href="<?php echo esc_url( $equipo_enlace_url ?: tema_viera_equipo_url() ); ?>" class="equipo-enlace">
           <?php echo esc_html( $equipo_enlace_txt ); ?>
         </a>
       <?php endif; ?>
@@ -458,17 +467,17 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
 $kpi_1_prefix = get_option( 'tema_viera_abogados_kpi_1_prefix', '+' );
 $kpi_1_num    = get_option( 'tema_viera_abogados_kpi_1_num', '50' );
 $kpi_1_suffix = get_option( 'tema_viera_abogados_kpi_1_suffix', '' );
-$kpi_1_label  = get_option( 'tema_viera_abogados_kpi_1_label', 'Empresas asesoradas' );
+$kpi_1_label  = tema_viera_t( get_option( 'tema_viera_abogados_kpi_1_label', 'Empresas asesoradas' ) );
 
 $kpi_2_prefix = get_option( 'tema_viera_abogados_kpi_2_prefix', '+' );
 $kpi_2_num    = get_option( 'tema_viera_abogados_kpi_2_num', '35' );
 $kpi_2_suffix = get_option( 'tema_viera_abogados_kpi_2_suffix', '' );
-$kpi_2_label  = get_option( 'tema_viera_abogados_kpi_2_label', 'Años de experiencia' );
+$kpi_2_label  = tema_viera_t( get_option( 'tema_viera_abogados_kpi_2_label', 'Años de experiencia' ) );
 
 $kpi_3_prefix = get_option( 'tema_viera_abogados_kpi_3_prefix', '' );
 $kpi_3_num    = get_option( 'tema_viera_abogados_kpi_3_num', '100' );
 $kpi_3_suffix = get_option( 'tema_viera_abogados_kpi_3_suffix', '%' );
-$kpi_3_label  = get_option( 'tema_viera_abogados_kpi_3_label', 'Clientes satisfechos' );
+$kpi_3_label  = tema_viera_t( get_option( 'tema_viera_abogados_kpi_3_label', 'Clientes satisfechos' ) );
 ?>
 
 <!-- ========================================
@@ -510,10 +519,10 @@ $kpi_3_label  = get_option( 'tema_viera_abogados_kpi_3_label', 'Clientes satisfe
 </section>
 
 <?php
-$agenda_pre_titulo = get_option( 'tema_viera_abogados_agenda_pre', 'AGENDA UNA REUNIÓN' );
-$agenda_titulo     = get_option( 'tema_viera_abogados_agenda_titulo', 'HABLEMOS DE TU CASO' );
-$agenda_desc       = get_option( 'tema_viera_abogados_agenda_desc', 'Agenda una reunión con nuestro equipo legal de forma rápida y sencilla. Estamos listos para escucharte y ayudarte.' );
-$agenda_btn_txt    = get_option( 'tema_viera_abogados_agenda_btn_txt', 'AGENDA UNA CITA >' );
+$agenda_pre_titulo = tema_viera_t( get_option( 'tema_viera_abogados_agenda_pre', 'AGENDA UNA REUNIÓN' ) );
+$agenda_titulo     = tema_viera_t( get_option( 'tema_viera_abogados_agenda_titulo', 'HABLEMOS DE TU CASO' ) );
+$agenda_desc       = tema_viera_t( get_option( 'tema_viera_abogados_agenda_desc', 'Agenda una reunión con nuestro equipo legal de forma rápida y sencilla. Estamos listos para escucharte y ayudarte.' ) );
+$agenda_btn_txt    = tema_viera_t( get_option( 'tema_viera_abogados_agenda_btn_txt', 'AGENDA UNA CITA >' ) );
 $agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#plugin-reserva' );
 ?>
 
@@ -556,9 +565,9 @@ $agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#plugin-
 
 
 <?php
-$noticias_pre_titulo = get_option( 'tema_viera_abogados_noticias_pre', 'MÁS SOBRE NOSOTROS' );
-$noticias_titulo     = get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÁS' );
-$btn_cargar_mas      = get_option( 'tema_viera_abogados_noticias_btn', 'CARGAR MÁS ∨' );
+$noticias_pre_titulo = tema_viera_t( get_option( 'tema_viera_abogados_noticias_pre', 'MÁS SOBRE NOSOTROS' ) );
+$noticias_titulo     = tema_viera_t( get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÁS' ) );
+$btn_cargar_mas      = tema_viera_t( get_option( 'tema_viera_abogados_noticias_btn', 'CARGAR MÁS ∨' ) );
 
 $noticias_query = new WP_Query( array(
 	'category_name'  => 'destacados',

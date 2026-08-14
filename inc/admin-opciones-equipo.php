@@ -104,6 +104,7 @@ function tema_viera_opciones_equipo_page() {
 
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Opciones de Página Equipo', 'tema-viera-abogados' ); ?></h1>
+		<?php tema_viera_translation_button( 'Página Equipo' ); ?>
 
 		<form method="post" id="mi-tema-opciones-equipo-form">
 			<?php wp_nonce_field( 'tema_viera_opciones_equipo_action', 'tema_viera_opciones_equipo_nonce' ); ?>
