@@ -38,6 +38,7 @@ function tema_viera_abogados_setup() {
 
 	// Agregar tamaños adicionales de thumbnail para diferentes usos
 	add_image_size( 'abogado-card', 400, 300, true );
+	add_image_size( 'abogado-grid', 544, 732, true );
 	add_image_size( 'abogado-single', 800, 600, true );
 	add_image_size( 'section-banner', 1200, 400, true );
 

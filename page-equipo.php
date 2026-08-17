@@ -222,7 +222,7 @@ if ( ! empty( $equipo_grid_ids ) && is_array( $equipo_grid_ids ) ) {
 					$biografia      = tema_viera_get_abogado_meta( $post_id, 'biografia' );
 					$email          = tema_viera_get_abogado_meta( $post_id, 'email' );
 					$linkedin       = tema_viera_get_abogado_meta( $post_id, 'linkedin' );
-					$img_url        = get_the_post_thumbnail_url( $post_id, 'abogado-card' );
+					$img_url        = get_the_post_thumbnail_url( $post_id, 'abogado-grid' );
 				?>
 					<div class="equipo-grid-card" data-animate>
 						<div class="equipo-grid-img">
