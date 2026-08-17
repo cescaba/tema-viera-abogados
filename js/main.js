@@ -491,23 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateImage(newImageUrl) {
     if (!newImageUrl || mainImage.src === newImageUrl) return;
-
-    mainImage.style.transition = 'opacity 0.25s ease';
-    mainImage.style.opacity = '0';
-
-    mainImage.addEventListener('transitionend', function onFade() {
-      mainImage.removeEventListener('transitionend', onFade);
-      mainImage.src = newImageUrl;
-      mainImage.onload = function() {
-        mainImage.style.opacity = '1';
-        mainImage.addEventListener('transitionend', function onDone() {
-          mainImage.removeEventListener('transitionend', onDone);
-          mainImage.style.transition = '';
-          mainImage.style.opacity = '';
-        });
-        mainImage.onload = null;
-      };
-    });
+    mainImage.src = newImageUrl;
   }
 
   function animateBody(body, open, callback) {
