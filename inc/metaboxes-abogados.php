@@ -211,6 +211,12 @@ function tema_viera_render_abogado_metabox( $post ) {
 				<?php esc_html_e( 'Biografía detallada del abogado', 'tema-viera-abogados' ); ?>
 			</div>
 		</div>
+
+		<?php if ( function_exists( 'pll_register_string' ) && function_exists( 'tema_viera_abogado_translation_group' ) ) : ?>
+			<div class="mi-tema-abogado-field" style="border-top: 1px solid #eee; padding-top: 15px;">
+				<?php tema_viera_translation_button( tema_viera_abogado_translation_group( $post->ID ) ); ?>
+			</div>
+		<?php endif; ?>
 	</div>
 	<?php
 }
@@ -297,6 +303,7 @@ function tema_viera_abogados_admin_columns( $columns ) {
 			$new_columns['email']        = esc_html__( 'Email', 'tema-viera-abogados' );
 		}
 	}
+	$new_columns['traduccion'] = esc_html__( 'Traducción', 'tema-viera-abogados' );
 	return $new_columns;
 }
 add_filter( 'manage_abogado_posts_columns', 'tema_viera_abogados_admin_columns' );
@@ -318,6 +325,35 @@ function tema_viera_abogados_admin_columns_content( $column, $post_id ) {
 			$email = tema_viera_get_abogado_meta( $post_id, 'email' );
 			if ( $email ) {
 				echo '<a href="' . esc_attr( 'mailto:' . $email ) . '">' . esc_html( $email ) . '</a>';
+			} else {
+				echo '-';
+			}
+			break;
+
+		case 'traduccion':
+			if ( ! function_exists( 'tema_viera_abogado_translation_status' ) ) {
+				echo '-';
+				break;
+			}
+			$status = tema_viera_abogado_translation_status( $post_id );
+			if ( null === $status ) {
+				echo '-';
+				break;
+			}
+
+			$enlace = function_exists( 'tema_viera_abogado_translation_url' )
+				? tema_viera_abogado_translation_url( $post_id )
+				: '';
+
+			if ( $enlace ) {
+				echo '<a href="' . esc_url( $enlace ) . '">' . esc_html__( 'Traducir', 'tema-viera-abogados' ) . '</a> ';
+			}
+
+			if ( $status['total'] > 0 ) {
+				$completo = ( $status['done'] >= $status['total'] );
+				echo '<span style="color:' . ( $completo ? '#46b450' : '#dba617' ) . ';">'
+					. esc_html( $status['done'] . '/' . $status['total'] )
+					. '</span>';
 			} else {
 				echo '-';
 			}

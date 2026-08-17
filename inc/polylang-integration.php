@@ -61,6 +61,73 @@ function tema_viera_abogado_meta_t( $post_id, $field ) {
 }
 
 /**
+ * Grupo de cadenas de Polylang para un abogado (uno por abogado, para poder
+ * filtrarlo en la pantalla de traducciones de cadenas).
+ *
+ * @param int $post_id ID del abogado.
+ * @return string
+ */
+function tema_viera_abogado_translation_group( $post_id ) {
+	return 'Abogados · ' . get_the_title( $post_id );
+}
+
+/**
+ * URL directa a la pantalla de traducciones de cadenas filtrada por el
+ * abogado indicado.
+ *
+ * @param int $post_id ID del abogado.
+ * @return string
+ */
+function tema_viera_abogado_translation_url( $post_id ) {
+	return admin_url( 'admin.php?page=mlang_strings&group=' . rawurlencode( tema_viera_abogado_translation_group( $post_id ) ) );
+}
+
+/**
+ * Estado de traducción de un abogado: cuántos campos traducibles tiene y
+ * cuántos ya están traducidos al primer idioma distinto del por defecto.
+ *
+ * @param int $post_id ID del abogado.
+ * @return array|null Array con done/total/target, o null si no hay Polylang.
+ */
+function tema_viera_abogado_translation_status( $post_id ) {
+	if ( ! function_exists( 'pll_languages_list' ) || ! function_exists( 'pll_default_language' ) || ! function_exists( 'pll_translate_string' ) ) {
+		return null;
+	}
+
+	$default = pll_default_language();
+	$langs   = pll_languages_list( array( 'fields' => 'slug' ) );
+	$targets = array_values( array_diff( (array) $langs, array( $default ) ) );
+	if ( empty( $targets ) ) {
+		return null;
+	}
+	$target = $targets[0];
+
+	$sources = array(
+		get_the_title( $post_id ),
+		get_post_meta( $post_id, '_abogado_especialidad', true ),
+		get_post_meta( $post_id, '_abogado_cargo', true ),
+		get_post_meta( $post_id, '_abogado_tag', true ),
+		get_post_meta( $post_id, '_abogado_biografia', true ),
+	);
+
+	$total = 0;
+	$done  = 0;
+	foreach ( $sources as $src ) {
+		$src = (string) $src;
+		if ( '' === trim( $src ) ) {
+			continue;
+		}
+		$total++;
+		$tr = pll_translate_string( $src, $target );
+		if ( is_string( $tr ) && $tr !== $src ) {
+			$done++;
+		}
+	}
+
+	return array( 'done' => $done, 'total' => $total, 'target' => $target );
+}
+
+/**
  * Devuelve el ID del post traducido al idioma actual (o el original si no hay traducción).
  *
  * @param int $post_id ID del post original.
@@ -299,9 +366,10 @@ function tema_viera_register_abogado_strings() {
 			'Etiqueta'     => get_post_meta( $id, '_abogado_tag', true ),
 			'Biografía'    => get_post_meta( $id, '_abogado_biografia', true ),
 		);
+		$group = tema_viera_abogado_translation_group( $id );
 
 		foreach ( $fields as $label => $value ) {
-			tema_viera_pll_register_string( 'Abogado ' . $id . ' · ' . $label, $value, 'Abogados', ( 'Biografía' === $label ) );
+			tema_viera_pll_register_string( 'Abogado ' . $id . ' · ' . $label, $value, $group, ( 'Biografía' === $label ) );
 		}
 	}
 }
