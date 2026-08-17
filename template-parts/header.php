@@ -79,18 +79,14 @@ if ( ! defined( 'ABSPATH' ) ) {
           $lang_en_url = isset( $lang_map['en'] ) ? $lang_map['en']['url'] : home_url( '/' );
           $lang_actual = function_exists( 'pll_current_language' ) ? pll_current_language() : 'es';
           ?>
-          <div class="lang-switch desktop-only">
-            <span class="lang-label <?php echo ( $lang_actual === 'es' ) ? 'current' : ''; ?>">ES</span>
-            <div class="lang-toggle">
-              <a href="<?php echo esc_url( $lang_es_url ); ?>" class="flag-circle <?php echo ( $lang_actual === 'es' ) ? 'active' : 'inactive'; ?>" aria-label="Español">
-                <svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="2" fill="#D91023"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#D91023"/></svg>
-              </a>
-              <a href="<?php echo esc_url( $lang_en_url ); ?>" class="flag-circle <?php echo ( $lang_actual === 'en' ) ? 'active' : 'inactive'; ?>" aria-label="English">
-                <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="40" fill="#bd3d44"/><path d="M0 4h60v4H0zm0 8h60v4H0zm0 8h60v4H0zm0 8h60v4H0zm0 8h60v4H0z" fill="#fff"/><rect width="30" height="21" fill="#192f5d"/></svg>
-              </a>
-            </div>
-            <span class="lang-label <?php echo ( $lang_actual === 'en' ) ? 'current' : ''; ?>">EN</span>
-          </div>
+          <?php
+          $lang_target      = ( $lang_actual === 'en' ) ? 'es' : 'en';
+          $lang_target_url  = ( $lang_actual === 'en' ) ? $lang_es_url : $lang_en_url;
+          ?>
+          <a href="<?php echo esc_url( $lang_target_url ); ?>" class="lang-switch desktop-only <?php echo ( $lang_actual === 'es' ) ? 'is-es' : 'is-en'; ?>" role="switch" aria-checked="<?php echo ( $lang_actual === 'en' ) ? 'true' : 'false'; ?>" aria-label="Cambiar idioma a <?php echo esc_attr( strtoupper( $lang_target ) ); ?>">
+            <span class="lang-thumb"><?php echo esc_html( strtoupper( $lang_actual ) ); ?></span>
+            <span class="lang-inactive"><?php echo esc_html( strtoupper( $lang_target ) ); ?></span>
+          </a>
 
           <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
             <span></span>

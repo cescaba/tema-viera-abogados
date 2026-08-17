@@ -603,11 +603,26 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
       if (logosAnimated) return;
       logosAnimated = true;
-      const wrappers = sectionClientes.querySelectorAll('.cliente-logo-wrapper');
-      wrappers.forEach((wrapper, index) => {
+
+      const wrappers = Array.from(sectionClientes.querySelectorAll('.cliente-logo-wrapper'));
+
+      // Agrupa los logos por fila según su posición vertical.
+      const rows = [];
+      wrappers.forEach((wrapper) => {
+        const top = Math.round(wrapper.offsetTop);
+        let row = rows.find((r) => r.top === top);
+        if (!row) {
+          row = { top, items: [] };
+          rows.push(row);
+        }
+        row.items.push(wrapper);
+      });
+
+      // Anima fila por fila, de arriba hacia abajo.
+      rows.forEach((row, rowIndex) => {
         setTimeout(() => {
-          wrapper.classList.add('is-visible');
-            }, index * 250);
+          row.items.forEach((item) => item.classList.add('is-visible'));
+        }, rowIndex * 320);
       });
     }, 1000);
   }
@@ -675,6 +690,7 @@ document.addEventListener('DOMContentLoaded', function() {
       dot.addEventListener('click', () => {
         currentPage = i;
         updateSliderPosition();
+        startAutoplay();
       });
       
       dotsContainer.appendChild(dot);
@@ -702,6 +718,33 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   renderSlider();
+
+  let autoplay = null;
+  const AUTOPLAY_DELAY = 3500;
+
+  function stopAutoplay() {
+    if (autoplay) {
+      clearInterval(autoplay);
+      autoplay = null;
+    }
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    if (getTotalPages() <= 1) return;
+    autoplay = setInterval(() => {
+      currentPage = (currentPage + 1) % getTotalPages();
+      updateSliderPosition();
+    }, AUTOPLAY_DELAY);
+  }
+
+  startAutoplay();
+
+  const sliderViewport = document.getElementById('equipo-slider-viewport');
+  if (sliderViewport) {
+    sliderViewport.addEventListener('mouseenter', stopAutoplay);
+    sliderViewport.addEventListener('mouseleave', startAutoplay);
+  }
 
   window.addEventListener('resize', () => {
     setTimeout(renderSlider, 100);

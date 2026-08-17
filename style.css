@@ -334,63 +334,52 @@ img {
 }
 
 .lang-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 62px;
+  height: 28px;
+  padding: 3px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.lang-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #0a0a0a;
+  font-size: 11px;
+  font-weight: bold;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  order: 1;
+  transition: order 0.3s ease;
 }
 
-.lang-label {
-  font-size: 13px;
+.lang-inactive {
+  font-size: 11px;
   font-weight: bold;
   color: rgba(255, 255, 255, 0.4);
-  transition: color 0.3s ease;
+  padding: 0 5px;
+  order: 2;
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 
-.lang-label.current {
+.lang-switch:hover .lang-inactive {
   color: #ffffff;
 }
 
-.lang-toggle {
-  position: relative;
-  width: 52px;
-  height: 26px;
-  background-color: rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  padding: 0 3px;
-  justify-content: space-between;
+.lang-switch.is-en .lang-thumb {
+  order: 2;
 }
 
-.flag-circle {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: block;
-  transition: opacity 0.3s ease, filter 0.3s ease;
-}
-
-.flag-circle svg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.flag-circle.active {
-  opacity: 1;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
-}
-
-.flag-circle.inactive {
-  opacity: 0.3;
-  filter: grayscale(60%);
-}
-
-.flag-circle.inactive:hover {
-  opacity: 0.8;
-  filter: grayscale(0%);
+.lang-switch.is-en .lang-inactive {
+  order: 1;
 }
 
 /* ========================================
@@ -1432,28 +1421,21 @@ img {
 
 .cliente-logo-wrapper {
   opacity: 0;
-  transform: translate(-50px, -40px);
+  transform: translateY(40px) scale(0.9);
 }
 
 .cliente-logo-wrapper.is-visible {
-  animation: logoDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation: logoRise 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-@keyframes logoDrop {
+@keyframes logoRise {
   0% {
     opacity: 0;
-    transform: translate(-50px, -40px);
-  }
-  60% {
-    opacity: 1;
-    transform: translate(4px, 4px);
-  }
-  80% {
-    transform: translate(-2px, -2px);
+    transform: translateY(40px) scale(0.9);
   }
   100% {
     opacity: 1;
-    transform: translate(0, 0);
+    transform: translateY(0) scale(1);
   }
 }
 
