@@ -185,7 +185,6 @@ $equipo_grid_desc   = tema_viera_t( get_option( 'tema_viera_abogados_equipo_grid
 $equipo_grid_ids    = get_option( 'tema_viera_abogados_equipo_grid_ids', array() );
 
 if ( ! empty( $equipo_grid_ids ) && is_array( $equipo_grid_ids ) ) {
-	$equipo_grid_ids = array_map( 'tema_viera_post_translated', $equipo_grid_ids );
 	$equipo_grid_query = new WP_Query( array(
 		'post_type'      => 'abogado',
 		'post__in'       => $equipo_grid_ids,
@@ -217,9 +216,9 @@ if ( ! empty( $equipo_grid_ids ) && is_array( $equipo_grid_ids ) ) {
 				<?php while ( $equipo_grid_query->have_posts() ) :
 					$equipo_grid_query->the_post();
 					$post_id        = get_the_ID();
-					$nombre         = get_the_title();
-					$cargo          = tema_viera_get_abogado_meta( $post_id, 'cargo' );
-					$biografia      = tema_viera_get_abogado_meta( $post_id, 'biografia' );
+					$nombre         = tema_viera_abogado_titulo( $post_id );
+					$cargo          = tema_viera_abogado_meta_t( $post_id, 'cargo' );
+					$biografia      = tema_viera_abogado_meta_t( $post_id, 'biografia' );
 					$email          = tema_viera_get_abogado_meta( $post_id, 'email' );
 					$linkedin       = tema_viera_get_abogado_meta( $post_id, 'linkedin' );
 					$img_url        = get_the_post_thumbnail_url( $post_id, 'abogado-grid' );

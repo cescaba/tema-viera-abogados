@@ -19,11 +19,11 @@ if ( have_posts() ) {
 		the_post();
 
 		$post_id      = get_the_ID();
-		$especialidad = tema_viera_get_abogado_meta( $post_id, 'especialidad' );
+		$especialidad = tema_viera_abogado_meta_t( $post_id, 'especialidad' );
 		$email        = tema_viera_get_abogado_meta( $post_id, 'email' );
 		$telefono     = tema_viera_get_abogado_meta( $post_id, 'telefono' );
 		$linkedin     = tema_viera_get_abogado_meta( $post_id, 'linkedin' );
-		$biografia    = tema_viera_get_abogado_meta( $post_id, 'biografia' );
+		$biografia    = tema_viera_abogado_meta_t( $post_id, 'biografia' );
 		?>
 
 		<article class="single-abogado">
@@ -32,7 +32,7 @@ if ( have_posts() ) {
 				<nav style="margin-bottom: var(--spacing-lg); color: var(--color-text-light);">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Inicio', 'tema-viera-abogados' ); ?></a>
 					<span> / </span>
-					<span><?php the_title(); ?></span>
+					<span><?php echo esc_html( tema_viera_abogado_titulo( $post_id ) ); ?></span>
 				</nav>
 
 				<div class="row-2">
@@ -100,7 +100,7 @@ if ( have_posts() ) {
 
 					<!-- Contenido Principal -->
 					<div class="reveal" data-delay="120">
-						<h1><?php the_title(); ?></h1>
+						<h1><?php echo esc_html( tema_viera_abogado_titulo( $post_id ) ); ?></h1>
 
 						<?php if ( $especialidad ) : ?>
 							<p style="color: var(--color-secondary); font-weight: 600; font-size: var(--font-size-lg); margin-bottom: var(--spacing-lg);">

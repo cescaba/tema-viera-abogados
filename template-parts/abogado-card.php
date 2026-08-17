@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $post_id      = get_the_ID();
-$especialidad = tema_viera_get_abogado_meta( $post_id, 'especialidad' );
+$especialidad = tema_viera_abogado_meta_t( $post_id, 'especialidad' );
 ?>
 
 <article class="card reveal">
@@ -30,7 +30,7 @@ $especialidad = tema_viera_get_abogado_meta( $post_id, 'especialidad' );
 	<div class="card-content">
 		<h3 class="card-title">
 			<a href="<?php the_permalink(); ?>">
-				<?php the_title(); ?>
+				<?php echo esc_html( tema_viera_abogado_titulo( $post_id ) ); ?>
 			</a>
 		</h3>
 

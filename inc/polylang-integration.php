@@ -38,6 +38,29 @@ function tema_viera_t( $text ) {
 }
 
 /**
+ * Devuelve el título (nombre) de un abogado traducido al idioma actual.
+ *
+ * @param int $post_id ID del abogado.
+ * @return string
+ */
+function tema_viera_abogado_titulo( $post_id ) {
+	return tema_viera_t( get_the_title( $post_id ) );
+}
+
+/**
+ * Devuelve un campo de texto de un abogado traducido al idioma actual.
+ * (especialidad, cargo, tag/etiqueta, biografía)
+ *
+ * @param int    $post_id ID del abogado.
+ * @param string $field   Nombre del campo (sin prefijo `_abogado_`).
+ * @return string
+ */
+function tema_viera_abogado_meta_t( $post_id, $field ) {
+	$value = get_post_meta( (int) $post_id, '_abogado_' . $field, true );
+	return is_string( $value ) ? tema_viera_t( $value ) : $value;
+}
+
+/**
  * Devuelve el ID del post traducido al idioma actual (o el original si no hay traducción).
  *
  * @param int $post_id ID del post original.
@@ -239,13 +262,50 @@ function tema_viera_register_polylang_strings() {
 add_action( 'init', 'tema_viera_register_polylang_strings', 20 );
 
 /**
- * Registra el CPT "abogado" para que Polylang lo traduzca.
+ * Registra los campos de texto de cada abogado como cadenas de Polylang
+ * (grupo "Abogados") para poder traducirlos sin duplicar el post.
+ *
+ * Solo se registran los abogados en el idioma por defecto; el resto se
+ * ignora para no duplicar cadenas fuente.
  */
-function tema_viera_pll_post_types( $types ) {
-	$types[] = 'abogado';
-	return $types;
+function tema_viera_register_abogado_strings() {
+	if ( ! tema_viera_pll_active() ) {
+		return;
+	}
+
+	$default_lang = function_exists( 'pll_default_language' ) ? pll_default_language() : '';
+
+	$abogados = get_posts( array(
+		'post_type'      => 'abogado',
+		'posts_per_page' => -1,
+		'post_status'    => 'any',
+	) );
+
+	foreach ( $abogados as $abogado ) {
+		$id = (int) $abogado->ID;
+
+		// Solo registra la entrada en el idioma por defecto como fuente.
+		if ( $default_lang && function_exists( 'pll_get_post_language' ) ) {
+			$post_lang = pll_get_post_language( $id );
+			if ( $post_lang && $post_lang !== $default_lang ) {
+				continue;
+			}
+		}
+
+		$fields = array(
+			'Nombre'       => get_the_title( $id ),
+			'Especialidad' => get_post_meta( $id, '_abogado_especialidad', true ),
+			'Cargo'        => get_post_meta( $id, '_abogado_cargo', true ),
+			'Etiqueta'     => get_post_meta( $id, '_abogado_tag', true ),
+			'Biografía'    => get_post_meta( $id, '_abogado_biografia', true ),
+		);
+
+		foreach ( $fields as $label => $value ) {
+			tema_viera_pll_register_string( 'Abogado ' . $id . ' · ' . $label, $value, 'Abogados', ( 'Biografía' === $label ) );
+		}
+	}
 }
-add_filter( 'pll_get_post_types', 'tema_viera_pll_post_types', 10, 1 );
+add_action( 'init', 'tema_viera_register_abogado_strings', 30 );
 
 /**
  * Registra las taxonomías "category" y "post_tag" para Polylang.
@@ -256,62 +316,6 @@ function tema_viera_pll_taxonomies( $taxonomies ) {
 	return $taxonomies;
 }
 add_filter( 'pll_get_taxonomies', 'tema_viera_pll_taxonomies', 10, 1 );
-
-/**
- * Al crear/guardar la traducción de un abogado, copia los campos que no
- * dependen del idioma (email, linkedin y la imagen destacada) desde la
- * entrada fuente cuando el destino los tiene vacíos.
- *
- * Solo rellena campos vacíos, para no pisar lo que el cliente edite a mano.
- *
- * @param int     $post_id      ID del post guardado.
- * @param WP_Post $post         Objeto del post.
- * @param array   $translations Mapa idioma => ID de post traducido.
- */
-function tema_viera_copy_abogado_translation_fields( $post_id, $post, $translations ) {
-	if ( ! isset( $post->post_type ) || 'abogado' !== $post->post_type ) {
-		return;
-	}
-	if ( ! is_array( $translations ) || empty( $translations ) ) {
-		return;
-	}
-
-	// Busca un post hermano (en otro idioma) como fuente de datos.
-	$source_id = 0;
-	foreach ( $translations as $tid ) {
-		$tid = (int) $tid;
-		if ( $tid && $tid !== (int) $post_id ) {
-			$source_id = $tid;
-			break;
-		}
-	}
-	if ( ! $source_id ) {
-		return;
-	}
-
-	$meta_fields = array(
-		'_abogado_email',
-		'_abogado_linkedin',
-	);
-
-	foreach ( $meta_fields as $meta_key ) {
-		if ( '' === get_post_meta( $post_id, $meta_key, true ) ) {
-			$value = get_post_meta( $source_id, $meta_key, true );
-			if ( '' !== $value ) {
-				update_post_meta( $post_id, $meta_key, $value );
-			}
-		}
-	}
-
-	// Imagen destacada (solo si el destino no tiene una).
-	if ( ! has_post_thumbnail( $post_id ) ) {
-		$thumb_id = get_post_thumbnail_id( $source_id );
-		if ( $thumb_id ) {
-			set_post_thumbnail( $post_id, $thumb_id );
-		}
-	}
-}
-add_action( 'pll_save_post', 'tema_viera_copy_abogado_translation_fields', 20, 3 );
 
 /**
  * Imprime un botón "Traducir al inglés →" que enlaza a la pantalla de

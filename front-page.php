@@ -330,18 +330,15 @@ $equipo_enlace_url = get_option( 'tema_viera_abogados_equipo_enlace_url', '' );
 $fundador_post_id     = get_option( 'tema_viera_abogados_fundador_post_id', '' );
 $equipo_seleccionados = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );
 
-// Resolver el post traducido al idioma actual para fundador y equipo.
-$fundador_render_id = tema_viera_post_translated( $fundador_post_id );
-
 // Obtener datos del fundador desde el CPT o fallback a opciones legacy
-if ( $fundador_render_id && get_post( $fundador_render_id ) ) {
-	$fundador_img_url  = get_the_post_thumbnail_url( $fundador_render_id, 'medium_large' );
-	$fundador_tag      = tema_viera_get_abogado_meta( $fundador_render_id, 'tag' );
+if ( $fundador_post_id && get_post( $fundador_post_id ) ) {
+	$fundador_img_url  = get_the_post_thumbnail_url( $fundador_post_id, 'medium_large' );
+	$fundador_tag      = tema_viera_abogado_meta_t( $fundador_post_id, 'tag' );
 	$fundador_tag      = $fundador_tag ?: tema_viera_t( 'FUNDADOR' );
-	$fundador_nombre   = get_the_title( $fundador_render_id );
-	$fundador_cargo    = tema_viera_get_abogado_meta( $fundador_render_id, 'cargo' );
-	$fundador_bio      = tema_viera_get_abogado_meta( $fundador_render_id, 'biografia' );
-	$fundador_linkedin = tema_viera_get_abogado_meta( $fundador_render_id, 'linkedin' );
+	$fundador_nombre   = tema_viera_abogado_titulo( $fundador_post_id );
+	$fundador_cargo    = tema_viera_abogado_meta_t( $fundador_post_id, 'cargo' );
+	$fundador_bio      = tema_viera_abogado_meta_t( $fundador_post_id, 'biografia' );
+	$fundador_linkedin = tema_viera_get_abogado_meta( $fundador_post_id, 'linkedin' );
 } else {
 	// Fallback legacy
 	$fundador_img_id   = get_option( 'tema_viera_abogados_fundador_img', '' );
@@ -360,15 +357,14 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
 		if ( $post_id == $fundador_post_id || ! get_post( $post_id ) ) {
 			continue;
 		}
-		$render_id = tema_viera_post_translated( $post_id );
-		$img_id = get_post_thumbnail_id( $render_id );
+		$img_id = get_post_thumbnail_id( $post_id );
 		$equipo_items[] = array(
 			'imagen'      => $img_id ? $img_id : 0,
-			'nombre'      => get_the_title( $render_id ),
-			'cargo'       => tema_viera_get_abogado_meta( $render_id, 'cargo' ),
-			'descripcion' => tema_viera_get_abogado_meta( $render_id, 'biografia' ),
-			'email'       => tema_viera_get_abogado_meta( $render_id, 'email' ),
-			'linkedin'    => tema_viera_get_abogado_meta( $render_id, 'linkedin' ),
+			'nombre'      => tema_viera_abogado_titulo( $post_id ),
+			'cargo'       => tema_viera_abogado_meta_t( $post_id, 'cargo' ),
+			'descripcion' => tema_viera_abogado_meta_t( $post_id, 'biografia' ),
+			'email'       => tema_viera_get_abogado_meta( $post_id, 'email' ),
+			'linkedin'    => tema_viera_get_abogado_meta( $post_id, 'linkedin' ),
 		);
 	}
 } else {
