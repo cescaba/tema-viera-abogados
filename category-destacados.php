@@ -64,7 +64,7 @@ get_header();
 
 						<h2 style="font-family:var(--font-main); font-size:18px; color:var(--color-primary); margin:0 0 12px 0; line-height:1.4;">
 							<a href="<?php the_permalink(); ?>" style="text-decoration:none; color:inherit;">
-								<?php the_title(); ?>
+								<?php echo esc_html( tema_viera_post_titulo( get_the_ID() ) ); ?>
 							</a>
 						</h2>
 

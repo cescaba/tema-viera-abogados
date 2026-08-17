@@ -19,8 +19,8 @@ if ( have_posts() ) :
 		the_post();
 
 		$post_id        = get_the_ID();
-		$subtitulo      = get_post_meta( $post_id, '_post_subtitulo', true );
-		$area_practica  = get_post_meta( $post_id, '_post_area_practica', true );
+		$subtitulo      = tema_viera_post_meta_t( $post_id, '_post_subtitulo' );
+		$area_practica  = tema_viera_post_meta_t( $post_id, '_post_area_practica' );
 		$bg_img_url     = has_post_thumbnail() ? get_the_post_thumbnail_url( $post_id, 'full' ) : '';
 		?>
 
@@ -47,7 +47,7 @@ if ( have_posts() ) :
 							<span class="hero-overline"><?php echo esc_html( $subtitulo ); ?></span>
 						<?php endif; ?>
 
-						<h1 class="hero-title"><?php the_title(); ?></h1>
+						<h1 class="hero-title"><?php echo esc_html( tema_viera_post_titulo( $post_id ) ); ?></h1>
 
 						<div class="hero-subtitle-wrapper">
 							<hr class="hero-divider">
@@ -79,7 +79,7 @@ if ( have_posts() ) :
 			<section style="padding:80px 0; background:var(--color-white);">
 				<div class="container" style="max-width:800px; margin:0 auto;">
 					<div class="section-content reveal" style="font-size:16px; line-height:1.8; color:var(--color-text, #333);">
-						<?php the_content(); ?>
+						<?php echo apply_filters( 'the_content', tema_viera_post_contenido_t( $post_id ) ); ?>
 					</div>
 
 					<div style="margin-top:60px; padding-top:30px; border-top:1px solid var(--color-border, #e0e0e0); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">

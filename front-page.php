@@ -600,21 +600,21 @@ $bloques_noticias = array_chunk( $noticias_query->posts, 5 );
             <?php foreach ( $bloque as $post_item ) : 
               $img_url   = get_the_post_thumbnail_url( $post_item->ID, 'medium_large' );
               $enlace    = get_permalink( $post_item->ID );
-              $subtitulo = get_post_meta( $post_item->ID, '_post_subtitulo', true );
+              $subtitulo = tema_viera_post_meta_t( $post_item->ID, '_post_subtitulo' );
             ?>
               <a href="<?php echo esc_url( $enlace ); ?>" class="noticia-card">
                 
                 <div class="noticia-img-wrap">
                   <?php if ( $img_url ) : ?>
-                    <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( get_the_title( $post_item->ID ) ); ?>">
+                    <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( tema_viera_post_titulo( $post_item->ID ) ); ?>">
                   <?php endif; ?>
                   <div class="noticia-overlay-color"></div>
                   <div class="noticia-overlay-gradient"></div>
                 </div>
 
                 <div class="noticia-content">
-                  <span class="noticia-categoria"><?php echo esc_html( $subtitulo ?: get_the_title( $post_item->ID ) ); ?></span>
-                  <h3 class="noticia-title"><?php echo esc_html( get_the_title( $post_item->ID ) ); ?></h3>
+                  <span class="noticia-categoria"><?php echo esc_html( $subtitulo ?: tema_viera_post_titulo( $post_item->ID ) ); ?></span>
+                  <h3 class="noticia-title"><?php echo esc_html( tema_viera_post_titulo( $post_item->ID ) ); ?></h3>
                 </div>
 
               </a>

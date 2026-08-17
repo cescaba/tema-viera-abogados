@@ -66,6 +66,12 @@ function tema_viera_render_post_metabox( $post ) {
 			<?php esc_html_e( 'Clasificación del caso o noticia.', 'tema-viera-abogados' ); ?>
 		</div>
 	</div>
+
+	<?php if ( function_exists( 'pll_register_string' ) && function_exists( 'tema_viera_post_translation_group' ) ) : ?>
+		<div class="tema-viera-post-field" style="border-top: 1px solid #eee; padding-top: 15px;">
+			<?php tema_viera_translation_button( tema_viera_post_translation_group( $post->ID ) ); ?>
+		</div>
+	<?php endif; ?>
 	<?php
 }
 
@@ -92,3 +98,47 @@ function tema_viera_save_post_metabox( $post_id ) {
 	}
 }
 add_action( 'save_post', 'tema_viera_save_post_metabox' );
+
+/**
+ * Columna "Traducción" en el listado de entradas.
+ */
+function tema_viera_posts_admin_columns( $columns ) {
+	$columns['traduccion'] = esc_html__( 'Traducción', 'tema-viera-abogados' );
+	return $columns;
+}
+add_filter( 'manage_post_posts_columns', 'tema_viera_posts_admin_columns' );
+
+/**
+ * Contenido de la columna "Traducción" en el listado de entradas.
+ */
+function tema_viera_posts_admin_columns_content( $column, $post_id ) {
+	if ( 'traduccion' !== $column ) {
+		return;
+	}
+	if ( ! function_exists( 'tema_viera_post_translation_status' ) ) {
+		echo '-';
+		return;
+	}
+	$status = tema_viera_post_translation_status( $post_id );
+	if ( null === $status ) {
+		echo '-';
+		return;
+	}
+
+	$enlace = function_exists( 'tema_viera_post_translation_url' )
+		? tema_viera_post_translation_url( $post_id )
+		: '';
+	if ( $enlace ) {
+		echo '<a href="' . esc_url( $enlace ) . '">' . esc_html__( 'Traducir', 'tema-viera-abogados' ) . '</a> ';
+	}
+
+	if ( $status['total'] > 0 ) {
+		$completo = ( $status['done'] >= $status['total'] );
+		echo '<span style="color:' . ( $completo ? '#46b450' : '#dba617' ) . ';">'
+			. esc_html( $status['done'] . '/' . $status['total'] )
+			. '</span>';
+	} else {
+		echo '-';
+	}
+}
+add_action( 'manage_posts_custom_column', 'tema_viera_posts_admin_columns_content', 10, 2 );

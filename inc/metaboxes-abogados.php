@@ -215,6 +215,11 @@ function tema_viera_render_abogado_metabox( $post ) {
 		<?php if ( function_exists( 'pll_register_string' ) && function_exists( 'tema_viera_abogado_translation_group' ) ) : ?>
 			<div class="mi-tema-abogado-field" style="border-top: 1px solid #eee; padding-top: 15px;">
 				<?php tema_viera_translation_button( tema_viera_abogado_translation_group( $post->ID ) ); ?>
+				<p style="margin: 12px 0 0;">
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=mlang_strings&group=' . rawurlencode( 'Abogados · Términos' ) ) ); ?>">
+						<?php esc_html_e( 'Traducir términos comunes (cargo / etiqueta / especialidad) →', 'tema-viera-abogados' ); ?>
+					</a>
+				</p>
 			</div>
 		<?php endif; ?>
 	</div>

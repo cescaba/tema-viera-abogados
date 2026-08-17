@@ -128,6 +128,101 @@ function tema_viera_abogado_translation_status( $post_id ) {
 }
 
 /**
+ * Devuelve el título de una noticia (post) traducido al idioma actual.
+ *
+ * @param int $post_id ID del post.
+ * @return string
+ */
+function tema_viera_post_titulo( $post_id ) {
+	return tema_viera_t( get_the_title( $post_id ) );
+}
+
+/**
+ * Devuelve el contenido de una noticia (post) traducido al idioma actual.
+ *
+ * @param int $post_id ID del post.
+ * @return string
+ */
+function tema_viera_post_contenido_t( $post_id ) {
+	return tema_viera_t( get_post_field( 'post_content', $post_id ) );
+}
+
+/**
+ * Devuelve un meta de una noticia (post) traducido al idioma actual.
+ *
+ * @param int    $post_id ID del post.
+ * @param string $field   Nombre completo del meta (ej: `_post_subtitulo`).
+ * @return string
+ */
+function tema_viera_post_meta_t( $post_id, $field ) {
+	$value = get_post_meta( (int) $post_id, $field, true );
+	return is_string( $value ) ? tema_viera_t( $value ) : $value;
+}
+
+/**
+ * Grupo de cadenas de Polylang para una noticia (uno por noticia).
+ *
+ * @param int $post_id ID del post.
+ * @return string
+ */
+function tema_viera_post_translation_group( $post_id ) {
+	return 'Noticias · ' . get_the_title( $post_id );
+}
+
+/**
+ * URL directa a la pantalla de traducciones de cadenas filtrada por noticia.
+ *
+ * @param int $post_id ID del post.
+ * @return string
+ */
+function tema_viera_post_translation_url( $post_id ) {
+	return admin_url( 'admin.php?page=mlang_strings&group=' . rawurlencode( tema_viera_post_translation_group( $post_id ) ) );
+}
+
+/**
+ * Estado de traducción de una noticia: campos traducibles y ya traducidos.
+ *
+ * @param int $post_id ID del post.
+ * @return array|null
+ */
+function tema_viera_post_translation_status( $post_id ) {
+	if ( ! function_exists( 'pll_languages_list' ) || ! function_exists( 'pll_default_language' ) || ! function_exists( 'pll_translate_string' ) ) {
+		return null;
+	}
+
+	$default = pll_default_language();
+	$langs   = pll_languages_list( array( 'fields' => 'slug' ) );
+	$targets = array_values( array_diff( (array) $langs, array( $default ) ) );
+	if ( empty( $targets ) ) {
+		return null;
+	}
+	$target = $targets[0];
+
+	$sources = array(
+		get_the_title( $post_id ),
+		get_post_meta( $post_id, '_post_subtitulo', true ),
+		get_post_meta( $post_id, '_post_area_practica', true ),
+		get_post_field( 'post_content', $post_id ),
+	);
+
+	$total = 0;
+	$done  = 0;
+	foreach ( $sources as $src ) {
+		$src = (string) $src;
+		if ( '' === trim( $src ) ) {
+			continue;
+		}
+		$total++;
+		$tr = pll_translate_string( $src, $target );
+		if ( is_string( $tr ) && $tr !== $src ) {
+			$done++;
+		}
+	}
+
+	return array( 'done' => $done, 'total' => $total, 'target' => $target );
+}
+
+/**
  * Devuelve el ID del post traducido al idioma actual (o el original si no hay traducción).
  *
  * @param int $post_id ID del post original.
@@ -348,6 +443,11 @@ function tema_viera_register_abogado_strings() {
 		'post_status'    => 'any',
 	) );
 
+	// Términos compartidos: se registran una sola vez (sin duplicados).
+	$cargos         = array();
+	$etiquetas      = array();
+	$especialidades = array();
+
 	foreach ( $abogados as $abogado ) {
 		$id = (int) $abogado->ID;
 
@@ -359,28 +459,91 @@ function tema_viera_register_abogado_strings() {
 			}
 		}
 
-		$fields = array(
-			'Nombre'       => get_the_title( $id ),
-			'Especialidad' => get_post_meta( $id, '_abogado_especialidad', true ),
-			'Cargo'        => get_post_meta( $id, '_abogado_cargo', true ),
-			'Etiqueta'     => get_post_meta( $id, '_abogado_tag', true ),
-			'Biografía'    => get_post_meta( $id, '_abogado_biografia', true ),
-		);
-		$group = tema_viera_abogado_translation_group( $id );
+		// Únicos por abogado → grupo del abogado.
+		tema_viera_pll_register_string( 'Abogado ' . $id . ' · Nombre', get_the_title( $id ), tema_viera_abogado_translation_group( $id ) );
+		tema_viera_pll_register_string( 'Abogado ' . $id . ' · Biografía', get_post_meta( $id, '_abogado_biografia', true ), tema_viera_abogado_translation_group( $id ), true );
 
-		foreach ( $fields as $label => $value ) {
-			tema_viera_pll_register_string( 'Abogado ' . $id . ' · ' . $label, $value, $group, ( 'Biografía' === $label ) );
-		}
+		// Compartidos → se recogen para registrarlos una sola vez.
+		$cargo        = trim( (string) get_post_meta( $id, '_abogado_cargo', true ) );
+		$tag          = trim( (string) get_post_meta( $id, '_abogado_tag', true ) );
+		$especialidad = trim( (string) get_post_meta( $id, '_abogado_especialidad', true ) );
+
+		if ( '' !== $cargo )        { $cargos[ $cargo ]         = true; }
+		if ( '' !== $tag )          { $etiquetas[ $tag ]        = true; }
+		if ( '' !== $especialidad ) { $especialidades[ $especialidad ] = true; }
+	}
+
+	foreach ( array_keys( $cargos ) as $cargo ) {
+		tema_viera_pll_register_string( 'Cargo · ' . $cargo, $cargo, 'Abogados · Términos' );
+	}
+	foreach ( array_keys( $etiquetas ) as $tag ) {
+		tema_viera_pll_register_string( 'Etiqueta · ' . $tag, $tag, 'Abogados · Términos' );
+	}
+	foreach ( array_keys( $especialidades ) as $esp ) {
+		tema_viera_pll_register_string( 'Especialidad · ' . $esp, $esp, 'Abogados · Términos' );
 	}
 }
 add_action( 'init', 'tema_viera_register_abogado_strings', 30 );
 
 /**
- * Registra las taxonomías "category" y "post_tag" para Polylang.
+ * Registra los campos de texto de cada noticia (post) como cadenas de
+ * Polylang (grupo "Noticias · {título}") para traducirlas sin duplicar el post.
+ *
+ * Solo se registran las noticias en el idioma por defecto como fuente.
+ */
+function tema_viera_register_post_strings() {
+	if ( ! tema_viera_pll_active() ) {
+		return;
+	}
+
+	$default_lang = function_exists( 'pll_default_language' ) ? pll_default_language() : '';
+
+	$posts = get_posts( array(
+		'post_type'      => 'post',
+		'posts_per_page' => -1,
+		'post_status'    => 'any',
+	) );
+
+	foreach ( $posts as $p ) {
+		$id = (int) $p->ID;
+
+		if ( $default_lang && function_exists( 'pll_get_post_language' ) ) {
+			$post_lang = pll_get_post_language( $id );
+			if ( $post_lang && $post_lang !== $default_lang ) {
+				continue;
+			}
+		}
+
+		$fields = array(
+			'Título'           => get_the_title( $id ),
+			'Subtítulo'        => get_post_meta( $id, '_post_subtitulo', true ),
+			'Área de práctica' => get_post_meta( $id, '_post_area_practica', true ),
+			'Contenido'        => get_post_field( 'post_content', $id ),
+		);
+		$group = tema_viera_post_translation_group( $id );
+
+		foreach ( $fields as $label => $value ) {
+			tema_viera_pll_register_string( 'Noticia ' . $id . ' · ' . $label, $value, $group, ( 'Contenido' === $label ) );
+		}
+	}
+}
+add_action( 'init', 'tema_viera_register_post_strings', 30 );
+
+/**
+ * Evita que Polylang traduzca las entradas (post) creando copias por idioma;
+ * ahora sus textos se traducen como cadenas.
+ */
+function tema_viera_pll_post_types( $types ) {
+	$types = array_values( array_diff( (array) $types, array( 'post' ) ) );
+	return $types;
+}
+add_filter( 'pll_get_post_types', 'tema_viera_pll_post_types', 10, 1 );
+
+/**
+ * Evita que Polylang traduzca categorías y etiquetas (una sola "Destacados").
  */
 function tema_viera_pll_taxonomies( $taxonomies ) {
-	$taxonomies[] = 'category';
-	$taxonomies[] = 'post_tag';
+	$taxonomies = array_values( array_diff( (array) $taxonomies, array( 'category', 'post_tag' ) ) );
 	return $taxonomies;
 }
 add_filter( 'pll_get_taxonomies', 'tema_viera_pll_taxonomies', 10, 1 );
