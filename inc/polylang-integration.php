@@ -355,14 +355,6 @@ function tema_viera_register_polylang_strings() {
 			$n = $i + 1;
 			tema_viera_pll_register_string( 'Servicio ' . $n . ' · Título', isset( $servicio['titulo'] ) ? $servicio['titulo'] : '', 'Landing' );
 			tema_viera_pll_register_string( 'Servicio ' . $n . ' · Descripción', isset( $servicio['descripcion'] ) ? $servicio['descripcion'] : '', 'Landing', true );
-
-			$detalles = isset( $servicio['detalles'] ) ? $servicio['detalles'] : array();
-			if ( ! is_array( $detalles ) ) {
-				$detalles = explode( "\n", (string) $detalles );
-			}
-			foreach ( $detalles as $detalle ) {
-				tema_viera_pll_register_string( 'Servicio ' . $n . ' · Detalle', trim( (string) $detalle ), 'Landing' );
-			}
 		}
 	}
 

@@ -942,10 +942,6 @@ function tema_viera_opciones_landing_page() {
 						<label>Descripcion</label>
 						<textarea name="servicios[${servicioIndex}][descripcion]" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"></textarea>
 					</div>
-					<div>
-						<label>Detalles (uno por lÃ­nea. Usa **texto** para negrita)</label>
-						<textarea name="servicios[${servicioIndex}][detalles]" placeholder="Un elemento por linea para los bullet points" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"></textarea>
-					</div>
 				</div>
 			`;
 			container.insertAdjacentHTML('beforeend', html);
@@ -1297,7 +1293,6 @@ function tema_viera_opciones_landing_page() {
 function tema_viera_render_servicio_item( $index, $servicio ) {
 	$titulo      = isset( $servicio['titulo'] ) ? $servicio['titulo'] : '';
 	$descripcion = isset( $servicio['descripcion'] ) ? $servicio['descripcion'] : '';
-	$detalles    = isset( $servicio['detalles'] ) ? $servicio['detalles'] : '';
 	?>
 	<div class="mi-tema-servicio-item" data-index="<?php echo esc_attr( $index ); ?>">
 		<button type="button" class="btn-remove-servicio" onclick="removeServicio(<?php echo esc_attr( $index ); ?>)">
@@ -1310,10 +1305,6 @@ function tema_viera_render_servicio_item( $index, $servicio ) {
 		<div style="margin-bottom: 10px;">
 			<label><?php esc_html_e( 'DescripciÃ³n', 'tema-viera-abogados' ); ?></label>
 			<textarea name="servicios[<?php echo esc_attr( $index ); ?>][descripcion]" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"><?php echo esc_textarea( $descripcion ); ?></textarea>
-		</div>
-		<div>
-			<label><?php esc_html_e( 'Detalles (uno por lÃ­nea. Usa **texto** para negrita)', 'tema-viera-abogados' ); ?></label>
-			<textarea name="servicios[<?php echo esc_attr( $index ); ?>][detalles]" placeholder="Un elemento por lÃ­nea para los bullet points" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"><?php echo esc_textarea( $detalles ); ?></textarea>
 		</div>
 	</div>
 	<?php
@@ -1410,7 +1401,6 @@ function tema_viera_procesar_opciones_landing() {
 		$servicios_items[] = array(
 			'titulo'      => sanitize_text_field( $servicio['titulo'] ),
 			'descripcion' => wp_kses_post( $servicio['descripcion'] ),
-			'detalles'    => isset( $servicio['detalles'] ) ? sanitize_textarea_field( $servicio['detalles'] ) : '',
 		);
 		}
 		update_option( 'tema_viera_abogados_servicios_items', $servicios_items );

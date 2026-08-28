@@ -42,23 +42,20 @@ $contacto_direccion    = tema_viera_t( get_option( 'tema_viera_abogados_contacto
 $contacto_telefono     = get_option( 'tema_viera_abogados_contacto_telefono', '' );
 $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
 ?>
-
-<section class="hero-viera" <?php echo $hero_imagen_url ? 'style="background: linear-gradient(90deg, rgba(7, 17, 44, 0.89) 31.45%, rgba(7, 17, 44, 0) 55.01%), url(\'' . esc_url( $hero_imagen_url ) . '\'); background-size: cover; background-position: center; background-repeat: no-repeat;"' : 'style="background: linear-gradient(90deg, rgba(7, 17, 44, 0.89) 31.45%, rgba(7, 17, 44, 0) 55.01%);"'; ?>>
+<section class="hero-viera" <?php echo $hero_imagen_url ? 'style="background-image: url(\'' . esc_url( $hero_imagen_url ) . '\');"' : ''; ?>>
   
-  <div class="hero-overlay"></div>
-
   <div class="container hero-container">
     <div class="hero-content-box reveal">
       
-      <?php if ( $hero_overline ) : ?>
+      <?php if ( ! empty( $hero_overline ) ) : ?>
         <span class="hero-overline"><?php echo esc_html( $hero_overline ); ?></span>
       <?php endif; ?>
 
-      <?php if ( $hero_titulo ) : ?>
+      <?php if ( ! empty( $hero_titulo ) ) : ?>
         <h1 class="hero-title"><?php echo esc_html( $hero_titulo ); ?></h1>
       <?php endif; ?>
 
-      <?php if ( $hero_subtitulo ) : ?>
+      <?php if ( ! empty( $hero_subtitulo ) ) : ?>
         <div class="hero-subtitle-wrapper">
           <hr class="hero-divider">
           <p class="hero-subtitle"><?php echo wp_kses_post( $hero_subtitulo ); ?></p>
@@ -66,20 +63,20 @@ $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
       <?php endif; ?>
 
       <div class="hero-buttons">
-        <?php if ( $hero_btn1_texto ) : ?>
-          <a href="#servicios" class="btn-solid-white">
-            <?php echo esc_html( $hero_btn1_texto ); ?> 
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink: 0;">
-            <path d="M4.875 9.75L8.125 6.5L4.875 3.25" stroke="currentColor" stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round"/>
+        <?php if ( ! empty( $hero_btn1_texto ) ) : ?>
+          <a href="#servicios" class="btn-hero btn-solid-white">
+            <span><?php echo esc_html( $hero_btn1_texto ); ?></span>
+            <svg class="btn-arrow-desktop" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 13 13" fill="none">
+              <path d="M4.875 9.75L8.125 6.5L4.875 3.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
         <?php endif; ?>
 
-        <?php if ( $hero_btn2_texto ) : ?>
-          <a href="#contacto" class="btn-outline-white">
-            <?php echo esc_html( $hero_btn2_texto ); ?>
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink: 0;">
-            <path d="M4.875 9.75L8.125 6.5L4.875 3.25" stroke="currentColor" stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round"/>
+        <?php if ( ! empty( $hero_btn2_texto ) ) : ?>
+          <a href="#contacto" class="btn-hero btn-outline-white">
+            <span><?php echo esc_html( $hero_btn2_texto ); ?></span>
+            <svg class="btn-arrow-desktop" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 13 13" fill="none">
+              <path d="M4.875 9.75L8.125 6.5L4.875 3.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
         <?php endif; ?>
@@ -88,36 +85,53 @@ $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
     </div>
   </div>
 
+  <?php if ( ! empty( $awards_logos_ids ) && is_array( $awards_logos_ids ) ) : ?>
+    <!-- Barra inferior dentro del hero en Desktop -->
+    <div class="awards-desktop-bar">
+      <div class="awards-desktop-inner">
+        <div class="awards-desktop-header">
+          <span class="awards-bar-pretitle"><?php echo esc_html( tema_viera_t( 'RECONOCIMIENTOS' ) ); ?></span>
+          <strong class="awards-bar-title"><?php echo esc_html( tema_viera_t( 'INTERNACIONALES:' ) ); ?></strong>
+        </div>
+        
+        <div class="awards-desktop-logos">
+          <?php foreach ( $awards_logos_ids as $logo_id ) : 
+              $logo_url = wp_get_attachment_url( $logo_id );
+              if ( $logo_url ) :
+          ?>
+            <div class="award-desktop-item">
+              <img src="<?php echo esc_url( $logo_url ); ?>" alt="Reconocimiento Internacional">
+            </div>
+          <?php 
+              endif;
+          endforeach; ?>
+        </div>
+      </div>
+    </div>
+  <?php endif; ?>
+
 </section>
 
 <?php if ( ! empty( $awards_logos_ids ) && is_array( $awards_logos_ids ) ) : ?>
-<section class="awards-section">
-  <div class="awards-banner reveal">
-    <div class="awards-header">
-      <span class="awards-pretitle"><?php echo esc_html( tema_viera_t( 'RECONOCIMIENTOS' ) ); ?></span>
-      <h3 class="awards-title"><?php echo esc_html( tema_viera_t( 'INTERNACIONALES' ) ); ?></h3>
-    </div>
-    
-    <div class="awards-slider-wrapper">
-      <div class="awards-track" id="awards-track">
+  <!-- Sección de premios para Mobile (debajo del hero) -->
+  <section class="awards-mobile-section">
+    <div class="container">
+      <h3 class="awards-mobile-title"><?php echo esc_html( tema_viera_t( 'RECONOCIMIENTOS INTERNACIONALES' ) ); ?></h3>
+      
+      <div class="awards-mobile-grid">
         <?php foreach ( $awards_logos_ids as $logo_id ) : 
             $logo_url = wp_get_attachment_url( $logo_id );
             if ( $logo_url ) :
         ?>
-            <div class="award-item">
-              <img src="<?php echo esc_url( $logo_url ); ?>" alt="Reconocimiento Internacional">
-            </div>
+          <div class="award-mobile-card">
+            <img src="<?php echo esc_url( $logo_url ); ?>" alt="Reconocimiento Internacional">
+          </div>
         <?php 
             endif;
         endforeach; ?>
       </div>
     </div>
-
-    <button class="awards-next-btn" id="awards-next-btn" aria-label="Siguientes reconocimientos">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button>
-  </div>
-</section>
+  </section>
 <?php endif; ?>
 
 <?php
@@ -140,16 +154,10 @@ $texto_animado_2 = tema_viera_t( get_option( 'tema_viera_abogados_texto_animado_
           
           <div class="servicios-grid" id="servicios-grid">
             <?php foreach ( $servicios_items as $index => $servicio ) : 
-              $detalles = isset($servicio['detalles']) ? (is_array($servicio['detalles']) ? $servicio['detalles'] : explode("\n", $servicio['detalles'])) : array();
-              $detalles = array_map( 'tema_viera_t', $detalles );
               $serv_titulo = tema_viera_t( $servicio['titulo'] ?? '' );
               $serv_desc   = tema_viera_t( $servicio['descripcion'] ?? '' );
             ?>
-              <div class="service-card-viera" 
-                   data-index="<?php echo esc_attr( $index ); ?>"
-                   data-titulo="<?php echo esc_attr( $serv_titulo ); ?>"
-                   data-descripcion="<?php echo esc_attr( $serv_desc ); ?>"
-                   data-detalles='<?php echo esc_attr( json_encode( $detalles ) ); ?>'>
+              <div class="service-card-viera">
                 <div class="service-content">
                   <?php if ( ! empty( $serv_titulo ) ) : ?>
                     <h3 class="service-title"><?php echo esc_html( $serv_titulo ); ?></h3>
@@ -159,36 +167,8 @@ $texto_animado_2 = tema_viera_t( get_option( 'tema_viera_abogados_texto_animado_
                     <p class="service-description"><?php echo wp_kses_post( $serv_desc ); ?></p>
                   <?php endif; ?>
                 </div>
-                <button class="btn-ver-mas" data-action="expand"><?php echo esc_html( tema_viera_t( 'VER MÁS' ) ); ?> <svg xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10" fill="none"><path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               </div>
             <?php endforeach; ?>
-          </div>
-
-          <div class="servicios-expanded-view" id="servicios-expanded-view" style="display: none;">
-            
-            <div class="expanded-main-panel">
-              <div class="expanded-text-side">
-                <h3 class="expanded-title" id="expanded-title"></h3>
-                <p class="expanded-description" id="expanded-description"></p>
-                <button class="btn-ocultar" id="btn-ocultar"><?php echo esc_html( tema_viera_t( 'OCULTAR' ) ); ?> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              </div>
-              <div class="expanded-list-side" id="expanded-list-side">
-              </div>
-            </div>
-
-            <div class="next-preview-wrapper">
-              <div class="expanded-next-preview" id="expanded-next-preview" data-next-index="">
-                <div class="preview-content">
-                  <h4 class="preview-title" id="preview-title"></h4>
-                  <p class="preview-description" id="preview-description-text"></p>
-                  <span class="preview-link"><?php echo esc_html( tema_viera_t( 'VER MÁS' ) ); ?> ∨</span>
-                </div>
-              </div>
-              <button class="btn-next-arrow" id="btn-next-arrow" aria-label="Siguiente servicio">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </button>
-            </div>
-
           </div>
 
         </div>
