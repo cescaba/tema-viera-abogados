@@ -360,6 +360,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
       <?php if ( $equipo_enlace_txt ) : ?>
         <a href="<?php echo esc_url( $equipo_enlace_url ?: tema_viera_equipo_url() ); ?>" class="equipo-enlace">
           <?php echo esc_html( $equipo_enlace_txt ); ?>
+          <svg class="equipo-enlace-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true"><path d="M13.7437 4.59388L10.6436 7.69406C10.4727 7.86493 10.2488 7.95035 10.0248 7.95035C9.80088 7.95035 9.57696 7.86493 9.40609 7.69406C9.0644 7.35234 9.0644 6.79833 9.40609 6.45662L11.0126 4.85017H0.875C0.391754 4.85017 0 4.45842 0 3.97517C0 3.49193 0.391754 3.10017 0.875 3.10017H11.0126L9.40609 1.49373C9.0644 1.15201 9.0644 0.598001 9.40609 0.256286C9.74783 -0.0854287 10.3018 -0.0854287 10.6436 0.256286L13.7437 3.35647C14.0854 3.69815 14.0854 4.25219 13.7437 4.59388Z" fill="currentColor"/></svg>
         </a>
       <?php endif; ?>
     </div>
@@ -378,7 +379,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
             <?php echo wp_kses_post( $fundador_bio ); ?>
           </div>
           <a href="<?php echo esc_url( $fundador_linkedin ?: '#' ); ?>" target="_blank" class="linkedin-btn dark" aria-label="LinkedIn">
-            in
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 32" fill="none" aria-hidden="true"><path d="M6.48515 27.557H0.478505V9.16008H6.48515V27.557ZM3.47859 6.65057C1.55786 6.65057 -6.10352e-05 5.13748 -6.10352e-05 3.3107C-6.10214e-05 2.43323 0.366439 1.5917 1.01881 0.971235C1.67119 0.35077 2.556 0.00219727 3.47859 0.00219727C4.40119 0.00219727 5.286 0.35077 5.93837 0.971235C6.59075 1.5917 6.95725 2.43323 6.95725 3.3107C6.95725 5.13748 5.39868 6.65057 3.47859 6.65057ZM28.9661 27.557H22.9724V18.6015C22.9724 16.4672 22.9271 13.7301 19.8494 13.7301C16.7264 13.7301 16.2479 16.0489 16.2479 18.4477V27.557H10.2477V9.16008H16.0086V11.6696H16.0927C16.8946 10.2242 18.8535 8.69877 21.776 8.69877C27.855 8.69877 28.9726 12.5061 28.9726 17.4513V27.557H28.9661Z" fill="currentColor"/></svg>
           </a>
         </div>
       </div>
@@ -410,7 +411,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
                     <?php endif; ?>
 
                     <a href="<?php echo esc_url( !empty($miembro['linkedin']) ? $miembro['linkedin'] : '#' ); ?>" target="_blank" class="linkedin-btn light" aria-label="LinkedIn">
-                      in
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 32" fill="none" aria-hidden="true"><path d="M6.48515 27.557H0.478505V9.16008H6.48515V27.557ZM3.47859 6.65057C1.55786 6.65057 -6.10352e-05 5.13748 -6.10352e-05 3.3107C-6.10214e-05 2.43323 0.366439 1.5917 1.01881 0.971235C1.67119 0.35077 2.556 0.00219727 3.47859 0.00219727C4.40119 0.00219727 5.286 0.35077 5.93837 0.971235C6.59075 1.5917 6.95725 2.43323 6.95725 3.3107C6.95725 5.13748 5.39868 6.65057 3.47859 6.65057ZM28.9661 27.557H22.9724V18.6015C22.9724 16.4672 22.9271 13.7301 19.8494 13.7301C16.7264 13.7301 16.2479 16.0489 16.2479 18.4477V27.557H10.2477V9.16008H16.0086V11.6696H16.0927C16.8946 10.2242 18.8535 8.69877 21.776 8.69877C27.855 8.69877 28.9726 12.5061 28.9726 17.4513V27.557H28.9661Z" fill="currentColor"/></svg>
                     </a>
                   </div>
                 </div>
@@ -452,10 +453,11 @@ $kpis = array(
 $kpi_4_num = get_option( 'tema_viera_abogados_kpi_4_num', '' );
 if ( ! empty( $kpi_4_num ) ) {
   $kpis[] = array(
-    'prefix' => get_option( 'tema_viera_abogados_kpi_4_prefix', '+' ),
-    'num'    => $kpi_4_num,
-    'suffix' => get_option( 'tema_viera_abogados_kpi_4_suffix', '' ),
-    'label'  => tema_viera_t( get_option( 'tema_viera_abogados_kpi_4_label', 'Profesionales' ) ),
+    'prefix'   => get_option( 'tema_viera_abogados_kpi_4_prefix', '+' ),
+    'num'      => $kpi_4_num,
+    'suffix'   => get_option( 'tema_viera_abogados_kpi_4_suffix', '' ),
+    'label'    => tema_viera_t( get_option( 'tema_viera_abogados_kpi_4_label', 'Profesionales' ) ),
+    'optional' => true,
   );
 }
 ?>
@@ -467,7 +469,7 @@ if ( ! empty( $kpi_4_num ) ) {
   <div class="container">
     <div class="kpis-grid reveal">
       <?php foreach ( $kpis as $kpi ) : ?>
-        <div class="kpi-item">
+        <div class="kpi-item<?php echo ! empty( $kpi['optional'] ) ? ' kpi-item--optional' : ''; ?>">
           <div class="kpi-number-wrap">
             <?php if ( ! empty( $kpi['prefix'] ) ) : ?>
               <span class="kpi-symbol kpi-prefix"><?php echo esc_html( $kpi['prefix'] ); ?></span>

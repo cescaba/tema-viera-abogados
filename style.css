@@ -799,8 +799,8 @@ img {
 }
 
 .section-title-left {
-  font-size: 13px;
-  letter-spacing: 2.5px;
+  font-size: 20px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--color-primary);
   margin-bottom: 40px;
@@ -1508,16 +1508,22 @@ img {
 }
 
 .equipo-enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 11px;
   font-weight: bold;
   letter-spacing: 1px;
   color: var(--color-primary);
   text-transform: uppercase;
-  transition: color 0.3s ease;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-primary);
+  padding-bottom: 4px;
+  transition: opacity 0.3s ease;
 }
 
 .equipo-enlace:hover {
-  color: var(--color-secondary);
+  opacity: 0.7;
 }
 
 .equipo-layout {
@@ -1677,6 +1683,11 @@ img {
   transition: opacity 0.3s ease;
 }
 
+.linkedin-btn svg {
+  width: 20px;
+  height: auto;
+}
+
 .linkedin-btn.dark {
   background-color: #1a243b;
   color: var(--color-white);
@@ -1807,6 +1818,14 @@ img {
   max-width: 190px;
 }
 
+.kpi-item--optional {
+  display: none;
+}
+
+.kpi-item:nth-child(3):nth-last-child(2)::after {
+  display: none;
+}
+
 /* ========================================
    RESPONSIVE
    ======================================== */
@@ -1848,6 +1867,10 @@ img {
 
   .kpi-item:nth-child(3):last-child {
     grid-column: span 2;
+  }
+
+  .kpi-item--optional {
+    display: flex;
   }
 
   .kpi-label {
