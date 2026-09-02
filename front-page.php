@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 get_header();
-$hero_overline         = tema_viera_t( get_option( 'tema_viera_abogados_hero_overline', 'ESTUDIO JURÍDICO · LIMA, PERÚ' ) );
 $hero_titulo           = tema_viera_t( get_option( 'tema_viera_abogados_hero_titulo', 'SOMOS EXPERTOS EN LITIGIOS COMPLEJOS' ) );
 $hero_subtitulo        = tema_viera_t( get_option( 'tema_viera_abogados_hero_subtitulo', 'Resolvemos lo que otros no pueden.' ) );
 $hero_imagen_id        = get_option( 'tema_viera_abogados_hero_imagen', '' );
@@ -47,10 +46,6 @@ $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
   <div class="container hero-container">
     <div class="hero-content-box reveal">
       
-      <?php if ( ! empty( $hero_overline ) ) : ?>
-        <span class="hero-overline"><?php echo esc_html( $hero_overline ); ?></span>
-      <?php endif; ?>
-
       <?php if ( ! empty( $hero_titulo ) ) : ?>
         <h1 class="hero-title"><?php echo esc_html( $hero_titulo ); ?></h1>
       <?php endif; ?>
@@ -200,13 +195,6 @@ $sectores = get_option( 'tema_viera_abogados_sectores_items', array() );
     <div class="experiencia-grid">
       
       <div class="experiencia-imagen-col reveal">
-        <div class="experiencia-logo-mark">
-          <svg viewBox="0 0 293 701" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M227.042 0L98.5026 285.06L58.8365 196.312H0L97.7959 415.468L286.055 0H227.042Z" fill="var(--color-primary)"/>
-            <path d="M65.4624 700.791L193.913 415.731L233.668 504.478H292.504L194.708 285.323L6.36084 700.791H65.4624Z" fill="var(--color-primary)"/>
-          </svg>
-        </div>
-
         <?php
         $default_img = '';
         if ( ! empty( $sectores ) && ! empty( $sectores[0]['imagen'] ) ) {
@@ -440,20 +428,36 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
 </section>
 
 <?php
-$kpi_1_prefix = get_option( 'tema_viera_abogados_kpi_1_prefix', '+' );
-$kpi_1_num    = get_option( 'tema_viera_abogados_kpi_1_num', '50' );
-$kpi_1_suffix = get_option( 'tema_viera_abogados_kpi_1_suffix', '' );
-$kpi_1_label  = tema_viera_t( get_option( 'tema_viera_abogados_kpi_1_label', 'Empresas asesoradas' ) );
+$kpis = array(
+  array(
+    'prefix' => get_option( 'tema_viera_abogados_kpi_1_prefix', '+' ),
+    'num'    => get_option( 'tema_viera_abogados_kpi_1_num', '40' ),
+    'suffix' => get_option( 'tema_viera_abogados_kpi_1_suffix', '' ),
+    'label'  => tema_viera_t( get_option( 'tema_viera_abogados_kpi_1_label', 'Aberturas de locales ante clausuras arbitrarias' ) ),
+  ),
+  array(
+    'prefix' => get_option( 'tema_viera_abogados_kpi_2_prefix', '+' ),
+    'num'    => get_option( 'tema_viera_abogados_kpi_2_num', '1500' ),
+    'suffix' => get_option( 'tema_viera_abogados_kpi_2_suffix', '' ),
+    'label'  => tema_viera_t( get_option( 'tema_viera_abogados_kpi_2_label', 'Procesos judiciales y arbitrales atendidos' ) ),
+  ),
+  array(
+    'prefix' => get_option( 'tema_viera_abogados_kpi_3_prefix', '+' ),
+    'num'    => get_option( 'tema_viera_abogados_kpi_3_num', '1000' ),
+    'suffix' => get_option( 'tema_viera_abogados_kpi_3_suffix', '' ),
+    'label'  => tema_viera_t( get_option( 'tema_viera_abogados_kpi_3_label', 'Millones de soles de patrimonio protegido' ) ),
+  ),
+);
 
-$kpi_2_prefix = get_option( 'tema_viera_abogados_kpi_2_prefix', '+' );
-$kpi_2_num    = get_option( 'tema_viera_abogados_kpi_2_num', '35' );
-$kpi_2_suffix = get_option( 'tema_viera_abogados_kpi_2_suffix', '' );
-$kpi_2_label  = tema_viera_t( get_option( 'tema_viera_abogados_kpi_2_label', 'Años de experiencia' ) );
-
-$kpi_3_prefix = get_option( 'tema_viera_abogados_kpi_3_prefix', '' );
-$kpi_3_num    = get_option( 'tema_viera_abogados_kpi_3_num', '100' );
-$kpi_3_suffix = get_option( 'tema_viera_abogados_kpi_3_suffix', '%' );
-$kpi_3_label  = tema_viera_t( get_option( 'tema_viera_abogados_kpi_3_label', 'Clientes satisfechos' ) );
+$kpi_4_num = get_option( 'tema_viera_abogados_kpi_4_num', '' );
+if ( ! empty( $kpi_4_num ) ) {
+  $kpis[] = array(
+    'prefix' => get_option( 'tema_viera_abogados_kpi_4_prefix', '+' ),
+    'num'    => $kpi_4_num,
+    'suffix' => get_option( 'tema_viera_abogados_kpi_4_suffix', '' ),
+    'label'  => tema_viera_t( get_option( 'tema_viera_abogados_kpi_4_label', 'Profesionales' ) ),
+  );
+}
 ?>
 
 <!-- ========================================
@@ -462,34 +466,24 @@ $kpi_3_label  = tema_viera_t( get_option( 'tema_viera_abogados_kpi_3_label', 'Cl
 <section class="section-kpis" id="kpis">
   <div class="container">
     <div class="kpis-grid reveal">
-      
-      <div class="kpi-item">
-        <div class="kpi-number-wrap">
-          <span class="kpi-symbol"><?php echo esc_html( $kpi_1_prefix ); ?></span>
-          <span class="kpi-counter" data-target="<?php echo esc_attr( $kpi_1_num ); ?>">0</span>
-          <span class="kpi-symbol"><?php echo esc_html( $kpi_1_suffix ); ?></span>
-        </div>
-        <p class="kpi-label"><?php echo esc_html( $kpi_1_label ); ?></p>
-      </div>
+      <?php foreach ( $kpis as $kpi ) : ?>
+        <div class="kpi-item">
+          <div class="kpi-number-wrap">
+            <?php if ( ! empty( $kpi['prefix'] ) ) : ?>
+              <span class="kpi-symbol kpi-prefix"><?php echo esc_html( $kpi['prefix'] ); ?></span>
+            <?php endif; ?>
 
-      <div class="kpi-item">
-        <div class="kpi-number-wrap">
-          <span class="kpi-symbol"><?php echo esc_html( $kpi_2_prefix ); ?></span>
-          <span class="kpi-counter" data-target="<?php echo esc_attr( $kpi_2_num ); ?>">0</span>
-          <span class="kpi-symbol"><?php echo esc_html( $kpi_2_suffix ); ?></span>
-        </div>
-        <p class="kpi-label"><?php echo esc_html( $kpi_2_label ); ?></p>
-      </div>
+            <span class="kpi-counter" data-target="<?php echo esc_attr( preg_replace( '/[^0-9]/', '', $kpi['num'] ) ); ?>">
+              <?php echo esc_html( number_format( (int) $kpi['num'] ) ); ?>
+            </span>
 
-      <div class="kpi-item">
-        <div class="kpi-number-wrap">
-          <span class="kpi-symbol"><?php echo esc_html( $kpi_3_prefix ); ?></span>
-          <span class="kpi-counter" data-target="<?php echo esc_attr( $kpi_3_num ); ?>">0</span>
-          <span class="kpi-symbol"><?php echo esc_html( $kpi_3_suffix ); ?></span>
+            <?php if ( ! empty( $kpi['suffix'] ) ) : ?>
+              <span class="kpi-symbol kpi-suffix"><?php echo esc_html( $kpi['suffix'] ); ?></span>
+            <?php endif; ?>
+          </div>
+          <p class="kpi-label"><?php echo esc_html( $kpi['label'] ); ?></p>
         </div>
-        <p class="kpi-label"><?php echo esc_html( $kpi_3_label ); ?></p>
-      </div>
-
+      <?php endforeach; ?>
     </div>
   </div>
 </section>

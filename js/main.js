@@ -531,17 +531,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const animateCounters = () => {
     counters.forEach(counter => {
+      const target = +counter.getAttribute('data-target');
+      let count = 0;
+      const inc = target / speed;
+
       const updateCount = () => {
-        const target = +counter.getAttribute('data-target');
-        const count = +counter.innerText;
-
-        const inc = target / speed;
-
+        count += inc;
         if (count < target) {
-          counter.innerText = Math.ceil(count + inc);
+          counter.innerText = Math.ceil(count).toLocaleString('en-US');
           setTimeout(updateCount, 15);
         } else {
-          counter.innerText = target;
+          counter.innerText = target.toLocaleString('en-US');
         }
       };
 

@@ -286,10 +286,9 @@ img {
   text-decoration: none;
 }
 
-.site-nav a:hover,
 .site-nav li.current-menu-item a {
-  color: var(--color-secondary, #C9A84C); 
-  border-bottom: 2px solid var(--color-secondary, #C9A84C);
+  color: #ffffff;
+  border-bottom: 2px solid #ffffff;
 }
 
 .header-actions {
@@ -690,6 +689,7 @@ img {
   .hero-viera {
     min-height: 80vh;
     padding-bottom: 0;
+    justify-content: end;
   }
 
   .hero-container {
@@ -996,6 +996,10 @@ img {
     grid-template-columns: 1fr;
   }
   
+  .animated-text-section {
+    display: none;
+  }
+  
   .animated-heading {
     font-size: 12vw;
   }
@@ -1043,16 +1047,6 @@ img {
   right: 0; 
   bottom: 0;
   background-color: rgba(35, 48, 80, 0.45);
-  pointer-events: none;
-}
-
-.experiencia-logo-mark {
-  position: absolute;
-  bottom: -40px;
-  left: -40px;
-  width: 180px;
-  height: auto;
-  z-index: 10;
   pointer-events: none;
 }
 
@@ -1203,23 +1197,126 @@ img {
    RESPONSIVE
    ======================================== */
 @media (max-width: 992px) {
+  .section-experiencia {
+    padding: 50px 0;
+    background-color: #f7f9fc;
+  }
+
   .experiencia-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 0;
   }
+
   .experiencia-imagen-col {
-    aspect-ratio: auto;
-    height: 400px;
-    order: 2;
+    display: none;
   }
+
   .experiencia-content-col {
-    order: 1;
-    padding-right: 0;
+    padding: 0;
   }
-  .experiencia-logo-mark {
-    width: 120px;
-    bottom: -20px;
-    left: -20px;
+
+  .exp-pre-titulo {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #7a869a;
+    margin-bottom: 6px;
+  }
+
+  .exp-titulo {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e2b45;
+    text-transform: none;
+    margin-bottom: 8px;
+  }
+
+  .exp-subtitulo {
+    font-size: 13px;
+    color: #7a869a;
+    line-height: 1.45;
+    margin-bottom: 24px;
+  }
+
+  .sectores-wrapper {
+    max-height: none;
+    overflow: visible;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(30, 43, 69, 0.06);
+    overflow: hidden;
+  }
+
+  .sectores-list {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .sector-item {
+    border-bottom: 1px solid #edf0f5;
+    background-color: #ffffff;
+    transition: background-color 0.25s ease;
+  }
+
+  .sector-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .sector-header {
+    padding: 18px 20px;
+    color: #233050;
+    background-color: transparent;
+  }
+
+  .sector-nombre {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  .sector-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sector-icon::before {
+    font-size: 18px;
+    font-weight: 400;
+    color: currentColor;
+  }
+
+  .sector-item.is-open {
+    background-color: #233050;
+    border-bottom: none;
+  }
+
+  .sector-item.is-open .sector-header {
+    background-color: #233050;
+    color: #ffffff;
+    padding-bottom: 10px;
+  }
+
+  .sector-item.is-open .sector-icon::before {
+    content: '–';
+    color: #ffffff;
+  }
+
+  .sector-item.is-open .sector-body {
+    height: auto;
+    background-color: #233050;
+  }
+
+  .sector-body-content {
+    padding: 0 20px 20px 20px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #d1d8e3;
+  }
+
+  .sectores-fade-overlay {
+    display: none !important;
   }
 }
 
@@ -1636,44 +1733,65 @@ img {
    SECCIÓN KPIs
    ======================================== */
 .section-kpis {
-  background-color: var(--color-primary);
-  padding: 60px 0;
-  color: var(--color-white);
+  background-color: #202020;
+  padding: 55px 0;
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .kpis-grid {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  align-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .kpi-item {
   flex: 1;
   text-align: center;
   position: relative;
-  padding: 10px 0;
+  padding: 8px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .kpi-item:not(:last-child)::after {
   content: '';
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 12%;
+  height: 76%;
   width: 1px;
-  height: 60px; /* Alto de la línea */
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.18);
 }
 
 .kpi-number-wrap {
-  font-family: var(--font-main);
+  font-family: var(--font-main, sans-serif);
   font-size: 52px;
-  font-weight: 300;
-  line-height: 1.1;
-  margin-bottom: 8px;
-  display: flex;
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: 12px;
+  display: inline-flex;
   justify-content: center;
   align-items: baseline;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.kpi-symbol {
+  font-weight: 800;
+  font-size: 44px;
+}
+
+.kpi-prefix {
+  margin-right: 4px;
+}
+
+.kpi-suffix {
+  margin-left: 2px;
 }
 
 .kpi-counter {
@@ -1681,28 +1799,72 @@ img {
 }
 
 .kpi-label {
-  font-size: 14px;
+  font-size: 11px;
+  line-height: 1.45;
   font-weight: 300;
   margin: 0;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 190px;
 }
 
 /* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
-  .kpis-grid {
-    flex-direction: column;
-    gap: 40px;
+  .section-kpis {
+    background-color: #f7f9fc;
+    padding: 45px 20px;
+    border-top: none;
   }
-  
+
+  .kpis-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 32px;
+    column-gap: 20px;
+  }
+
+  .kpi-item {
+    padding: 0;
+    align-items: center;
+    text-align: center;
+  }
+
   .kpi-item:not(:last-child)::after {
-    width: 50px;
-    height: 1px;
-    right: 50%;
-    top: auto;
-    bottom: -20px;
-    transform: translateX(50%);
+    display: none;
+  }
+
+  .kpi-number-wrap {
+    color: #1e2b45;
+    font-size: 38px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .kpi-symbol {
+    color: #1e2b45;
+    font-size: 32px;
+  }
+
+  .kpi-item:nth-child(3):last-child {
+    grid-column: span 2;
+  }
+
+  .kpi-label {
+    font-size: 13px;
+    color: #6e7b91;
+    line-height: 1.35;
+    font-weight: 400;
+    max-width: 160px;
+  }
+}
+
+@media (max-width: 380px) {
+  .kpi-number-wrap {
+    font-size: 30px;
+  }
+  .kpi-symbol {
+    font-size: 24px;
   }
 }
 

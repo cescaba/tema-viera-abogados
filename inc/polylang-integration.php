@@ -287,7 +287,6 @@ function tema_viera_register_polylang_strings() {
 
 	// Grupo "Landing" (front-page.php). key => array( nombre, multiline ).
 	$landing = array(
-		'tema_viera_abogados_hero_overline'       => array( 'Hero · Sobre-título', false ),
 		'tema_viera_abogados_hero_titulo'         => array( 'Hero · Título', false ),
 		'tema_viera_abogados_hero_subtitulo'      => array( 'Hero · Subtítulo', false ),
 		'tema_viera_abogados_hero_btn1_texto'     => array( 'Hero · Botón 1', false ),
@@ -312,6 +311,7 @@ function tema_viera_register_polylang_strings() {
 		'tema_viera_abogados_kpi_1_label'         => array( 'KPI 1 · Etiqueta', false ),
 		'tema_viera_abogados_kpi_2_label'         => array( 'KPI 2 · Etiqueta', false ),
 		'tema_viera_abogados_kpi_3_label'         => array( 'KPI 3 · Etiqueta', false ),
+		'tema_viera_abogados_kpi_4_label'         => array( 'KPI 4 · Etiqueta', false ),
 		'tema_viera_abogados_agenda_pre'          => array( 'Agenda · Pre-título', false ),
 		'tema_viera_abogados_agenda_titulo'       => array( 'Agenda · Título', false ),
 		'tema_viera_abogados_agenda_desc'         => array( 'Agenda · Descripción', true ),

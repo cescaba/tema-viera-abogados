@@ -47,10 +47,6 @@ function tema_viera_register_settings() {
 	// Opciones de Hero
 	register_setting(
 		'tema_viera_opciones_landing',
-		'tema_viera_abogados_hero_overline'
-	);
-	register_setting(
-		'tema_viera_opciones_landing',
 		'tema_viera_abogados_hero_titulo'
 	);
 	register_setting(
@@ -191,6 +187,10 @@ function tema_viera_register_settings() {
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_3_num' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_3_suffix' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_3_label' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_4_prefix' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_4_num' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_4_suffix' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_kpi_4_label' );
 
 	// Opciones de Agenda / Cita
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_pre' );
@@ -229,7 +229,6 @@ function tema_viera_opciones_landing_page() {
 
 	// Obtener valores actuales
 	$logo_id               = get_option( 'tema_viera_abogados_logo', '' );
-	$hero_overline         = get_option( 'tema_viera_abogados_hero_overline', '' );
 	$hero_titulo           = get_option( 'tema_viera_abogados_hero_titulo', '' );
 	$hero_subtitulo        = get_option( 'tema_viera_abogados_hero_subtitulo', '' );
 	$hero_imagen_id        = get_option( 'tema_viera_abogados_hero_imagen', '' );
@@ -266,17 +265,21 @@ function tema_viera_opciones_landing_page() {
 	$equipo_seleccionados  = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );
 
 	$kpi_1_prefix = get_option( 'tema_viera_abogados_kpi_1_prefix', '+' );
-	$kpi_1_num    = get_option( 'tema_viera_abogados_kpi_1_num', '50' );
+	$kpi_1_num    = get_option( 'tema_viera_abogados_kpi_1_num', '40' );
 	$kpi_1_suffix = get_option( 'tema_viera_abogados_kpi_1_suffix', '' );
-	$kpi_1_label  = get_option( 'tema_viera_abogados_kpi_1_label', 'Empresas asesoradas' );
+	$kpi_1_label  = get_option( 'tema_viera_abogados_kpi_1_label', 'Aberturas de locales ante clausuras arbitrarias' );
 	$kpi_2_prefix = get_option( 'tema_viera_abogados_kpi_2_prefix', '+' );
-	$kpi_2_num    = get_option( 'tema_viera_abogados_kpi_2_num', '35' );
+	$kpi_2_num    = get_option( 'tema_viera_abogados_kpi_2_num', '1500' );
 	$kpi_2_suffix = get_option( 'tema_viera_abogados_kpi_2_suffix', '' );
-	$kpi_2_label  = get_option( 'tema_viera_abogados_kpi_2_label', 'AÃ±os de experiencia' );
-	$kpi_3_prefix = get_option( 'tema_viera_abogados_kpi_3_prefix', '' );
-	$kpi_3_num    = get_option( 'tema_viera_abogados_kpi_3_num', '100' );
-	$kpi_3_suffix = get_option( 'tema_viera_abogados_kpi_3_suffix', '%' );
-	$kpi_3_label  = get_option( 'tema_viera_abogados_kpi_3_label', 'Clientes satisfechos' );
+	$kpi_2_label  = get_option( 'tema_viera_abogados_kpi_2_label', 'Procesos judiciales y arbitrales atendidos' );
+	$kpi_3_prefix = get_option( 'tema_viera_abogados_kpi_3_prefix', '+' );
+	$kpi_3_num    = get_option( 'tema_viera_abogados_kpi_3_num', '1000' );
+	$kpi_3_suffix = get_option( 'tema_viera_abogados_kpi_3_suffix', '' );
+	$kpi_3_label  = get_option( 'tema_viera_abogados_kpi_3_label', 'Millones de soles de patrimonio protegido' );
+	$kpi_4_prefix = get_option( 'tema_viera_abogados_kpi_4_prefix', '+' );
+	$kpi_4_num    = get_option( 'tema_viera_abogados_kpi_4_num', '' );
+	$kpi_4_suffix = get_option( 'tema_viera_abogados_kpi_4_suffix', '' );
+	$kpi_4_label  = get_option( 'tema_viera_abogados_kpi_4_label', 'Profesionales' );
 
 	$agenda_pre_titulo = get_option( 'tema_viera_abogados_agenda_pre', 'AGENDA UNA REUNIÃ“N' );
 	$agenda_titulo     = get_option( 'tema_viera_abogados_agenda_titulo', 'HABLEMOS DE TU CASO' );
@@ -446,11 +449,6 @@ function tema_viera_opciones_landing_page() {
 			<!-- SECCIÃ“N HERO -->
 			<div class="mi-tema-form-section">
 				<h2><?php esc_html_e( 'SecciÃ³n Hero', 'tema-viera-abogados' ); ?></h2>
-
-				<div class="mi-tema-form-group">
-					<label for="hero_overline"><?php esc_html_e( 'Texto Superior (overline)', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="hero_overline" name="hero_overline" value="<?php echo esc_attr( $hero_overline ); ?>" />
-				</div>
 
 				<div class="mi-tema-form-group">
 					<label for="hero_titulo"><?php esc_html_e( 'TÃ­tulo Principal', 'tema-viera-abogados' ); ?></label>
@@ -795,7 +793,7 @@ function tema_viera_opciones_landing_page() {
 				</div>
 				<div class="mi-tema-form-group">
 					<label for="kpi_1_num"><?php esc_html_e( 'NÃºmero', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
-					<input type="text" id="kpi_1_num" name="kpi_1_num" value="<?php echo esc_attr( $kpi_1_num ); ?>" required pattern="[0-9]+" />
+					<input type="text" id="kpi_1_num" name="kpi_1_num" value="<?php echo esc_attr( $kpi_1_num ); ?>" required pattern="[0-9,]+" />
 				</div>
 				<div class="mi-tema-form-group">
 					<label for="kpi_1_suffix"><?php esc_html_e( 'Sufijo (ej: %, K)', 'tema-viera-abogados' ); ?></label>
@@ -813,7 +811,7 @@ function tema_viera_opciones_landing_page() {
 				</div>
 				<div class="mi-tema-form-group">
 					<label for="kpi_2_num"><?php esc_html_e( 'NÃºmero', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
-					<input type="text" id="kpi_2_num" name="kpi_2_num" value="<?php echo esc_attr( $kpi_2_num ); ?>" required pattern="[0-9]+" />
+					<input type="text" id="kpi_2_num" name="kpi_2_num" value="<?php echo esc_attr( $kpi_2_num ); ?>" required pattern="[0-9,]+" />
 				</div>
 				<div class="mi-tema-form-group">
 					<label for="kpi_2_suffix"><?php esc_html_e( 'Sufijo (ej: %, K)', 'tema-viera-abogados' ); ?></label>
@@ -831,7 +829,7 @@ function tema_viera_opciones_landing_page() {
 				</div>
 				<div class="mi-tema-form-group">
 					<label for="kpi_3_num"><?php esc_html_e( 'NÃºmero', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
-					<input type="text" id="kpi_3_num" name="kpi_3_num" value="<?php echo esc_attr( $kpi_3_num ); ?>" required pattern="[0-9]+" />
+					<input type="text" id="kpi_3_num" name="kpi_3_num" value="<?php echo esc_attr( $kpi_3_num ); ?>" required pattern="[0-9,]+" />
 				</div>
 				<div class="mi-tema-form-group">
 					<label for="kpi_3_suffix"><?php esc_html_e( 'Sufijo (ej: %, K)', 'tema-viera-abogados' ); ?></label>
@@ -840,6 +838,24 @@ function tema_viera_opciones_landing_page() {
 				<div class="mi-tema-form-group">
 					<label for="kpi_3_label"><?php esc_html_e( 'Etiqueta', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="kpi_3_label" name="kpi_3_label" value="<?php echo esc_attr( $kpi_3_label ); ?>" />
+				</div>
+
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'KPI 4 (Opcional)', 'tema-viera-abogados' ); ?></h3>
+				<div class="mi-tema-form-group">
+					<label for="kpi_4_prefix"><?php esc_html_e( 'Prefijo (ej: +)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_4_prefix" name="kpi_4_prefix" value="<?php echo esc_attr( $kpi_4_prefix ); ?>" maxlength="5" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_4_num"><?php esc_html_e( 'NÃºmero (vacÃ­o para ocultar)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_4_num" name="kpi_4_num" value="<?php echo esc_attr( $kpi_4_num ); ?>" pattern="[0-9,]*" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_4_suffix"><?php esc_html_e( 'Sufijo (ej: %, K)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_4_suffix" name="kpi_4_suffix" value="<?php echo esc_attr( $kpi_4_suffix ); ?>" maxlength="5" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="kpi_4_label"><?php esc_html_e( 'Etiqueta', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="kpi_4_label" name="kpi_4_label" value="<?php echo esc_attr( $kpi_4_label ); ?>" />
 				</div>
 			</div>
 
@@ -1368,9 +1384,6 @@ function tema_viera_procesar_opciones_landing() {
 	}
 
 	// Procesar Hero
-	if ( isset( $_POST['hero_overline'] ) ) {
-		update_option( 'tema_viera_abogados_hero_overline', sanitize_text_field( $_POST['hero_overline'] ) );
-	}
 	if ( isset( $_POST['hero_titulo'] ) ) {
 		update_option( 'tema_viera_abogados_hero_titulo', sanitize_text_field( $_POST['hero_titulo'] ) );
 	}
@@ -1527,6 +1540,19 @@ function tema_viera_procesar_opciones_landing() {
 	}
 	if ( isset( $_POST['kpi_3_label'] ) ) {
 		update_option( 'tema_viera_abogados_kpi_3_label', sanitize_text_field( $_POST['kpi_3_label'] ) );
+	}
+	if ( isset( $_POST['kpi_4_prefix'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_4_prefix', sanitize_text_field( $_POST['kpi_4_prefix'] ) );
+	}
+	if ( isset( $_POST['kpi_4_num'] ) ) {
+		$kpi_4_num = preg_replace( '/[^0-9]/', '', $_POST['kpi_4_num'] );
+		update_option( 'tema_viera_abogados_kpi_4_num', $kpi_4_num );
+	}
+	if ( isset( $_POST['kpi_4_suffix'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_4_suffix', sanitize_text_field( $_POST['kpi_4_suffix'] ) );
+	}
+	if ( isset( $_POST['kpi_4_label'] ) ) {
+		update_option( 'tema_viera_abogados_kpi_4_label', sanitize_text_field( $_POST['kpi_4_label'] ) );
 	}
 
 	// Procesar Agenda / Cita
