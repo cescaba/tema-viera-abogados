@@ -171,6 +171,10 @@ function tema_viera_register_settings() {
 	);
 	register_setting(
 		'tema_viera_opciones_landing',
+		'tema_viera_abogados_fundador_bio_mobile'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
 		'tema_viera_abogados_equipo_seleccionados'
 	);
 
@@ -269,6 +273,7 @@ function tema_viera_opciones_landing_page() {
 	$equipo_enlace_txt     = get_option( 'tema_viera_abogados_equipo_enlace_txt', '' );
 	$equipo_enlace_url     = get_option( 'tema_viera_abogados_equipo_enlace_url', '' );
 	$fundador_post_id      = get_option( 'tema_viera_abogados_fundador_post_id', '' );
+	$fundador_bio_mobile   = get_option( 'tema_viera_abogados_fundador_bio_mobile', '' );
 	$equipo_seleccionados  = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );
 
 	$kpi_1_prefix = get_option( 'tema_viera_abogados_kpi_1_prefix', '+' );
@@ -747,6 +752,12 @@ function tema_viera_opciones_landing_page() {
 						endif;
 						?>
 					</select>
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="fundador_bio_mobile"><?php esc_html_e( 'Texto corto para móvil (biografía del fundador)', 'tema-viera-abogados' ); ?></label>
+					<textarea id="fundador_bio_mobile" name="fundador_bio_mobile" style="min-height:80px;"><?php echo esc_textarea( $fundador_bio_mobile ); ?></textarea>
+					<p class="description"><?php esc_html_e( 'Se muestra en dispositivos móviles en lugar de la biografía completa, para reducir la altura de la tarjeta.', 'tema-viera-abogados' ); ?></p>
 				</div>
 
 				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Miembros del Equipo', 'tema-viera-abogados' ); ?></h3>
@@ -1537,6 +1548,9 @@ function tema_viera_procesar_opciones_landing() {
 	}
 	if ( isset( $_POST['fundador_post_id'] ) ) {
 		update_option( 'tema_viera_abogados_fundador_post_id', intval( $_POST['fundador_post_id'] ) );
+	}
+	if ( isset( $_POST['fundador_bio_mobile'] ) ) {
+		update_option( 'tema_viera_abogados_fundador_bio_mobile', wp_kses_post( $_POST['fundador_bio_mobile'] ) );
 	}
 	if ( isset( $_POST['equipo_seleccionados'] ) && is_array( $_POST['equipo_seleccionados'] ) ) {
 		$seleccionados = array_map( 'intval', $_POST['equipo_seleccionados'] );

@@ -202,6 +202,7 @@ function tema_viera_post_translation_status( $post_id ) {
 		get_the_title( $post_id ),
 		get_post_meta( $post_id, '_post_subtitulo', true ),
 		get_post_meta( $post_id, '_post_area_practica', true ),
+		get_post_meta( $post_id, '_post_descripcion_mobile', true ),
 		get_post_field( 'post_content', $post_id ),
 	);
 
@@ -308,6 +309,7 @@ function tema_viera_register_polylang_strings() {
 		'tema_viera_abogados_equipo_pre'          => array( 'Equipo · Pre-título', false ),
 		'tema_viera_abogados_equipo_titulo'       => array( 'Equipo · Título', false ),
 		'tema_viera_abogados_equipo_enlace_txt'   => array( 'Equipo · Texto del enlace', false ),
+		'tema_viera_abogados_fundador_bio_mobile' => array( 'Equipo · Fundador · Texto móvil', true ),
 		'tema_viera_abogados_kpi_1_label'         => array( 'KPI 1 · Etiqueta', false ),
 		'tema_viera_abogados_kpi_2_label'         => array( 'KPI 2 · Etiqueta', false ),
 		'tema_viera_abogados_kpi_3_label'         => array( 'KPI 3 · Etiqueta', false ),
@@ -512,10 +514,11 @@ function tema_viera_register_post_strings() {
 		}
 
 		$fields = array(
-			'Título'           => get_the_title( $id ),
-			'Subtítulo'        => get_post_meta( $id, '_post_subtitulo', true ),
-			'Área de práctica' => get_post_meta( $id, '_post_area_practica', true ),
-			'Contenido'        => get_post_field( 'post_content', $id ),
+			'Título'              => get_the_title( $id ),
+			'Subtítulo'           => get_post_meta( $id, '_post_subtitulo', true ),
+			'Área de práctica'    => get_post_meta( $id, '_post_area_practica', true ),
+			'Descripción móvil'   => get_post_meta( $id, '_post_descripcion_mobile', true ),
+			'Contenido'           => get_post_field( 'post_content', $id ),
 		);
 		$group = tema_viera_post_translation_group( $id );
 

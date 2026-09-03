@@ -260,6 +260,7 @@ $sectores = get_option( 'tema_viera_abogados_sectores_items', array() );
 <?php
 $clientes_titulo = tema_viera_t( get_option( 'tema_viera_abogados_clientes_titulo', 'ELLOS CONFÍAN EN NOSOTROS' ) );
 $clientes_logos  = get_option( 'tema_viera_abogados_clientes_logos', array() );
+$clientes_count  = count( array_filter( $clientes_logos ) );
 ?>
 
 <!-- ========================================
@@ -275,7 +276,7 @@ $clientes_logos  = get_option( 'tema_viera_abogados_clientes_logos', array() );
           $logo_url = wp_get_attachment_url( $logo_id );
           if ( $logo_url ) :
         ?>
-          <div class="cliente-logo-wrapper">
+          <div class="cliente-logo-wrapper<?php echo $index >= 6 ? ' is-below-fold' : ''; ?>">
             <div class="cliente-logo-box">
               <img src="<?php echo esc_url( $logo_url ); ?>" alt="Cliente">
             </div>
@@ -285,6 +286,10 @@ $clientes_logos  = get_option( 'tema_viera_abogados_clientes_logos', array() );
         endforeach; ?>
       <?php endif; ?>
     </div>
+
+    <?php if ( $clientes_count > 6 ) : ?>
+      <button type="button" class="clientes-btn-cargar" id="clientes-btn-cargar"><?php echo esc_html( tema_viera_t( 'CARGAR TODOS' ) ); ?></button>
+    <?php endif; ?>
   </div>
 </section>
 
@@ -296,6 +301,7 @@ $equipo_enlace_txt = tema_viera_t( get_option( 'tema_viera_abogados_equipo_enlac
 $equipo_enlace_url = get_option( 'tema_viera_abogados_equipo_enlace_url', '' );
 
 $fundador_post_id     = get_option( 'tema_viera_abogados_fundador_post_id', '' );
+$fundador_bio_mobile  = tema_viera_t( get_option( 'tema_viera_abogados_fundador_bio_mobile', '' ) );
 $equipo_seleccionados = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );
 
 // Obtener datos del fundador desde el CPT o fallback a opciones legacy
@@ -367,7 +373,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
 
     <div class="equipo-layout reveal" data-delay="120">
       
-      <div class="fundador-card">
+      <div class="fundador-card<?php echo $fundador_bio_mobile ? ' has-mobile-bio' : ''; ?>">
         <div class="fundador-img-box">
           <img src="<?php echo esc_url( $fundador_img_url ); ?>" alt="<?php echo esc_attr( $fundador_nombre ); ?>">
         </div>
@@ -378,6 +384,11 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
           <div class="fundador-bio">
             <?php echo wp_kses_post( $fundador_bio ); ?>
           </div>
+          <?php if ( $fundador_bio_mobile ) : ?>
+          <div class="fundador-bio fundador-bio--mobile">
+            <?php echo wp_kses_post( $fundador_bio_mobile ); ?>
+          </div>
+          <?php endif; ?>
           <a href="<?php echo esc_url( $fundador_linkedin ?: '#' ); ?>" target="_blank" class="linkedin-btn dark" aria-label="LinkedIn">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 32" fill="none" aria-hidden="true"><path d="M6.48515 27.557H0.478505V9.16008H6.48515V27.557ZM3.47859 6.65057C1.55786 6.65057 -6.10352e-05 5.13748 -6.10352e-05 3.3107C-6.10214e-05 2.43323 0.366439 1.5917 1.01881 0.971235C1.67119 0.35077 2.556 0.00219727 3.47859 0.00219727C4.40119 0.00219727 5.286 0.35077 5.93837 0.971235C6.59075 1.5917 6.95725 2.43323 6.95725 3.3107C6.95725 5.13748 5.39868 6.65057 3.47859 6.65057ZM28.9661 27.557H22.9724V18.6015C22.9724 16.4672 22.9271 13.7301 19.8494 13.7301C16.7264 13.7301 16.2479 16.0489 16.2479 18.4477V27.557H10.2477V9.16008H16.0086V11.6696H16.0927C16.8946 10.2242 18.8535 8.69877 21.776 8.69877C27.855 8.69877 28.9726 12.5061 28.9726 17.4513V27.557H28.9661Z" fill="currentColor"/></svg>
           </a>
@@ -425,6 +436,37 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
       </div>
 
     </div>
+
+    <?php if ( ! empty( $equipo_items ) ) : ?>
+    <!-- Mobile: fundador + 2 primeros abogados + botón -->
+    <div class="equipo-mobile-wrap">
+      <div class="equipo-miembros-mobile">
+        <?php foreach ( array_slice( $equipo_items, 0, 2 ) as $miembro ) :
+          $img_url = !empty($miembro['imagen']) ? wp_get_attachment_url( $miembro['imagen'] ) : '';
+        ?>
+          <div class="miembro-card miembro-card--mobile">
+            <div class="miembro-img-wrap">
+              <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $miembro['nombre'] ); ?>">
+            </div>
+            <div class="miembro-info-wrap">
+              <h4 class="miembro-nombre"><?php echo esc_html( $miembro['nombre'] ); ?></h4>
+              <span class="miembro-cargo"><?php echo esc_html( $miembro['cargo'] ); ?></span>
+              <p class="miembro-bio"><?php echo wp_kses_post( $miembro['descripcion'] ); ?></p>
+              <?php if ( !empty($miembro['email']) ) : ?>
+                <a href="mailto:<?php echo esc_attr( $miembro['email'] ); ?>" class="miembro-email"><?php echo esc_html( $miembro['email'] ); ?></a>
+              <?php endif; ?>
+              <a href="<?php echo esc_url( !empty($miembro['linkedin']) ? $miembro['linkedin'] : '#' ); ?>" target="_blank" class="linkedin-btn dark" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 32" fill="none" aria-hidden="true"><path d="M6.48515 27.557H0.478505V9.16008H6.48515V27.557ZM3.47859 6.65057C1.55786 6.65057 -6.10352e-05 5.13748 -6.10352e-05 3.3107C-6.10214e-05 2.43323 0.366439 1.5917 1.01881 0.971235C1.67119 0.35077 2.556 0.00219727 3.47859 0.00219727C4.40119 0.00219727 5.286 0.35077 5.93837 0.971235C6.59075 1.5917 6.95725 2.43323 6.95725 3.3107C6.95725 5.13748 5.39868 6.65057 3.47859 6.65057ZM28.9661 27.557H22.9724V18.6015C22.9724 16.4672 22.9271 13.7301 19.8494 13.7301C16.7264 13.7301 16.2479 16.0489 16.2479 18.4477V27.557H10.2477V9.16008H16.0086V11.6696H16.0927C16.8946 10.2242 18.8535 8.69877 21.776 8.69877C27.855 8.69877 28.9726 12.5061 28.9726 17.4513V27.557H28.9661Z" fill="currentColor"/></svg>
+              </a>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+
+      <a href="<?php echo esc_url( $equipo_enlace_url ?: tema_viera_equipo_url() ); ?>" class="equipo-btn-ver"><?php echo esc_html( tema_viera_t( 'VER EQUIPO COMPLETO' ) ); ?></a>
+    </div>
+    <?php endif; ?>
+
   </div>
 </section>
 
@@ -648,6 +690,10 @@ $bloques_noticias = array_chunk( $noticias_query->posts, 5 );
               $img_url   = get_the_post_thumbnail_url( $post_item->ID, 'medium_large' );
               $enlace    = get_permalink( $post_item->ID );
               $subtitulo = tema_viera_post_meta_t( $post_item->ID, '_post_subtitulo' );
+              $descripcion_mobile = tema_viera_post_meta_t( $post_item->ID, '_post_descripcion_mobile' );
+              if ( ! $descripcion_mobile ) {
+                $descripcion_mobile = wp_trim_words( wp_strip_all_tags( tema_viera_post_contenido_t( $post_item->ID ) ), 20, '…' );
+              }
             ?>
               <a href="<?php echo esc_url( $enlace ); ?>" class="noticia-card">
                 
@@ -662,6 +708,7 @@ $bloques_noticias = array_chunk( $noticias_query->posts, 5 );
                 <div class="noticia-content">
                   <span class="noticia-categoria"><?php echo esc_html( $subtitulo ?: tema_viera_post_titulo( $post_item->ID ) ); ?></span>
                   <h3 class="noticia-title"><?php echo esc_html( tema_viera_post_titulo( $post_item->ID ) ); ?></h3>
+                  <p class="noticia-descripcion"><?php echo esc_html( $descripcion_mobile ); ?></p>
                 </div>
 
               </a>

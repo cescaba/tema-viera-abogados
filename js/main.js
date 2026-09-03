@@ -376,14 +376,28 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function animateBody(body, open, callback) {
+    var content = body.querySelector('.sector-body-content');
+
     if (open) {
       body.style.height = 'auto';
       var target = body.offsetHeight;
       body.style.height = '0';
+      if (content) {
+        content.style.transition = 'none';
+        content.style.opacity = '0';
+      }
       body.offsetHeight;
       body.style.transition = 'height 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
       body.style.height = target + 'px';
+      if (content) {
+        content.style.transition = 'opacity 0.25s ease 0.15s';
+        content.style.opacity = '1';
+      }
     } else {
+      if (content) {
+        content.style.transition = 'opacity 0.15s ease';
+        content.style.opacity = '0';
+      }
       body.style.height = body.offsetHeight + 'px';
       body.offsetHeight;
       body.style.transition = 'height 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -393,7 +407,13 @@ document.addEventListener('DOMContentLoaded', function() {
     body.addEventListener('transitionend', function onEnd(e) {
       if (e.propertyName !== 'height') return;
       body.removeEventListener('transitionend', onEnd);
-      if (open) body.style.height = 'auto';
+      if (open) {
+        body.style.height = 'auto';
+        if (content) {
+          content.style.transition = '';
+          content.style.opacity = '';
+        }
+      }
       body.style.transition = '';
       if (callback) callback();
     });
@@ -512,6 +532,22 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   observer.observe(sectionClientes);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const section = document.getElementById('clientes');
+  const btn = document.getElementById('clientes-btn-cargar');
+  if (!section || !btn) return;
+
+  btn.addEventListener('click', function() {
+    section.classList.add('is-expanded');
+
+    const belowFold = section.querySelectorAll('.cliente-logo-wrapper.is-below-fold');
+    belowFold.forEach(function(wrapper, i) {
+      wrapper.style.animationDelay = (i * 70) + 'ms';
+      wrapper.classList.add('is-revealed');
+    });
+  });
 });
 
 document.addEventListener('DOMContentLoaded', function() {

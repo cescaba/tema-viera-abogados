@@ -27,8 +27,9 @@ add_action( 'add_meta_boxes', 'tema_viera_register_post_metabox' );
 function tema_viera_render_post_metabox( $post ) {
 	wp_nonce_field( 'tema_viera_post_nonce', 'tema_viera_post_nonce_field' );
 
-	$subtitulo        = get_post_meta( $post->ID, '_post_subtitulo', true );
-	$area_practica    = get_post_meta( $post->ID, '_post_area_practica', true );
+	$subtitulo          = get_post_meta( $post->ID, '_post_subtitulo', true );
+	$area_practica      = get_post_meta( $post->ID, '_post_area_practica', true );
+	$descripcion_mobile = get_post_meta( $post->ID, '_post_descripcion_mobile', true );
 	?>
 
 	<style>
@@ -67,6 +68,17 @@ function tema_viera_render_post_metabox( $post ) {
 		</div>
 	</div>
 
+	<div class="tema-viera-post-field">
+		<label for="tema_viera_post_descripcion_mobile">
+			<?php esc_html_e( 'Descripción para móvil', 'tema-viera-abogados' ); ?>
+		</label>
+		<textarea id="tema_viera_post_descripcion_mobile" name="tema_viera_post_descripcion_mobile" rows="3"
+			placeholder="<?php esc_attr_e( 'Texto corto que se muestra en las tarjetas del landing en móvil. Si se deja vacío, se usa un recorte del contenido.', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $descripcion_mobile ); ?></textarea>
+		<div class="tema-viera-help-text">
+			<?php esc_html_e( 'Descripción breve para las tarjetas de noticias en móvil.', 'tema-viera-abogados' ); ?>
+		</div>
+	</div>
+
 	<?php if ( function_exists( 'pll_register_string' ) && function_exists( 'tema_viera_post_translation_group' ) ) : ?>
 		<div class="tema-viera-post-field" style="border-top: 1px solid #eee; padding-top: 15px;">
 			<?php tema_viera_translation_button( tema_viera_post_translation_group( $post->ID ) ); ?>
@@ -95,6 +107,10 @@ function tema_viera_save_post_metabox( $post_id ) {
 
 	if ( isset( $_POST['tema_viera_post_area_practica'] ) ) {
 		update_post_meta( $post_id, '_post_area_practica', sanitize_text_field( $_POST['tema_viera_post_area_practica'] ) );
+	}
+
+	if ( isset( $_POST['tema_viera_post_descripcion_mobile'] ) ) {
+		update_post_meta( $post_id, '_post_descripcion_mobile', sanitize_textarea_field( $_POST['tema_viera_post_descripcion_mobile'] ) );
 	}
 }
 add_action( 'save_post', 'tema_viera_save_post_metabox' );
