@@ -24,6 +24,9 @@
 
 		// Funcionalidad del formulario de contacto
 		setupContactForm();
+
+		// Formulario de WhatsApp
+		setupWhatsAppForm();
 	}
 
 	/**
@@ -76,6 +79,97 @@
 
 			console.log('Formulario de contacto:', data);
 			// Aquí se podría hacer un fetch a admin-ajax.php si lo requiere
+		});
+	}
+
+	/**
+	 * Formulario de WhatsApp: arma el mensaje y abre wa.me
+	 */
+	function setupWhatsAppForm() {
+		var form = document.getElementById('whatsapp-form');
+		if (!form) return;
+
+		var selectBox = form.querySelector('.whatsapp-select');
+		var selectValue = selectBox ? selectBox.querySelector('.whatsapp-select-value') : null;
+		var hiddenInput = selectBox ? selectBox.querySelector('input[name="servicio"]') : null;
+		var trigger = selectBox ? selectBox.querySelector('.whatsapp-select-trigger') : null;
+
+		if (selectBox && trigger) {
+			var toggle = function(open) {
+				var isOpen = selectBox.classList.contains('is-open');
+				var next = (typeof open === 'boolean') ? open : !isOpen;
+				selectBox.classList.toggle('is-open', next);
+				trigger.setAttribute('aria-expanded', next ? 'true' : 'false');
+			};
+
+			trigger.addEventListener('click', function(e) {
+				e.stopPropagation();
+				toggle();
+			});
+
+			selectBox.querySelectorAll('.whatsapp-select-option').forEach(function(option) {
+				option.addEventListener('click', function() {
+					var value = option.getAttribute('data-value') || '';
+					if (hiddenInput) {
+						hiddenInput.value = value;
+					}
+					if (selectValue) {
+						selectValue.textContent = option.textContent;
+					}
+
+					selectBox.querySelectorAll('.whatsapp-select-option').forEach(function(o) {
+						o.classList.toggle('is-selected', o === option);
+					});
+
+					selectBox.classList.toggle('has-value', value !== '');
+					toggle(false);
+				});
+			});
+
+			document.addEventListener('click', function(e) {
+				if (!selectBox.contains(e.target)) {
+					toggle(false);
+				}
+			});
+		}
+
+		form.addEventListener('submit', function(e) {
+			e.preventDefault();
+
+			var numero = form.getAttribute('data-whatsapp') || '';
+			var templateInput = form.querySelector('input[name="template"]');
+			var template = templateInput ? templateInput.value : '';
+
+			var nombre = (form.querySelector('input[name="nombre"]') || {}).value || '';
+			var whatsapp = (form.querySelector('input[name="whatsapp"]') || {}).value || '';
+			var servicio = hiddenInput ? hiddenInput.value : '';
+
+			var datos = {
+				'{nombre}': nombre.trim(),
+				'{whatsapp}': whatsapp.trim(),
+				'{servicio}': servicio.trim()
+			};
+
+			var claves = Object.keys(datos);
+
+			var lineas = template.split('\n')
+				.filter(function(linea) {
+					var tieneVacio = claves.some(function(key) {
+						return datos[key] === '' && linea.indexOf(key) !== -1;
+					});
+					return !tieneVacio;
+				})
+				.map(function(linea) {
+					claves.forEach(function(key) {
+						linea = linea.split(key).join(datos[key]);
+					});
+					return linea;
+				});
+
+			var mensaje = lineas.join('\n').trim();
+			var url = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(mensaje);
+
+			window.open(url, '_blank', 'noopener');
 		});
 	}
 

@@ -495,7 +495,14 @@ $agenda_pre_titulo = tema_viera_t( get_option( 'tema_viera_abogados_agenda_pre',
 $agenda_titulo     = tema_viera_t( get_option( 'tema_viera_abogados_agenda_titulo', 'HABLEMOS DE TU CASO' ) );
 $agenda_desc       = tema_viera_t( get_option( 'tema_viera_abogados_agenda_desc', 'Agenda una reunión con nuestro equipo legal de forma rápida y sencilla. Estamos listos para escucharte y ayudarte.' ) );
 $agenda_btn_txt    = tema_viera_t( get_option( 'tema_viera_abogados_agenda_btn_txt', 'AGENDA UNA CITA >' ) );
-$agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#plugin-reserva' );
+$agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#formulario-whatsapp' );
+
+$whatsapp_overline = tema_viera_t( get_option( 'tema_viera_abogados_whatsapp_overline', 'RESPUESTA EN MENOS DE 24 HORAS' ) );
+$whatsapp_titulo   = tema_viera_t( get_option( 'tema_viera_abogados_whatsapp_titulo', 'Solicita una consulta' ) );
+$whatsapp_btn_txt  = tema_viera_t( get_option( 'tema_viera_abogados_whatsapp_btn_txt', 'ENVIAR POR WHATSAPP' ) );
+$whatsapp_nota     = tema_viera_t( get_option( 'tema_viera_abogados_whatsapp_nota', 'Tus datos serán usados únicamente para contactarte sobre tu consulta.' ) );
+$whatsapp_mensaje  = tema_viera_t( get_option( 'tema_viera_abogados_whatsapp_mensaje', "Hola, soy {nombre}.\nMi WhatsApp es: {whatsapp}.\nServicio de interés: {servicio}." ) );
+$whatsapp_numero   = preg_replace( '/[^0-9]/', '', get_option( 'tema_viera_abogados_contacto_telefono', '' ) );
 ?>
 
 <!-- ========================================
@@ -525,10 +532,74 @@ $agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#plugin-
         <?php endif; ?>
       </div>
 
-      <!-- Contenedor del Plugin -->
-      <div class="agenda-plugin-col reveal" id="plugin-reserva" data-delay="120">
-        
-        <div class="plugin-placeholder"></div>
+      <!-- Formulario WhatsApp -->
+      <div class="agenda-form-col reveal" id="formulario-whatsapp" data-delay="120">
+        <form class="whatsapp-form" id="whatsapp-form" data-whatsapp="<?php echo esc_attr( $whatsapp_numero ); ?>">
+          <input type="hidden" name="template" value="<?php echo esc_attr( $whatsapp_mensaje ); ?>">
+          <div class="whatsapp-form-body">
+
+            <?php if ( $whatsapp_overline ) : ?>
+              <div class="whatsapp-form-overline">
+                <span class="whatsapp-form-dot"></span>
+                <span><?php echo esc_html( $whatsapp_overline ); ?></span>
+              </div>
+            <?php endif; ?>
+
+            <?php if ( $whatsapp_titulo ) : ?>
+              <h3 class="whatsapp-form-titulo"><?php echo esc_html( $whatsapp_titulo ); ?></h3>
+            <?php endif; ?>
+
+            <div class="whatsapp-form-row">
+              <div class="whatsapp-form-field">
+                <label for="wa-nombre"><?php echo esc_html( tema_viera_t( 'NOMBRE COMPLETO' ) ); ?></label>
+                <div class="whatsapp-form-input">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="4.5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 13.5c0-2.5 2.2-4 5-4s5 1.5 5 4" stroke="currentColor" stroke-width="1.3"/></svg>
+                  <input type="text" id="wa-nombre" name="nombre" placeholder="Ej. Juan Pérez">
+                </div>
+              </div>
+
+              <div class="whatsapp-form-field">
+                <label for="wa-whatsapp"><?php echo esc_html( tema_viera_t( 'WHATSAPP' ) ); ?></label>
+                <div class="whatsapp-form-input">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><rect x="4" y="1" width="7" height="13" rx="2" stroke="currentColor" stroke-width="1.3"/><circle cx="7.5" cy="11.5" r="0.8" fill="currentColor"/></svg>
+                  <input type="tel" id="wa-whatsapp" name="whatsapp" placeholder="987 654 321">
+                </div>
+              </div>
+            </div>
+
+            <div class="whatsapp-form-field">
+              <label><?php echo esc_html( tema_viera_t( 'SERVICIO DE INTERÉS' ) ); ?></label>
+              <div class="whatsapp-form-input whatsapp-select" id="wa-servicio">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none" aria-hidden="true"><rect x="1" y="4.5" width="14" height="9.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 4.5V3.5c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5v1" stroke="currentColor" stroke-width="1.3"/></svg>
+                <button type="button" class="whatsapp-select-trigger" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="whatsapp-select-value"><?php echo esc_html( tema_viera_t( 'Selecciona un servicio' ) ); ?></span>
+                </button>
+                <input type="hidden" name="servicio" value="">
+                <svg class="whatsapp-select-arrow" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 5l3.5 3.5L10 5" stroke="currentColor" stroke-width="1.3"/></svg>
+                <ul class="whatsapp-select-list" role="listbox">
+                  <?php if ( ! empty( $servicios_items ) && is_array( $servicios_items ) ) : ?>
+                    <?php foreach ( $servicios_items as $servicio ) : ?>
+                      <?php $serv_titulo = tema_viera_t( $servicio['titulo'] ?? '' ); ?>
+                      <?php if ( ! empty( $serv_titulo ) ) : ?>
+                        <li class="whatsapp-select-option" role="option" data-value="<?php echo esc_attr( $serv_titulo ); ?>"><?php echo esc_html( $serv_titulo ); ?></li>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+                </ul>
+              </div>
+            </div>
+
+            <button type="submit" class="whatsapp-form-btn">
+              <span><?php echo esc_html( $whatsapp_btn_txt ); ?></span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 1l11 5.5L1 12V7.5L8 6.5 1 5.5V1z" fill="currentColor"/></svg>
+            </button>
+
+            <?php if ( $whatsapp_nota ) : ?>
+              <p class="whatsapp-form-nota"><?php echo esc_html( $whatsapp_nota ); ?></p>
+            <?php endif; ?>
+
+          </div>
+        </form>
       </div>
 
     </div>

@@ -199,6 +199,13 @@ function tema_viera_register_settings() {
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_btn_txt' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_btn_url' );
 
+	// Opciones Formulario WhatsApp
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_overline' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_titulo' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_btn_txt' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_nota' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_mensaje' );
+
 	// Opciones de Noticias
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_pre' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_titulo' );
@@ -285,7 +292,13 @@ function tema_viera_opciones_landing_page() {
 	$agenda_titulo     = get_option( 'tema_viera_abogados_agenda_titulo', 'HABLEMOS DE TU CASO' );
 	$agenda_desc       = get_option( 'tema_viera_abogados_agenda_desc', 'Agenda una reuniÃ³n con nuestro equipo legal de forma rÃ¡pida y sencilla. Estamos listos para escucharte y ayudarte.' );
 	$agenda_btn_txt    = get_option( 'tema_viera_abogados_agenda_btn_txt', 'AGENDA UNA CITA >' );
-	$agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#plugin-reserva' );
+	$agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#formulario-whatsapp' );
+
+	$whatsapp_overline = get_option( 'tema_viera_abogados_whatsapp_overline', 'RESPUESTA EN MENOS DE 24 HORAS' );
+	$whatsapp_titulo   = get_option( 'tema_viera_abogados_whatsapp_titulo', 'Solicita una consulta' );
+	$whatsapp_btn_txt  = get_option( 'tema_viera_abogados_whatsapp_btn_txt', 'ENVIAR POR WHATSAPP' );
+	$whatsapp_nota     = get_option( 'tema_viera_abogados_whatsapp_nota', 'Tus datos serán usados únicamente para contactarte sobre tu consulta.' );
+	$whatsapp_mensaje  = get_option( 'tema_viera_abogados_whatsapp_mensaje', "Hola, soy {nombre}.\nMi WhatsApp es: {whatsapp}.\nServicio de interés: {servicio}." );
 
 	$noticias_pre_titulo = get_option( 'tema_viera_abogados_noticias_pre', 'MÃS SOBRE NOSOTROS' );
 	$noticias_titulo     = get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÃS' );
@@ -886,6 +899,38 @@ function tema_viera_opciones_landing_page() {
 				<div class="mi-tema-form-group">
 					<label for="agenda_btn_url"><?php esc_html_e( 'URL del BotÃ³n', 'tema-viera-abogados' ); ?></label>
 					<input type="url" id="agenda_btn_url" name="agenda_btn_url" value="<?php echo esc_attr( $agenda_btn_url ); ?>" />
+				</div>
+			</div>
+
+			<!-- SECCIÃ“N FORMULARIO WHATSAPP -->
+			<div class="mi-tema-form-section">
+				<h2><?php esc_html_e( 'Formulario WhatsApp (Agenda)', 'tema-viera-abogados' ); ?></h2>
+				<p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'Los datos se envían al número de teléfono configurado en la sección Contacto.', 'tema-viera-abogados' ); ?></p>
+
+				<div class="mi-tema-form-group">
+					<label for="whatsapp_overline"><?php esc_html_e( 'Texto Superior (overline)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="whatsapp_overline" name="whatsapp_overline" value="<?php echo esc_attr( $whatsapp_overline ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="whatsapp_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="whatsapp_titulo" name="whatsapp_titulo" value="<?php echo esc_attr( $whatsapp_titulo ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="whatsapp_btn_txt"><?php esc_html_e( 'Texto del Botón', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="whatsapp_btn_txt" name="whatsapp_btn_txt" value="<?php echo esc_attr( $whatsapp_btn_txt ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="whatsapp_nota"><?php esc_html_e( 'Nota de privacidad', 'tema-viera-abogados' ); ?></label>
+					<textarea id="whatsapp_nota" name="whatsapp_nota"><?php echo esc_textarea( $whatsapp_nota ); ?></textarea>
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="whatsapp_mensaje"><?php esc_html_e( 'Mensaje de WhatsApp', 'tema-viera-abogados' ); ?></label>
+					<textarea id="whatsapp_mensaje" name="whatsapp_mensaje" rows="5"><?php echo esc_textarea( $whatsapp_mensaje ); ?></textarea>
+					<p class="description"><?php esc_html_e( 'Puedes usar {nombre}, {whatsapp} y {servicio} para insertar los datos del formulario.', 'tema-viera-abogados' ); ?></p>
 				</div>
 			</div>
 
@@ -1570,6 +1615,23 @@ function tema_viera_procesar_opciones_landing() {
 	}
 	if ( isset( $_POST['agenda_btn_url'] ) ) {
 		update_option( 'tema_viera_abogados_agenda_btn_url', esc_url_raw( $_POST['agenda_btn_url'] ) );
+	}
+
+	// Procesar Formulario WhatsApp
+	if ( isset( $_POST['whatsapp_overline'] ) ) {
+		update_option( 'tema_viera_abogados_whatsapp_overline', sanitize_text_field( $_POST['whatsapp_overline'] ) );
+	}
+	if ( isset( $_POST['whatsapp_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_whatsapp_titulo', sanitize_text_field( $_POST['whatsapp_titulo'] ) );
+	}
+	if ( isset( $_POST['whatsapp_btn_txt'] ) ) {
+		update_option( 'tema_viera_abogados_whatsapp_btn_txt', sanitize_text_field( $_POST['whatsapp_btn_txt'] ) );
+	}
+	if ( isset( $_POST['whatsapp_nota'] ) ) {
+		update_option( 'tema_viera_abogados_whatsapp_nota', sanitize_textarea_field( $_POST['whatsapp_nota'] ) );
+	}
+	if ( isset( $_POST['whatsapp_mensaje'] ) ) {
+		update_option( 'tema_viera_abogados_whatsapp_mensaje', sanitize_textarea_field( $_POST['whatsapp_mensaje'] ) );
 	}
 
 	// Procesar Noticias
