@@ -24,9 +24,6 @@
 
 		// Funcionalidad del formulario de contacto
 		setupContactForm();
-
-		// Formulario de WhatsApp
-		setupWhatsAppForm();
 	}
 
 	/**
@@ -79,97 +76,6 @@
 
 			console.log('Formulario de contacto:', data);
 			// Aquí se podría hacer un fetch a admin-ajax.php si lo requiere
-		});
-	}
-
-	/**
-	 * Formulario de WhatsApp: arma el mensaje y abre wa.me
-	 */
-	function setupWhatsAppForm() {
-		var form = document.getElementById('whatsapp-form');
-		if (!form) return;
-
-		var selectBox = form.querySelector('.whatsapp-select');
-		var selectValue = selectBox ? selectBox.querySelector('.whatsapp-select-value') : null;
-		var hiddenInput = selectBox ? selectBox.querySelector('input[name="servicio"]') : null;
-		var trigger = selectBox ? selectBox.querySelector('.whatsapp-select-trigger') : null;
-
-		if (selectBox && trigger) {
-			var toggle = function(open) {
-				var isOpen = selectBox.classList.contains('is-open');
-				var next = (typeof open === 'boolean') ? open : !isOpen;
-				selectBox.classList.toggle('is-open', next);
-				trigger.setAttribute('aria-expanded', next ? 'true' : 'false');
-			};
-
-			trigger.addEventListener('click', function(e) {
-				e.stopPropagation();
-				toggle();
-			});
-
-			selectBox.querySelectorAll('.whatsapp-select-option').forEach(function(option) {
-				option.addEventListener('click', function() {
-					var value = option.getAttribute('data-value') || '';
-					if (hiddenInput) {
-						hiddenInput.value = value;
-					}
-					if (selectValue) {
-						selectValue.textContent = option.textContent;
-					}
-
-					selectBox.querySelectorAll('.whatsapp-select-option').forEach(function(o) {
-						o.classList.toggle('is-selected', o === option);
-					});
-
-					selectBox.classList.toggle('has-value', value !== '');
-					toggle(false);
-				});
-			});
-
-			document.addEventListener('click', function(e) {
-				if (!selectBox.contains(e.target)) {
-					toggle(false);
-				}
-			});
-		}
-
-		form.addEventListener('submit', function(e) {
-			e.preventDefault();
-
-			var numero = form.getAttribute('data-whatsapp') || '';
-			var templateInput = form.querySelector('input[name="template"]');
-			var template = templateInput ? templateInput.value : '';
-
-			var nombre = (form.querySelector('input[name="nombre"]') || {}).value || '';
-			var whatsapp = (form.querySelector('input[name="whatsapp"]') || {}).value || '';
-			var servicio = hiddenInput ? hiddenInput.value : '';
-
-			var datos = {
-				'{nombre}': nombre.trim(),
-				'{whatsapp}': whatsapp.trim(),
-				'{servicio}': servicio.trim()
-			};
-
-			var claves = Object.keys(datos);
-
-			var lineas = template.split('\n')
-				.filter(function(linea) {
-					var tieneVacio = claves.some(function(key) {
-						return datos[key] === '' && linea.indexOf(key) !== -1;
-					});
-					return !tieneVacio;
-				})
-				.map(function(linea) {
-					claves.forEach(function(key) {
-						linea = linea.split(key).join(datos[key]);
-					});
-					return linea;
-				});
-
-			var mensaje = lineas.join('\n').trim();
-			var url = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(mensaje);
-
-			window.open(url, '_blank', 'noopener');
 		});
 	}
 
@@ -789,6 +695,213 @@ document.addEventListener('DOMContentLoaded', function() {
   revealEls.forEach(function(el) {
     revealObserver.observe(el);
   });
+});
+
+// Calendario y formulario de reserva (Agendar Cita)
+document.addEventListener('DOMContentLoaded', function() {
+  var calendar = document.getElementById('cita-calendar');
+  if (!calendar) return;
+
+  var monthLabel = document.getElementById('calendar-month');
+  var daysContainer = document.getElementById('calendar-days');
+  var slotsFecha = document.getElementById('calendar-slots-fecha');
+  var slotsList = document.getElementById('calendar-slots-list');
+  var form = document.getElementById('booking-form');
+  var messageEl = document.getElementById('booking-message');
+  var selectServicio = document.getElementById('booking-servicio');
+
+  var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  var MESES_CORTO = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+
+  var now = new Date();
+  var currentYear = now.getFullYear();
+  var currentMonth = now.getMonth();
+  var selectedDate = null;
+  var selectedSlot = null;
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function toISO(y, m, d) { return y + '-' + pad(m + 1) + '-' + pad(d); }
+
+  function postAjax(data, cb) {
+    fetch(miTemaAbogados.ajaxUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data)
+    })
+      .then(function(r) { return r.json(); })
+      .then(cb)
+      .catch(function() { cb({ success: false, data: { mensaje: 'Error de conexión.' } }); });
+  }
+
+  function renderMonth() {
+    monthLabel.textContent = MESES[currentMonth] + ' ' + currentYear;
+
+    var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    var today = new Date();
+    var todayISO = toISO(today.getFullYear(), today.getMonth(), today.getDate());
+
+    daysContainer.innerHTML = '';
+
+    var i;
+    for (i = 0; i < firstDay; i++) {
+      var empty = document.createElement('span');
+      empty.className = 'calendar-day is-empty';
+      daysContainer.appendChild(empty);
+    }
+
+    for (var d = 1; d <= daysInMonth; d++) {
+      var iso = toISO(currentYear, currentMonth, d);
+      var cell = document.createElement('button');
+      cell.type = 'button';
+      cell.className = 'calendar-day';
+      cell.textContent = d;
+      cell.setAttribute('data-date', iso);
+
+      if (iso < todayISO) {
+        cell.classList.add('is-past');
+      } else {
+        if (iso === todayISO) cell.classList.add('is-today');
+        cell.addEventListener('click', function() {
+          selectDate(this.getAttribute('data-date'));
+        });
+      }
+
+      if (iso === selectedDate) cell.classList.add('is-selected');
+      daysContainer.appendChild(cell);
+    }
+  }
+
+  function selectDate(date) {
+    selectedDate = date;
+    selectedSlot = null;
+    renderMonth();
+    updateSlotsLabel();
+    fetchSlots(date);
+  }
+
+  function updateSlotsLabel() {
+    if (!selectedDate) {
+      slotsFecha.textContent = '';
+      return;
+    }
+    var parts = selectedDate.split('-');
+    var m = parseInt(parts[1], 10) - 1;
+    var d = parseInt(parts[2], 10);
+    slotsFecha.textContent = d + ' ' + MESES_CORTO[m];
+  }
+
+  function fetchSlots(date) {
+    slotsList.innerHTML = '';
+    postAjax({ action: 'tema_viera_citas_slots', nonce: miTemaAbogados.nonce, fecha: date }, function(result) {
+      if (result && result.success) {
+        renderSlots(result.data.slots);
+      }
+    });
+  }
+
+  function renderSlots(slots) {
+    slotsList.innerHTML = '';
+    slots.forEach(function(slot) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'calendar-slot';
+      btn.textContent = slot.hora;
+      if (slot.ocupado) {
+        btn.classList.add('is-disabled');
+        btn.disabled = true;
+      } else {
+        btn.addEventListener('click', function() {
+          selectedSlot = slot.hora;
+          renderSlots(slots);
+        });
+      }
+      if (slot.hora === selectedSlot) btn.classList.add('is-selected');
+      slotsList.appendChild(btn);
+    });
+  }
+
+  function showMessage(texto, tipo) {
+    messageEl.textContent = texto;
+    messageEl.className = 'booking-message ' + (tipo === 'success' ? 'is-success' : 'is-error');
+    messageEl.hidden = false;
+  }
+
+  calendar.querySelectorAll('.calendar-nav').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var dir = parseInt(this.getAttribute('data-dir'), 10);
+      currentMonth += dir;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      renderMonth();
+    });
+  });
+
+  if (selectServicio) {
+    selectServicio.addEventListener('change', function() {
+      selectServicio.classList.toggle('has-value', selectServicio.value !== '');
+    });
+  }
+
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      showMessage('', 'error');
+      messageEl.hidden = true;
+
+      var nombre = (form.querySelector('input[name="nombre"]') || {}).value || '';
+      var whatsapp = (form.querySelector('input[name="whatsapp"]') || {}).value || '';
+      var servicio = selectServicio ? selectServicio.value : '';
+
+      if (!selectedDate) { showMessage('Selecciona un día en el calendario.', 'error'); return; }
+      if (!selectedSlot) { showMessage('Selecciona un horario disponible.', 'error'); return; }
+      if (!nombre.trim()) { showMessage('Ingresa tu nombre.', 'error'); return; }
+
+      var submitBtn = form.querySelector('.booking-submit');
+      var span = submitBtn ? submitBtn.querySelector('span') : null;
+      var originalText = span ? span.textContent : '';
+      if (submitBtn) { submitBtn.disabled = true; if (span) span.textContent = '…'; }
+
+      postAjax({
+        action: 'tema_viera_citas_book',
+        nonce: miTemaAbogados.nonce,
+        nombre: nombre.trim(),
+        whatsapp: whatsapp.trim(),
+        servicio: servicio.trim(),
+        fecha: selectedDate,
+        hora: selectedSlot
+      }, function(result) {
+        if (submitBtn) { submitBtn.disabled = false; if (span) span.textContent = originalText; }
+
+        if (result && result.success) {
+          showMessage(result.data.mensaje, 'success');
+
+          var numero = result.data.whatsapp_numero || '';
+          var waMsg = form.getAttribute('data-wa-msg') || '';
+          if (numero && waMsg) {
+            var datos = {
+              '{nombre}': nombre.trim(),
+              '{whatsapp}': whatsapp.trim(),
+              '{servicio}': servicio.trim(),
+              '{fecha}': selectedDate,
+              '{hora}': selectedSlot
+            };
+            var texto = waMsg;
+            Object.keys(datos).forEach(function(k) { texto = texto.split(k).join(datos[k]); });
+            window.open('https://wa.me/' + numero + '?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+          }
+
+          selectedSlot = null;
+          fetchSlots(selectedDate);
+        } else {
+          var msg = (result && result.data && result.data.mensaje) ? result.data.mensaje : 'Ocurrió un error.';
+          showMessage(msg, 'error');
+        }
+      });
+    });
+  }
+
+  renderMonth();
 });
 
 })();

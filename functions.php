@@ -110,6 +110,7 @@ require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/metaboxes-abogados.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/metaboxes-posts.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-landing.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-equipo.php';
+require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/citas.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/polylang-integration.php';
 
 /**

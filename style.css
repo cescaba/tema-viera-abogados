@@ -2125,43 +2125,370 @@ img {
   position: relative;
 }
 
-.agenda-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: 60px;
-  align-items: center;
-}
-
-.agenda-content-col {
-  padding-right: 20px;
+.agenda-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 32px;
 }
 
 .agenda-pre-titulo {
   display: block;
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 15px;
+  color: #6B7385;
 }
 
 .agenda-titulo {
   font-family: var(--font-main);
-  font-size: 36px;
-  color: var(--color-primary);
-  text-transform: uppercase;
-  font-weight: 300;
-  line-height: 1.2;
-  margin-bottom: 25px;
+  font-size: 32px;
+  color: #222F50;
+  text-transform: none;
+  font-weight: 700;
+  line-height: 39px;
+  margin: 0;
 }
 
 .agenda-desc {
+  font-size: 14px;
+  color: #6B7385;
+  line-height: 17px;
+  margin: 0;
+}
+
+.agenda-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.agenda-calendar-col {
+  min-width: 0;
+}
+
+/* Calendario */
+.calendar-card {
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1px solid rgba(132, 151, 199, 0.45);
+  padding: 32px;
+}
+
+.calendar-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-nav {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 18px;
+  color: #808799;
+}
+
+.calendar-nav:hover {
+  color: #222F50;
+}
+
+.calendar-month {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  color: #222F50;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+
+.calendar-weekdays span {
+  width: 28px;
+  justify-self: center;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 13px;
+  color: #8C94A6;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 6px;
+  margin-bottom: 20px;
+}
+
+.calendar-day {
+  width: 28px;
+  height: 28px;
+  justify-self: center;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12.5px;
+  line-height: 15px;
+  color: #222F50;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.calendar-day.is-empty {
+  visibility: hidden;
+}
+
+.calendar-day.is-past {
+  color: #CCCFD9;
+  cursor: default;
+}
+
+.calendar-day.is-today {
+  outline: 1px solid rgba(132, 151, 199, 0.5);
+}
+
+.calendar-day.is-selected {
+  background: #222F50;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.calendar-slots {
+  margin-bottom: 20px;
+}
+
+.calendar-slots-title {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #808799;
+  margin-bottom: 10px;
+}
+
+.calendar-slots-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.calendar-slot {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 12px;
+  background: #FFFFFF;
+  border: 1px solid rgba(132, 151, 199, 0.4);
+  font-size: 12.5px;
+  line-height: 15px;
+  color: #222F50;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.calendar-slot:hover:not(.is-disabled):not(.is-selected) {
+  border-color: #222F50;
+}
+
+.calendar-slot.is-selected {
+  background: #222F50;
+  border-color: #222F50;
+  color: #FFFFFF;
+}
+
+.calendar-slot.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.calendar-divider {
+  height: 1px;
+  background: rgba(132, 151, 199, 0.25);
+  margin-bottom: 20px;
+}
+
+.calendar-timezone {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  line-height: 15px;
+  color: #808799;
+}
+
+.calendar-timezone-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #808799;
+  flex-shrink: 0;
+}
+
+/* Formulario de reserva */
+.booking-form {
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1px solid rgba(132, 151, 199, 0.45);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.booking-form-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.booking-form-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+  color: #222F50;
+  margin: 0;
+}
+
+.booking-form-sub {
   font-size: 13px;
-  color: var(--color-text-light);
-  line-height: 1.7;
-  margin-bottom: 40px;
-  max-width: 90%;
+  font-weight: 400;
+  line-height: 145%;
+  color: #808799;
+  margin: 0;
+}
+
+.booking-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.booking-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.booking-field label {
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 14px;
+  letter-spacing: 0.4px;
+  color: #222F50;
+}
+
+.booking-field input,
+.booking-select select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  background: #F9FAFB;
+  border: 1px solid rgba(132, 151, 199, 0.35);
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 16px;
+  color: #222F50;
+}
+
+.booking-field input::placeholder {
+  color: #99A1AD;
+}
+
+.booking-field input:focus,
+.booking-select select:focus {
+  outline: none;
+  border-color: #222F50;
+}
+
+.booking-select {
+  position: relative;
+}
+
+.booking-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 36px;
+  color: #99A1AD;
+}
+
+.booking-select select.has-value {
+  color: #222F50;
+}
+
+.booking-select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #222F50;
+  pointer-events: none;
+}
+
+.booking-note {
+  background: #F9FAFB;
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 140%;
+  color: #808799;
+}
+
+.booking-submit {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 50px;
+  padding: 0 28px;
+  background: #222F50;
+  border: none;
+  color: #FFFFFF;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  align-self: flex-start;
+}
+
+.booking-submit:hover {
+  background: #1a2540;
+}
+
+.booking-message {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.booking-message.is-success {
+  color: #1a7f37;
+}
+
+.booking-message.is-error {
+  color: #c0392b;
 }
 
 .btn-outline-dark {
@@ -2187,250 +2514,17 @@ img {
   width: 100%;
 }
 
-.whatsapp-form {
-  position: relative;
-  background: linear-gradient(90deg, #202B50 0%, #02A7B6 100%);
-  border-radius: 0;
-}
-
-.whatsapp-form::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: #6B7AAD;
-}
-
-.whatsapp-form-body {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 52px 40px 40px;
-}
-
-.whatsapp-form-overline {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #BFC7E6;
-}
-
-.whatsapp-form-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #66D98C;
-  flex-shrink: 0;
-}
-
-.whatsapp-form-titulo {
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: #ffffff;
-  margin: 0;
-}
-
-.whatsapp-form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.whatsapp-form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.whatsapp-form-field label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  color: #BFC7E6;
-}
-
-.whatsapp-form-input {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 16px;
-  height: 46px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-}
-
-.whatsapp-form-input svg {
-  flex-shrink: 0;
-  color: rgba(209, 217, 242, 0.85);
-}
-
-.whatsapp-form-input input {
-  flex: 1;
-  min-width: 0;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-family: inherit;
-  font-size: 13px;
-  color: #ffffff;
-}
-
-.whatsapp-form-input input::placeholder {
-  color: #9EA8CC;
-}
-
-.whatsapp-select {
-  position: relative;
-  cursor: pointer;
-}
-
-.whatsapp-select-trigger {
-  flex: 1;
-  min-width: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  background: transparent;
-  border: none;
-  outline: none;
-  padding: 0;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 13px;
-  text-align: left;
-  color: #9EA8CC;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.whatsapp-select.has-value .whatsapp-select-trigger {
-  color: #ffffff;
-}
-
-.whatsapp-select-arrow {
-  transition: transform 0.25s ease;
-}
-
-.whatsapp-select.is-open .whatsapp-select-arrow {
-  transform: rotate(180deg);
-}
-
-.whatsapp-select-list {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  margin: 0;
-  padding: 6px 0;
-  list-style: none;
-  background: #1E2A4A;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-  max-height: 220px;
-  overflow-y: auto;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-6px);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-  z-index: 30;
-}
-
-.whatsapp-select.is-open .whatsapp-select-list {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.whatsapp-select-option {
-  padding: 10px 16px;
-  font-size: 13px;
-  color: #ffffff;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.whatsapp-select-option:hover {
-  background-color: rgba(2, 167, 182, 0.3);
-}
-
-.whatsapp-select-option.is-selected {
-  color: #66D98C;
-}
-
-.whatsapp-form-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  height: 52px;
-  background: #ffffff;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  color: #222F50;
-  transition: opacity 0.3s ease;
-}
-
-.whatsapp-form-btn:hover {
-  opacity: 0.88;
-}
-
-.whatsapp-form-btn svg {
-  width: 13px;
-  height: 13px;
-  color: #222F50;
-}
-
-.whatsapp-form-nota {
-  font-size: 11px;
-  line-height: 1.3;
-  color: #8C96B8;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .whatsapp-form-body {
-    padding: 40px 24px 32px;
-  }
-
-  .whatsapp-form-row {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-}
-
 /* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 992px) {
   .agenda-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
   }
-  
-  .agenda-content-col {
-    padding-right: 0;
-    text-align: center;
-  }
-  
-  .agenda-desc {
+
+  .calendar-card {
     max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -2439,12 +2533,119 @@ img {
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8vw), 0 100%);
     padding-bottom: 120px;
   }
-  
+
+  .agenda-heading {
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
   .agenda-titulo {
-    font-size: 28px;
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .agenda-desc {
+    font-size: 13px;
+  }
+
+  .calendar-card,
+  .booking-form {
+    padding: 24px 20px;
+  }
+
+  .booking-form-row {
+    grid-template-columns: 1fr;
   }
 }
 
+
+/* ========================================
+   SECCIÓN TRUST BADGES
+   ======================================== */
+.section-trust-badges {
+  background-color: #FFFFFF;
+  padding: 0;
+}
+
+.section-trust-badges .container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.trust-badges {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.trust-badge {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0 0;
+  gap: 4px;
+  flex: 1;
+  text-align: center;
+}
+
+.trust-badge + .trust-badge {
+  border-left: 1px solid rgba(132, 151, 199, 0.35);
+  padding-left: 32px;
+}
+
+.trust-badge-titulo {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  color: #222F50;
+}
+
+.trust-badge-sub {
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 15px;
+  color: #808799;
+}
+
+.trust-badge-sub-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .trust-badges {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .trust-badge {
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    gap: 3px;
+  }
+
+  .trust-badge + .trust-badge {
+    border-left: 1px solid rgba(132, 151, 199, 0.35);
+    border-top: none;
+    padding-left: 10px;
+  }
+
+  .trust-badge-titulo {
+    font-size: 12.5px;
+    line-height: 15px;
+  }
+
+  .trust-badge-sub {
+    display: none;
+  }
+
+  .trust-badge-sub-mobile {
+    display: block;
+    font-size: 11px;
+    line-height: 13px;
+  }
+}
 
 /* ========================================
    SECCIÓN NOTICIAS Y CASOS
@@ -2912,11 +3113,11 @@ img {
 }
 
 .perfil-logo-item {
-  width: 214px;
-  height: 91px;
+  width: 130px;
+  height: 56px;
   box-sizing: border-box;
   border: 1px solid #AAAAAA;
-  padding: 10px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3215,7 +3416,7 @@ img {
 
   .section-perfil-detalle {
     background-color: #FFFFFF;
-    padding: 36px 20px;
+    padding: 36px 0px;
   }
 
   .section-perfil-detalle::before {

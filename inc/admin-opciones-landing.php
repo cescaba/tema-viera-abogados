@@ -200,15 +200,27 @@ function tema_viera_register_settings() {
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_pre' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_titulo' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_desc' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_btn_txt' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_agenda_btn_url' );
 
-	// Opciones Formulario WhatsApp
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_overline' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_titulo' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_btn_txt' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_nota' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_whatsapp_mensaje' );
+	// Opciones Trust Badges (debajo de Agendar Cita)
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge1_titulo' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge1_sub' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge1_sub_mobile' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge2_titulo' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge2_sub' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge2_sub_mobile' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge3_titulo' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge3_sub' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge3_sub_mobile' );
+
+	// Opciones de Citas / Calendario
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_citas_horarios' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_citas_zona' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_citas_email' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_citas_form_titulo' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_citas_form_sub' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_citas_nota' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_citas_btn_txt' );
+	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_citas_wa_msg' );
 
 	// Opciones de Noticias
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_noticias_pre' );
@@ -296,14 +308,25 @@ function tema_viera_opciones_landing_page() {
 	$agenda_pre_titulo = get_option( 'tema_viera_abogados_agenda_pre', 'AGENDA UNA REUNIÃ“N' );
 	$agenda_titulo     = get_option( 'tema_viera_abogados_agenda_titulo', 'HABLEMOS DE TU CASO' );
 	$agenda_desc       = get_option( 'tema_viera_abogados_agenda_desc', 'Agenda una reuniÃ³n con nuestro equipo legal de forma rÃ¡pida y sencilla. Estamos listos para escucharte y ayudarte.' );
-	$agenda_btn_txt    = get_option( 'tema_viera_abogados_agenda_btn_txt', 'AGENDA UNA CITA >' );
-	$agenda_btn_url    = get_option( 'tema_viera_abogados_agenda_btn_url', '#formulario-whatsapp' );
 
-	$whatsapp_overline = get_option( 'tema_viera_abogados_whatsapp_overline', 'RESPUESTA EN MENOS DE 24 HORAS' );
-	$whatsapp_titulo   = get_option( 'tema_viera_abogados_whatsapp_titulo', 'Solicita una consulta' );
-	$whatsapp_btn_txt  = get_option( 'tema_viera_abogados_whatsapp_btn_txt', 'ENVIAR POR WHATSAPP' );
-	$whatsapp_nota     = get_option( 'tema_viera_abogados_whatsapp_nota', 'Tus datos serán usados únicamente para contactarte sobre tu consulta.' );
-	$whatsapp_mensaje  = get_option( 'tema_viera_abogados_whatsapp_mensaje', "Hola, soy {nombre}.\nMi WhatsApp es: {whatsapp}.\nServicio de interés: {servicio}." );
+	$badge1_titulo = get_option( 'tema_viera_abogados_badge1_titulo', 'Sin compromiso' );
+	$badge1_sub    = get_option( 'tema_viera_abogados_badge1_sub', 'La sesión es 100% gratuita' );
+	$badge1_sub_mobile = get_option( 'tema_viera_abogados_badge1_sub_mobile', '' );
+	$badge2_titulo = get_option( 'tema_viera_abogados_badge2_titulo', 'Respuesta rápida' );
+	$badge2_sub    = get_option( 'tema_viera_abogados_badge2_sub', 'Confirmación en minutos' );
+	$badge2_sub_mobile = get_option( 'tema_viera_abogados_badge2_sub_mobile', '' );
+	$badge3_titulo = get_option( 'tema_viera_abogados_badge3_titulo', 'Flexible' );
+	$badge3_sub    = get_option( 'tema_viera_abogados_badge3_sub', 'Reagenda cuando quieras' );
+	$badge3_sub_mobile = get_option( 'tema_viera_abogados_badge3_sub_mobile', '' );
+
+	$citas_horarios    = get_option( 'tema_viera_abogados_citas_horarios', "09:00\n10:30\n14:00\n16:30" );
+	$citas_zona        = get_option( 'tema_viera_abogados_citas_zona', 'Hora de Lima (GMT-5)' );
+	$citas_email       = get_option( 'tema_viera_abogados_citas_email', '' );
+	$citas_form_titulo = get_option( 'tema_viera_abogados_citas_form_titulo', '¿Qué te gustaría tratar en la sesión?' );
+	$citas_form_sub    = get_option( 'tema_viera_abogados_citas_form_sub', 'Selecciona el tema principal para llegar con información relevante a tu caso.' );
+	$citas_nota        = get_option( 'tema_viera_abogados_citas_nota', 'Al elegir el tema, prepararemos información relevante para aprovechar al máximo tu sesión.' );
+	$citas_btn_txt     = get_option( 'tema_viera_abogados_citas_btn_txt', 'AGENDAR REUNIÓN' );
+	$citas_wa_msg      = get_option( 'tema_viera_abogados_citas_wa_msg', 'Hola, confirmo mi cita para el {fecha} a las {hora}. Soy {nombre}. Servicio: {servicio}.' );
 
 	$noticias_pre_titulo = get_option( 'tema_viera_abogados_noticias_pre', 'MÃS SOBRE NOSOTROS' );
 	$noticias_titulo     = get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÃS' );
@@ -902,46 +925,91 @@ function tema_viera_opciones_landing_page() {
 					<textarea id="agenda_desc" name="agenda_desc"><?php echo esc_textarea( $agenda_desc ); ?></textarea>
 				</div>
 
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Trust Badges (debajo de la sección)', 'tema-viera-abogados' ); ?></h3>
+
 				<div class="mi-tema-form-group">
-					<label for="agenda_btn_txt"><?php esc_html_e( 'Texto del BotÃ³n', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="agenda_btn_txt" name="agenda_btn_txt" value="<?php echo esc_attr( $agenda_btn_txt ); ?>" />
+					<label for="badge1_titulo"><?php esc_html_e( 'Badge 1 — Título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="badge1_titulo" name="badge1_titulo" value="<?php echo esc_attr( $badge1_titulo ); ?>" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="badge1_sub"><?php esc_html_e( 'Badge 1 — Subtítulo', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="badge1_sub" name="badge1_sub" value="<?php echo esc_attr( $badge1_sub ); ?>" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="badge1_sub_mobile"><?php esc_html_e( 'Badge 1 — Subtítulo móvil (corto)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="badge1_sub_mobile" name="badge1_sub_mobile" value="<?php echo esc_attr( $badge1_sub_mobile ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="agenda_btn_url"><?php esc_html_e( 'URL del BotÃ³n', 'tema-viera-abogados' ); ?></label>
-					<input type="url" id="agenda_btn_url" name="agenda_btn_url" value="<?php echo esc_attr( $agenda_btn_url ); ?>" />
+					<label for="badge2_titulo"><?php esc_html_e( 'Badge 2 — Título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="badge2_titulo" name="badge2_titulo" value="<?php echo esc_attr( $badge2_titulo ); ?>" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="badge2_sub"><?php esc_html_e( 'Badge 2 — Subtítulo', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="badge2_sub" name="badge2_sub" value="<?php echo esc_attr( $badge2_sub ); ?>" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="badge2_sub_mobile"><?php esc_html_e( 'Badge 2 — Subtítulo móvil (corto)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="badge2_sub_mobile" name="badge2_sub_mobile" value="<?php echo esc_attr( $badge2_sub_mobile ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="badge3_titulo"><?php esc_html_e( 'Badge 3 — Título', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="badge3_titulo" name="badge3_titulo" value="<?php echo esc_attr( $badge3_titulo ); ?>" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="badge3_sub"><?php esc_html_e( 'Badge 3 — Subtítulo', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="badge3_sub" name="badge3_sub" value="<?php echo esc_attr( $badge3_sub ); ?>" />
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="badge3_sub_mobile"><?php esc_html_e( 'Badge 3 — Subtítulo móvil (corto)', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="badge3_sub_mobile" name="badge3_sub_mobile" value="<?php echo esc_attr( $badge3_sub_mobile ); ?>" />
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N FORMULARIO WHATSAPP -->
+			<!-- SECCIÓN CITAS / CALENDARIO -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'Formulario WhatsApp (Agenda)', 'tema-viera-abogados' ); ?></h2>
-				<p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'Los datos se envían al número de teléfono configurado en la sección Contacto.', 'tema-viera-abogados' ); ?></p>
+				<h2><?php esc_html_e( 'Citas / Calendario', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="whatsapp_overline"><?php esc_html_e( 'Texto Superior (overline)', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="whatsapp_overline" name="whatsapp_overline" value="<?php echo esc_attr( $whatsapp_overline ); ?>" />
+					<label for="citas_horarios"><?php esc_html_e( 'Horarios disponibles (uno por línea, ej: 09:00)', 'tema-viera-abogados' ); ?></label>
+					<textarea id="citas_horarios" name="citas_horarios" style="min-height:100px;"><?php echo esc_textarea( $citas_horarios ); ?></textarea>
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="whatsapp_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="whatsapp_titulo" name="whatsapp_titulo" value="<?php echo esc_attr( $whatsapp_titulo ); ?>" />
+					<label for="citas_zona"><?php esc_html_e( 'Texto de zona horaria', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="citas_zona" name="citas_zona" value="<?php echo esc_attr( $citas_zona ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="whatsapp_btn_txt"><?php esc_html_e( 'Texto del Botón', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="whatsapp_btn_txt" name="whatsapp_btn_txt" value="<?php echo esc_attr( $whatsapp_btn_txt ); ?>" />
+					<label for="citas_email"><?php esc_html_e( 'Email de notificación (vacío = usa el de Contacto)', 'tema-viera-abogados' ); ?></label>
+					<input type="email" id="citas_email" name="citas_email" value="<?php echo esc_attr( $citas_email ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="whatsapp_nota"><?php esc_html_e( 'Nota de privacidad', 'tema-viera-abogados' ); ?></label>
-					<textarea id="whatsapp_nota" name="whatsapp_nota"><?php echo esc_textarea( $whatsapp_nota ); ?></textarea>
+					<label for="citas_form_titulo"><?php esc_html_e( 'Título del formulario', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="citas_form_titulo" name="citas_form_titulo" value="<?php echo esc_attr( $citas_form_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="whatsapp_mensaje"><?php esc_html_e( 'Mensaje de WhatsApp', 'tema-viera-abogados' ); ?></label>
-					<textarea id="whatsapp_mensaje" name="whatsapp_mensaje" rows="5"><?php echo esc_textarea( $whatsapp_mensaje ); ?></textarea>
-					<p class="description"><?php esc_html_e( 'Puedes usar {nombre}, {whatsapp} y {servicio} para insertar los datos del formulario.', 'tema-viera-abogados' ); ?></p>
+					<label for="citas_form_sub"><?php esc_html_e( 'Subtítulo del formulario', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="citas_form_sub" name="citas_form_sub" value="<?php echo esc_attr( $citas_form_sub ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="citas_nota"><?php esc_html_e( 'Nota inferior del formulario', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="citas_nota" name="citas_nota" value="<?php echo esc_attr( $citas_nota ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="citas_btn_txt"><?php esc_html_e( 'Texto del botón', 'tema-viera-abogados' ); ?></label>
+					<input type="text" id="citas_btn_txt" name="citas_btn_txt" value="<?php echo esc_attr( $citas_btn_txt ); ?>" />
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label for="citas_wa_msg"><?php esc_html_e( 'Mensaje de confirmación por WhatsApp', 'tema-viera-abogados' ); ?></label>
+					<textarea id="citas_wa_msg" name="citas_wa_msg" style="min-height:80px;"><?php echo esc_textarea( $citas_wa_msg ); ?></textarea>
+					<p class="description"><?php esc_html_e( 'Puedes usar {nombre}, {fecha}, {hora} y {servicio}.', 'tema-viera-abogados' ); ?></p>
 				</div>
 			</div>
 
@@ -1624,28 +1692,60 @@ function tema_viera_procesar_opciones_landing() {
 	if ( isset( $_POST['agenda_desc'] ) ) {
 		update_option( 'tema_viera_abogados_agenda_desc', wp_kses_post( $_POST['agenda_desc'] ) );
 	}
-	if ( isset( $_POST['agenda_btn_txt'] ) ) {
-		update_option( 'tema_viera_abogados_agenda_btn_txt', sanitize_text_field( $_POST['agenda_btn_txt'] ) );
+
+	// Procesar Trust Badges
+	if ( isset( $_POST['badge1_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_badge1_titulo', sanitize_text_field( $_POST['badge1_titulo'] ) );
 	}
-	if ( isset( $_POST['agenda_btn_url'] ) ) {
-		update_option( 'tema_viera_abogados_agenda_btn_url', esc_url_raw( $_POST['agenda_btn_url'] ) );
+	if ( isset( $_POST['badge1_sub'] ) ) {
+		update_option( 'tema_viera_abogados_badge1_sub', sanitize_text_field( $_POST['badge1_sub'] ) );
+	}
+	if ( isset( $_POST['badge1_sub_mobile'] ) ) {
+		update_option( 'tema_viera_abogados_badge1_sub_mobile', sanitize_text_field( $_POST['badge1_sub_mobile'] ) );
+	}
+	if ( isset( $_POST['badge2_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_badge2_titulo', sanitize_text_field( $_POST['badge2_titulo'] ) );
+	}
+	if ( isset( $_POST['badge2_sub'] ) ) {
+		update_option( 'tema_viera_abogados_badge2_sub', sanitize_text_field( $_POST['badge2_sub'] ) );
+	}
+	if ( isset( $_POST['badge2_sub_mobile'] ) ) {
+		update_option( 'tema_viera_abogados_badge2_sub_mobile', sanitize_text_field( $_POST['badge2_sub_mobile'] ) );
+	}
+	if ( isset( $_POST['badge3_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_badge3_titulo', sanitize_text_field( $_POST['badge3_titulo'] ) );
+	}
+	if ( isset( $_POST['badge3_sub'] ) ) {
+		update_option( 'tema_viera_abogados_badge3_sub', sanitize_text_field( $_POST['badge3_sub'] ) );
+	}
+	if ( isset( $_POST['badge3_sub_mobile'] ) ) {
+		update_option( 'tema_viera_abogados_badge3_sub_mobile', sanitize_text_field( $_POST['badge3_sub_mobile'] ) );
 	}
 
-	// Procesar Formulario WhatsApp
-	if ( isset( $_POST['whatsapp_overline'] ) ) {
-		update_option( 'tema_viera_abogados_whatsapp_overline', sanitize_text_field( $_POST['whatsapp_overline'] ) );
+	// Procesar Citas / Calendario
+	if ( isset( $_POST['citas_horarios'] ) ) {
+		update_option( 'tema_viera_abogados_citas_horarios', sanitize_textarea_field( $_POST['citas_horarios'] ) );
 	}
-	if ( isset( $_POST['whatsapp_titulo'] ) ) {
-		update_option( 'tema_viera_abogados_whatsapp_titulo', sanitize_text_field( $_POST['whatsapp_titulo'] ) );
+	if ( isset( $_POST['citas_zona'] ) ) {
+		update_option( 'tema_viera_abogados_citas_zona', sanitize_text_field( $_POST['citas_zona'] ) );
 	}
-	if ( isset( $_POST['whatsapp_btn_txt'] ) ) {
-		update_option( 'tema_viera_abogados_whatsapp_btn_txt', sanitize_text_field( $_POST['whatsapp_btn_txt'] ) );
+	if ( isset( $_POST['citas_email'] ) ) {
+		update_option( 'tema_viera_abogados_citas_email', sanitize_email( $_POST['citas_email'] ) );
 	}
-	if ( isset( $_POST['whatsapp_nota'] ) ) {
-		update_option( 'tema_viera_abogados_whatsapp_nota', sanitize_textarea_field( $_POST['whatsapp_nota'] ) );
+	if ( isset( $_POST['citas_form_titulo'] ) ) {
+		update_option( 'tema_viera_abogados_citas_form_titulo', sanitize_text_field( $_POST['citas_form_titulo'] ) );
 	}
-	if ( isset( $_POST['whatsapp_mensaje'] ) ) {
-		update_option( 'tema_viera_abogados_whatsapp_mensaje', sanitize_textarea_field( $_POST['whatsapp_mensaje'] ) );
+	if ( isset( $_POST['citas_form_sub'] ) ) {
+		update_option( 'tema_viera_abogados_citas_form_sub', sanitize_text_field( $_POST['citas_form_sub'] ) );
+	}
+	if ( isset( $_POST['citas_nota'] ) ) {
+		update_option( 'tema_viera_abogados_citas_nota', sanitize_text_field( $_POST['citas_nota'] ) );
+	}
+	if ( isset( $_POST['citas_btn_txt'] ) ) {
+		update_option( 'tema_viera_abogados_citas_btn_txt', sanitize_text_field( $_POST['citas_btn_txt'] ) );
+	}
+	if ( isset( $_POST['citas_wa_msg'] ) ) {
+		update_option( 'tema_viera_abogados_citas_wa_msg', sanitize_textarea_field( $_POST['citas_wa_msg'] ) );
 	}
 
 	// Procesar Noticias
