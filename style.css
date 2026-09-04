@@ -1493,7 +1493,7 @@ img {
 
   .cliente-logo-wrapper.is-below-fold.is-revealed {
     display: block;
-    animation: logoRise 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: logoRise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .section-clientes .clientes-grid,
@@ -2906,15 +2906,17 @@ img {
 
 .perfil-logos-grid {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   align-items: center;
   flex-wrap: wrap;
 }
 
 .perfil-logo-item {
-  height: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 10px 20px;
+  width: 214px;
+  height: 91px;
+  box-sizing: border-box;
+  border: 1px solid #AAAAAA;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2922,7 +2924,7 @@ img {
 
 .perfil-logo-item img {
   max-height: 100%;
-  max-width: 120px;
+  max-width: 100%;
   object-fit: contain;
   filter: brightness(0) invert(1) opacity(0.8);
   transition: opacity 0.3s ease;
@@ -2982,7 +2984,7 @@ img {
    ======================================== */
 .section-perfil-detalle {
   background-color: #EFF2FA;
-  padding: 120px 0 140px;
+  padding: 26px 0 90px;
   position: relative;
   overflow: hidden;
 }
@@ -3035,17 +3037,6 @@ img {
 }
 
 .detalle-contenido-texto p {
-  margin-bottom: 20px;
-}
-
-.detalle-subtitulo-secundario {
-  font-family: var(--font-main);
-  font-size: 13px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--color-text-light);
-  margin-top: 50px;
   margin-bottom: 20px;
 }
 

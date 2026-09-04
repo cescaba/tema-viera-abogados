@@ -437,8 +437,8 @@ document.addEventListener('DOMContentLoaded', function() {
       var body = li.querySelector('.sector-body');
 
       if (isOpen) {
-        li.classList.remove('is-open');
         animateBody(body, false, function() {
+          li.classList.remove('is-open');
           isAnimating = false;
         });
         currentOpen = null;
@@ -450,8 +450,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (currentOpen) {
         var prevBody = currentOpen.querySelector('.sector-body');
-        currentOpen.classList.remove('is-open');
+        var prevItem = currentOpen;
         animateBody(prevBody, false, function() {
+          prevItem.classList.remove('is-open');
           li.classList.add('is-open');
           currentOpen = li;
           sectoresWrapper.classList.add('has-open');
@@ -542,9 +543,12 @@ document.addEventListener('DOMContentLoaded', function() {
   btn.addEventListener('click', function() {
     section.classList.add('is-expanded');
 
-    const belowFold = section.querySelectorAll('.cliente-logo-wrapper.is-below-fold');
+    const belowFold = Array.from(section.querySelectorAll('.cliente-logo-wrapper.is-below-fold'));
+    const perRow = 3;
+
     belowFold.forEach(function(wrapper, i) {
-      wrapper.style.animationDelay = (i * 70) + 'ms';
+      const row = Math.floor(i / perRow);
+      wrapper.style.animationDelay = (row * 220) + 'ms';
       wrapper.classList.add('is-revealed');
     });
   });
