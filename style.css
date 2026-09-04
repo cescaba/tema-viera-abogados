@@ -3606,6 +3606,7 @@ img {
 .section-equipo-grid {
   background-color: #EFF2FA;
   padding: 80px 0 100px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6vw), 0 100%);
 }
 
 .equipo-grid-header {
@@ -3760,6 +3761,9 @@ img {
 }
 
 @media (max-width: 768px) {
+  .section-equipo-grid {
+    clip-path: none;
+  }
   .equipo-grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
