@@ -761,7 +761,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (iso < todayISO) {
         cell.classList.add('is-past');
       } else {
-        if (iso === todayISO) cell.classList.add('is-today');
         cell.addEventListener('click', function() {
           selectDate(this.getAttribute('data-date'));
         });

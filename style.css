@@ -2210,13 +2210,13 @@ img {
 
 .calendar-weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, 28px);
+  justify-content: space-between;
   margin-bottom: 6px;
 }
 
 .calendar-weekdays span {
   width: 28px;
-  justify-self: center;
   text-align: center;
   font-size: 11px;
   font-weight: 600;
@@ -2226,7 +2226,8 @@ img {
 
 .calendar-days {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, 28px);
+  justify-content: space-between;
   row-gap: 6px;
   margin-bottom: 20px;
 }
@@ -2253,10 +2254,6 @@ img {
 .calendar-day.is-past {
   color: #CCCFD9;
   cursor: default;
-}
-
-.calendar-day.is-today {
-  outline: 1px solid rgba(132, 151, 199, 0.5);
 }
 
 .calendar-day.is-selected {
