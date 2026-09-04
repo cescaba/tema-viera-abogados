@@ -617,19 +617,22 @@ $citas_wa_msg      = tema_viera_t( get_option( 'tema_viera_abogados_citas_wa_msg
 
           <div class="booking-field">
             <label for="booking-servicio"><?php echo esc_html( tema_viera_t( 'SERVICIO DE INTERÉS' ) ); ?></label>
-            <div class="booking-select">
-              <select id="booking-servicio" name="servicio">
-                <option value=""><?php echo esc_html( tema_viera_t( 'Selecciona un servicio o tema…' ) ); ?></option>
+            <div class="booking-select" id="booking-servicio">
+              <button type="button" class="booking-select-trigger" aria-haspopup="listbox" aria-expanded="false">
+                <span class="booking-select-value"><?php echo esc_html( tema_viera_t( 'Selecciona un servicio o tema…' ) ); ?></span>
+              </button>
+              <input type="hidden" name="servicio" value="">
+              <svg class="booking-select-arrow" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 5l3.5 3.5L10 5" stroke="currentColor" stroke-width="1.3"/></svg>
+              <ul class="booking-select-list" role="listbox" tabindex="-1">
                 <?php if ( ! empty( $servicios_items ) && is_array( $servicios_items ) ) : ?>
                   <?php foreach ( $servicios_items as $servicio ) : ?>
                     <?php $serv_titulo = tema_viera_t( $servicio['titulo'] ?? '' ); ?>
                     <?php if ( ! empty( $serv_titulo ) ) : ?>
-                      <option value="<?php echo esc_attr( $serv_titulo ); ?>"><?php echo esc_html( $serv_titulo ); ?></option>
+                      <li class="booking-select-option" role="option" data-value="<?php echo esc_attr( $serv_titulo ); ?>"><?php echo esc_html( $serv_titulo ); ?></li>
                     <?php endif; ?>
                   <?php endforeach; ?>
                 <?php endif; ?>
-              </select>
-              <svg class="booking-select-arrow" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 5l3.5 3.5L10 5" stroke="currentColor" stroke-width="1.3"/></svg>
+              </ul>
             </div>
           </div>
 

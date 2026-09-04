@@ -709,6 +709,9 @@ document.addEventListener('DOMContentLoaded', function() {
   var form = document.getElementById('booking-form');
   var messageEl = document.getElementById('booking-message');
   var selectServicio = document.getElementById('booking-servicio');
+  var selectTrigger = selectServicio ? selectServicio.querySelector('.booking-select-trigger') : null;
+  var selectValue = selectServicio ? selectServicio.querySelector('.booking-select-value') : null;
+  var selectInput = selectServicio ? selectServicio.querySelector('input[name="servicio"]') : null;
 
   var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   var MESES_CORTO = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
@@ -836,9 +839,37 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  if (selectServicio) {
-    selectServicio.addEventListener('change', function() {
-      selectServicio.classList.toggle('has-value', selectServicio.value !== '');
+  if (selectServicio && selectTrigger) {
+    var toggleSelect = function(open) {
+      var next = (typeof open === 'boolean') ? open : !selectServicio.classList.contains('is-open');
+      selectServicio.classList.toggle('is-open', next);
+      selectTrigger.setAttribute('aria-expanded', next ? 'true' : 'false');
+    };
+
+    selectTrigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggleSelect();
+    });
+
+    selectServicio.querySelectorAll('.booking-select-option').forEach(function(option) {
+      option.addEventListener('click', function() {
+        var value = option.getAttribute('data-value') || '';
+        if (selectInput) selectInput.value = value;
+        if (selectValue) selectValue.textContent = option.textContent;
+
+        selectServicio.querySelectorAll('.booking-select-option').forEach(function(o) {
+          o.classList.toggle('is-selected', o === option);
+        });
+
+        selectTrigger.classList.toggle('has-value', value !== '');
+        toggleSelect(false);
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!selectServicio.contains(e.target)) {
+        toggleSelect(false);
+      }
     });
   }
 
@@ -850,7 +881,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       var nombre = (form.querySelector('input[name="nombre"]') || {}).value || '';
       var whatsapp = (form.querySelector('input[name="whatsapp"]') || {}).value || '';
-      var servicio = selectServicio ? selectServicio.value : '';
+      var servicio = selectInput ? selectInput.value : '';
 
       if (!selectedDate) { showMessage('Selecciona un día en el calendario.', 'error'); return; }
       if (!selectedSlot) { showMessage('Selecciona un horario disponible.', 'error'); return; }

@@ -2400,7 +2400,7 @@ img {
 }
 
 .booking-field input,
-.booking-select select {
+.booking-select-trigger {
   box-sizing: border-box;
   width: 100%;
   height: 46px;
@@ -2419,7 +2419,7 @@ img {
 }
 
 .booking-field input:focus,
-.booking-select select:focus {
+.booking-select-trigger:focus {
   outline: none;
   border-color: #222F50;
 }
@@ -2428,14 +2428,24 @@ img {
   position: relative;
 }
 
-.booking-select select {
+.booking-select-trigger {
+  display: flex;
+  align-items: center;
   appearance: none;
   -webkit-appearance: none;
   padding-right: 36px;
+  text-align: left;
+  cursor: pointer;
   color: #99A1AD;
 }
 
-.booking-select select.has-value {
+.booking-select-trigger .booking-select-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking-select-trigger.has-value {
   color: #222F50;
 }
 
@@ -2446,6 +2456,59 @@ img {
   transform: translateY(-50%);
   color: #222F50;
   pointer-events: none;
+  transition: transform 0.2s ease;
+}
+
+.booking-select.is-open .booking-select-arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.booking-select-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  background: #FFFFFF;
+  border: 1px solid rgba(132, 151, 199, 0.35);
+  border-radius: 6px;
+  box-shadow: 0 14px 34px rgba(34, 47, 80, 0.14);
+  max-height: 240px;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  z-index: 30;
+}
+
+.booking-select.is-open .booking-select-list {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.booking-select-option {
+  display: flex;
+  align-items: center;
+  padding: 11px 16px;
+  font-size: 13.5px;
+  line-height: 16px;
+  color: #222F50;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.booking-select-option:hover {
+  background-color: #F2F5F9;
+  color: #222F50;
+}
+
+.booking-select-option.is-selected {
+  background-color: #222F50;
+  color: #FFFFFF;
 }
 
 .booking-note {
@@ -2534,8 +2597,8 @@ img {
 
 @media (max-width: 768px) {
   .section-agenda {
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8vw), 0 100%);
-    padding-bottom: 120px;
+    clip-path: none;
+    padding-bottom: 0;
   }
 
   .agenda-heading {
@@ -2617,6 +2680,11 @@ img {
 }
 
 @media (max-width: 768px) {
+  .section-trust-badges {
+    background-color: #F2F5F9;
+    padding: 20px 0 28px;
+  }
+
   .trust-badges {
     flex-direction: row;
     align-items: flex-start;
