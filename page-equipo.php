@@ -94,6 +94,8 @@ $perfil_logos_ids    = get_option( 'tema_viera_abogados_perfil_logos', array() )
 $detalle_pre_titulo    = tema_viera_t( get_option( 'tema_viera_abogados_detalle_pre', 'EXPERIENCIA' ) );
 $detalle_titulo        = tema_viera_t( get_option( 'tema_viera_abogados_detalle_titulo', 'PERFIL DEL FUNDADOR' ) );
 $detalle_contenido     = tema_viera_t( get_option( 'tema_viera_abogados_detalle_contenido', '<p>Rafael es socio fundador de Viera Abogados y...</p>' ) );
+$detalle_contenido_mobile = tema_viera_t( get_option( 'tema_viera_abogados_detalle_contenido_mobile', '' ) );
+$detalle_contenido_mobile = $detalle_contenido_mobile ?: $detalle_contenido;
 
 $sidebar_esp_titulo    = tema_viera_t( get_option( 'tema_viera_abogados_sidebar_esp_titulo', 'ESPECIALIDADES' ) );
 $sidebar_esp_items     = array_map( 'tema_viera_t', (array) get_option( 'tema_viera_abogados_sidebar_esp_items', array( 'Arbitraje', 'Litigios Civiles', 'Litigios Comerciales', 'Procesos Constitucionales', 'Resolución de Controversias' ) ) );
@@ -121,8 +123,12 @@ $sidebar_linkedin      = get_option( 'tema_viera_abogados_sidebar_linkedin', '#'
 					<h2 class="detalle-titulo"><?php echo esc_html( $detalle_titulo ); ?></h2>
 				<?php endif; ?>
 
-				<div class="detalle-contenido-texto">
+				<div class="detalle-contenido-texto detalle-contenido-desktop">
 					<?php echo wp_kses_post( nl2br( $detalle_contenido ) ); ?>
+				</div>
+
+				<div class="detalle-contenido-texto detalle-contenido-mobile">
+					<?php echo wp_kses_post( nl2br( $detalle_contenido_mobile ) ); ?>
 				</div>
 
 			</div>
@@ -152,7 +158,7 @@ $sidebar_linkedin      = get_option( 'tema_viera_abogados_sidebar_linkedin', '#'
 				<?php endif; ?>
 
 				<?php if ( $sidebar_correo_tit && $sidebar_correo ) : ?>
-					<div class="sidebar-block">
+					<div class="sidebar-block sidebar-block-correo">
 						<h4 class="sidebar-titulo"><?php echo esc_html( $sidebar_correo_tit ); ?></h4>
 						<a href="mailto:<?php echo esc_attr( $sidebar_correo ); ?>" class="sidebar-enlace-correo">
 							<?php echo esc_html( $sidebar_correo ); ?>
@@ -160,7 +166,7 @@ $sidebar_linkedin      = get_option( 'tema_viera_abogados_sidebar_linkedin', '#'
 					</div>
 				<?php endif; ?>
 
-				<div class="sidebar-block mt-4">
+				<div class="sidebar-block mt-4 sidebar-block-linkedin">
 					<a href="<?php echo esc_url( $sidebar_linkedin ?: '#' ); ?>" target="_blank" rel="noopener noreferrer" class="linkedin-btn dark-square" aria-label="LinkedIn">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 28" fill="none">
 							<path d="M6.29464 27.2463H0.464503V9.05534H6.29464V27.2463ZM3.37643 6.57392C1.51214 6.57392 0 5.07778 0 3.27145C1.33438e-08 2.40381 0.35573 1.5717 0.988934 0.958186C1.62214 0.34467 2.48095 0 3.37643 0C4.27192 0 5.13073 0.34467 5.76393 0.958186C6.39713 1.5717 6.75286 2.40381 6.75286 3.27145C6.75286 5.07778 5.24009 6.57392 3.37643 6.57392ZM28.115 27.2463H22.2974V18.391C22.2974 16.2806 22.2534 13.5742 19.2662 13.5742C16.235 13.5742 15.7705 15.8671 15.7705 18.239V27.2463H9.94664V9.05534H15.5382V11.5367H15.6198C16.3982 10.1075 18.2995 8.59919 21.1361 8.59919C27.0366 8.59919 28.1212 12.3639 28.1212 17.2537V27.2463H28.115Z" fill="white"/>

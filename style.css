@@ -2954,28 +2954,89 @@ img {
 }
 
 @media (max-width: 768px) {
+  .section-perfil-hero {
+    background-color: #233050;
+  }
+
   .perfil-hero-layout {
     flex-direction: column;
+    min-height: 0;
   }
 
   .perfil-image-col {
     width: 100%;
-    height: 450px;
+    height: 480px;
     order: 1;
+  }
+
+  .perfil-image-col img {
+    object-position: center top;
   }
 
   .perfil-content-col {
     width: 100%;
     order: 2;
-    padding: 60px 20px;
+    padding: 28px 20px;
+  }
+
+  .perfil-content-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    max-width: 100%;
+  }
+
+  .perfil-pre-titulo {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 13px;
+    letter-spacing: 1px;
+    color: #99A6CC;
+    margin-bottom: 0;
   }
 
   .perfil-nombre {
-    font-size: 38px;
+    font-size: 28px;
+    line-height: 34px;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+
+  .perfil-cargo-wrap {
+    margin-bottom: 0;
+  }
+
+  .perfil-linea {
+    display: none;
+  }
+
+  .perfil-cargo {
+    font-size: 13px;
+    line-height: 16px;
+    color: #B3BAD9;
+  }
+
+  .perfil-cita-block {
+    margin: 0;
+    padding-right: 0;
   }
 
   .perfil-cita-texto {
-    font-size: 18px;
+    font-size: 16px;
+    line-height: 140%;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+
+  .perfil-cita-autor {
+    font-size: 12px;
+    line-height: 15px;
+    color: #99A6CC;
+  }
+
+  .perfil-reconocimientos {
+    display: none;
   }
 }
 
@@ -2984,7 +3045,7 @@ img {
    ======================================== */
 .section-perfil-detalle {
   background-color: #EFF2FA;
-  padding: 26px 0 90px;
+  padding: 56px 0 90px;
   position: relative;
   overflow: hidden;
 }
@@ -3038,6 +3099,10 @@ img {
 
 .detalle-contenido-texto p {
   margin-bottom: 20px;
+}
+
+.detalle-contenido-mobile {
+  display: none;
 }
 
 .perfil-sidebar-col {
@@ -3140,14 +3205,125 @@ img {
 }
 
 @media (max-width: 768px) {
+  .detalle-contenido-desktop {
+    display: none;
+  }
+
+  .detalle-contenido-mobile {
+    display: block;
+  }
+
+  .section-perfil-detalle {
+    background-color: #FFFFFF;
+    padding: 36px 20px;
+  }
+
+  .section-perfil-detalle::before {
+    display: none;
+  }
+
+  .perfil-detalle-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .perfil-main-col,
+  .perfil-sidebar-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .detalle-pre-titulo {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 13px;
+    letter-spacing: 1px;
+    text-transform: none;
+    color: #737885;
+    margin-bottom: 0;
+  }
+
   .detalle-titulo {
     font-size: 20px;
+    line-height: 24px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #233050;
+    margin-bottom: 0;
   }
-  .section-perfil-detalle {
-    padding: 80px 0 100px;
+
+  .detalle-contenido-texto {
+    font-size: 13.5px;
+    line-height: 155%;
+    color: #4D5261;
+    margin-bottom: 0;
   }
-  .section-perfil-detalle::before {
-    clip-path: polygon(0 11vw, 100% 0, 100% calc(100% - 8vw), 0 100%);
+
+  .detalle-contenido-texto p {
+    margin-bottom: 0;
+  }
+
+  .perfil-sidebar-col {
+    padding-top: 0;
+  }
+
+  .sidebar-block {
+    margin-bottom: 0;
+  }
+
+  .sidebar-titulo {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 15px;
+    letter-spacing: 0.5px;
+    color: #233050;
+    margin-bottom: 10px;
+  }
+
+  .sidebar-lista-lineas li {
+    font-size: 13px;
+    line-height: 16px;
+    color: #4D5261;
+    padding: 0 0 0 16px;
+    border-bottom: none;
+  }
+
+  .sidebar-lista-lineas li + li {
+    margin-top: 10px;
+  }
+
+  .sidebar-lista-lineas li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    left: 0;
+    top: 5px;
+    background: #233050;
+    border-radius: 1px;
+  }
+
+  .sidebar-lista-simple li {
+    font-size: 13px;
+    line-height: 150%;
+    color: #4D5261;
+    padding: 0;
+  }
+
+  .sidebar-enlace-correo {
+    font-size: 13px;
+    line-height: 16px;
+    color: #233050;
+  }
+
+  .sidebar-block-correo .sidebar-titulo {
+    display: none;
+  }
+
+  .sidebar-block-linkedin {
+    display: none;
   }
 }
 

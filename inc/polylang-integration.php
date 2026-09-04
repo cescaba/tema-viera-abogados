@@ -339,6 +339,7 @@ function tema_viera_register_polylang_strings() {
 		'tema_viera_abogados_detalle_pre'         => array( 'Detalle · Pre-título', false ),
 		'tema_viera_abogados_detalle_titulo'      => array( 'Detalle · Título', false ),
 		'tema_viera_abogados_detalle_contenido'   => array( 'Detalle · Contenido', true ),
+		'tema_viera_abogados_detalle_contenido_mobile' => array( 'Detalle · Contenido móvil', true ),
 		'tema_viera_abogados_sidebar_esp_titulo'  => array( 'Sidebar · Título especialidades', false ),
 		'tema_viera_abogados_sidebar_mem_titulo'  => array( 'Sidebar · Título membresías', false ),
 		'tema_viera_abogados_sidebar_correo_tit'  => array( 'Sidebar · Título correo', false ),

@@ -47,6 +47,7 @@ function tema_viera_register_equipo_settings() {
 	register_setting( 'tema_viera_opciones_equipo', 'tema_viera_abogados_detalle_pre' );
 	register_setting( 'tema_viera_opciones_equipo', 'tema_viera_abogados_detalle_titulo' );
 	register_setting( 'tema_viera_opciones_equipo', 'tema_viera_abogados_detalle_contenido' );
+	register_setting( 'tema_viera_opciones_equipo', 'tema_viera_abogados_detalle_contenido_mobile' );
 	register_setting( 'tema_viera_opciones_equipo', 'tema_viera_abogados_sidebar_esp_titulo' );
 	register_setting( 'tema_viera_opciones_equipo', 'tema_viera_abogados_sidebar_esp_items' );
 	register_setting( 'tema_viera_opciones_equipo', 'tema_viera_abogados_sidebar_mem_titulo' );
@@ -86,6 +87,7 @@ function tema_viera_opciones_equipo_page() {
 	$detalle_pre_titulo   = get_option( 'tema_viera_abogados_detalle_pre', '' );
 	$detalle_titulo       = get_option( 'tema_viera_abogados_detalle_titulo', '' );
 	$detalle_contenido    = get_option( 'tema_viera_abogados_detalle_contenido', '' );
+	$detalle_contenido_mobile = get_option( 'tema_viera_abogados_detalle_contenido_mobile', '' );
 
 	$sidebar_esp_titulo   = get_option( 'tema_viera_abogados_sidebar_esp_titulo', '' );
 	$sidebar_esp_items    = get_option( 'tema_viera_abogados_sidebar_esp_items', array() );
@@ -272,6 +274,10 @@ function tema_viera_opciones_equipo_page() {
 				<div class="mi-tema-form-group">
 					<label for="detalle_contenido"><?php esc_html_e( 'Contenido (HTML permitido)', 'tema-viera-abogados' ); ?></label>
 					<textarea id="detalle_contenido" name="detalle_contenido" style="min-height:200px;"><?php echo esc_textarea( $detalle_contenido ); ?></textarea>
+				</div>
+				<div class="mi-tema-form-group">
+					<label for="detalle_contenido_mobile"><?php esc_html_e( 'Contenido en móvil (texto más corto)', 'tema-viera-abogados' ); ?></label>
+					<textarea id="detalle_contenido_mobile" name="detalle_contenido_mobile" style="min-height:120px;"><?php echo esc_textarea( $detalle_contenido_mobile ); ?></textarea>
 				</div>
 				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Sidebar — Especialidades', 'tema-viera-abogados' ); ?></h3>
 				<div class="mi-tema-form-group">
@@ -549,6 +555,9 @@ function tema_viera_procesar_opciones_equipo() {
 	}
 	if ( isset( $_POST['detalle_contenido'] ) ) {
 		update_option( 'tema_viera_abogados_detalle_contenido', wp_kses_post( $_POST['detalle_contenido'] ) );
+	}
+	if ( isset( $_POST['detalle_contenido_mobile'] ) ) {
+		update_option( 'tema_viera_abogados_detalle_contenido_mobile', wp_kses_post( $_POST['detalle_contenido_mobile'] ) );
 	}
 
 	if ( isset( $_POST['sidebar_esp_titulo'] ) ) {
