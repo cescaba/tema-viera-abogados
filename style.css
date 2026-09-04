@@ -2240,6 +2240,13 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
   font-size: 12.5px;
   line-height: 15px;
   color: #222F50;
