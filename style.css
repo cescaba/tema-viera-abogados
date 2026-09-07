@@ -612,8 +612,7 @@ img {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(10, 14, 23, 0.95);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #1D1D1D;
   z-index: 5;
 }
 
@@ -660,11 +659,22 @@ img {
   align-items: center;
   justify-content: center;
   padding: 15px 30px;
-  border-right: 1px solid #D9D9D9;
+  position: relative;
 }
 
-.award-desktop-item:last-child {
-  border-right: none;
+.award-desktop-item::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 75%;
+  width: 1px;
+  background: #D9D9D9;
+}
+
+.award-desktop-item:last-child::after {
+  display: none;
 }
 
 .award-desktop-item img {
