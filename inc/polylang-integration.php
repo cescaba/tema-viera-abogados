@@ -261,6 +261,36 @@ function tema_viera_equipo_url() {
 }
 
 /**
+ * URL de la página de Términos y Condiciones en el idioma actual.
+ *
+ * @return string
+ */
+function tema_viera_terminos_url() {
+	$page = get_pages( array(
+		'meta_key'   => '_wp_page_template',
+		'meta_value' => 'page-terminos.php',
+		'number'     => 1,
+	) );
+
+	if ( ! empty( $page ) ) {
+		$url = get_permalink( tema_viera_post_translated( $page[0]->ID ) );
+		if ( $url ) {
+			return $url;
+		}
+	}
+
+	$page = get_page_by_path( 'terminos-y-condiciones' );
+	if ( $page ) {
+		$url = get_permalink( tema_viera_post_translated( $page->ID ) );
+		if ( $url ) {
+			return $url;
+		}
+	}
+
+	return home_url( '/terminos-y-condiciones/' );
+}
+
+/**
  * Registra una cadena en Polylang (con guard de seguridad).
  *
  * @param string $name      Nombre único de la cadena (columna "Name").
@@ -362,6 +392,29 @@ function tema_viera_register_polylang_strings() {
 
 	foreach ( $equipo_page as $key => $cfg ) {
 		tema_viera_pll_register_string( $cfg[0], get_option( $key, '' ), 'Página Equipo', $cfg[1] );
+	}
+
+	// Grupo "Términos y Condiciones" (page-terminos.php).
+	$terminos = array(
+		'tema_viera_abogados_terminos_pre'    => array( 'Términos · Pre-título', false ),
+		'tema_viera_abogados_terminos_titulo' => array( 'Términos · Título', false ),
+		'tema_viera_abogados_terminos_fecha'  => array( 'Términos · Fecha', false ),
+		'tema_viera_abogados_terminos_toc'    => array( 'Términos · Índice', false ),
+		'tema_viera_abogados_terminos_intro'  => array( 'Términos · Introducción', true ),
+	);
+
+	foreach ( $terminos as $key => $cfg ) {
+		tema_viera_pll_register_string( $cfg[0], get_option( $key, '' ), 'Términos', $cfg[1] );
+	}
+
+	// Secciones de Términos (array).
+	$terminos_secciones = get_option( 'tema_viera_abogados_terminos_secciones', array() );
+	if ( is_array( $terminos_secciones ) ) {
+		foreach ( $terminos_secciones as $i => $seccion ) {
+			$n = $i + 1;
+			tema_viera_pll_register_string( 'Términos ' . $n . ' · Título', isset( $seccion['titulo'] ) ? $seccion['titulo'] : '', 'Términos' );
+			tema_viera_pll_register_string( 'Términos ' . $n . ' · Contenido', isset( $seccion['contenido'] ) ? $seccion['contenido'] : '', 'Términos', true );
+		}
 	}
 
 	// Servicios (array) → Landing.

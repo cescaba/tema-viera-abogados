@@ -75,7 +75,7 @@ $social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
           'container'      => false,
           'fallback_cb'    => function() {
             echo '<ul>';
-            echo '<li><a href="#terminos">' . esc_html( tema_viera_t( 'Términos de privacidad' ) ) . '</a></li>';
+            echo '<li><a href="' . esc_url( tema_viera_terminos_url() ) . '">' . esc_html( tema_viera_t( 'Términos de privacidad' ) ) . '</a></li>';
             echo '<li><a href="#reclamaciones">' . esc_html( tema_viera_t( 'Libro de reclamaciones' ) ) . '</a></li>';
             echo '<li><a href="#legal">' . esc_html( tema_viera_t( 'Información legal' ) ) . '</a></li>';
             echo '</ul>';

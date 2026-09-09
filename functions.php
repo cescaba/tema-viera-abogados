@@ -46,6 +46,7 @@ function tema_viera_abogados_setup() {
 	register_nav_menus( array(
 		'primary-menu'   => esc_html__( 'Menú Principal', 'tema-viera-abogados' ),
 		'footer-menu'    => esc_html__( 'Menú Footer', 'tema-viera-abogados' ),
+		'legal-menu'     => esc_html__( 'Menú Legal', 'tema-viera-abogados' ),
 	) );
 
 	// Agregar soporte para HTML5 en formularios y search form
@@ -110,6 +111,7 @@ require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/metaboxes-abogados.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/metaboxes-posts.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-landing.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-equipo.php';
+require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-terminos.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/citas.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/polylang-integration.php';
 
