@@ -401,7 +401,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
             <div class="equipo-track" id="equipo-track">
               
               <?php foreach ( $equipo_items as $miembro ) : 
-                $img_url = !empty($miembro['imagen']) ? wp_get_attachment_url( $miembro['imagen'] ) : '';
+                $img_url = !empty($miembro['imagen']) ? wp_get_attachment_image_url( $miembro['imagen'], 'abogado-grid' ) : '';
               ?>
                 <div class="miembro-card">
                   <div class="miembro-img-wrap">
@@ -442,7 +442,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
     <div class="equipo-mobile-wrap">
       <div class="equipo-miembros-mobile">
         <?php foreach ( array_slice( $equipo_items, 0, 2 ) as $miembro ) :
-          $img_url = !empty($miembro['imagen']) ? wp_get_attachment_url( $miembro['imagen'] ) : '';
+          $img_url = !empty($miembro['imagen']) ? wp_get_attachment_image_url( $miembro['imagen'], 'abogado-grid' ) : '';
         ?>
           <div class="miembro-card miembro-card--mobile">
             <div class="miembro-img-wrap">

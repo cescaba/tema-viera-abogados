@@ -84,8 +84,8 @@ if ( ! defined( 'ABSPATH' ) ) {
           $lang_target_url  = ( $lang_actual === 'en' ) ? $lang_es_url : $lang_en_url;
           ?>
           <a href="<?php echo esc_url( $lang_target_url ); ?>" class="lang-switch desktop-only <?php echo ( $lang_actual === 'es' ) ? 'is-es' : 'is-en'; ?>" role="switch" aria-checked="<?php echo ( $lang_actual === 'en' ) ? 'true' : 'false'; ?>" aria-label="Cambiar idioma a <?php echo esc_attr( strtoupper( $lang_target ) ); ?>">
-            <span class="lang-thumb"><?php echo esc_html( strtoupper( $lang_actual ) ); ?></span>
-            <span class="lang-inactive"><?php echo esc_html( strtoupper( $lang_target ) ); ?></span>
+            <span class="lang-opt">ES</span>
+            <span class="lang-opt">EN</span>
           </a>
 
           <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">

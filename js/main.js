@@ -293,20 +293,20 @@ document.addEventListener('DOMContentLoaded', function() {
         content.style.opacity = '0';
       }
       body.offsetHeight;
-      body.style.transition = 'height 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+      body.style.transition = 'height 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
       body.style.height = target + 'px';
       if (content) {
-        content.style.transition = 'opacity 0.25s ease 0.15s';
+        content.style.transition = 'opacity 0.3s ease 0.2s';
         content.style.opacity = '1';
       }
     } else {
       if (content) {
-        content.style.transition = 'opacity 0.15s ease';
+        content.style.transition = 'opacity 0.2s ease';
         content.style.opacity = '0';
       }
       body.style.height = body.offsetHeight + 'px';
       body.offsetHeight;
-      body.style.transition = 'height 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
+      body.style.transition = 'height 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
       body.style.height = '0';
     }
 
@@ -336,38 +336,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
     header.addEventListener('click', function() {
       if (isAnimating) return;
-      isAnimating = true;
 
       var li = this.parentElement;
       var isOpen = li.classList.contains('is-open');
       var body = li.querySelector('.sector-body');
 
       if (isOpen) {
-        animateBody(body, false, function() {
-          li.classList.remove('is-open');
-          isAnimating = false;
-        });
+        isAnimating = true;
+        li.classList.remove('is-open');
         currentOpen = null;
         sectoresWrapper.classList.remove('has-open');
-        var first = document.querySelector('.sector-item');
-        if (first) updateImage(first.getAttribute('data-image'));
+        animateBody(body, false, function() {
+          isAnimating = false;
+        });
         return;
       }
 
-      if (currentOpen) {
-        var prevBody = currentOpen.querySelector('.sector-body');
-        var prevItem = currentOpen;
-        animateBody(prevBody, false, function() {
-          prevItem.classList.remove('is-open');
-          li.classList.add('is-open');
-          currentOpen = li;
-          sectoresWrapper.classList.add('has-open');
-          updateImage(li.getAttribute('data-image'));
-          animateBody(body, true, function() {
-            isAnimating = false;
-          });
-        });
+      var prevItem = currentOpen;
+
+      if (prevItem) {
+        isAnimating = true;
+        var prevBody = prevItem.querySelector('.sector-body');
+        prevItem.classList.remove('is-open');
+        li.classList.add('is-open');
+        currentOpen = li;
+        sectoresWrapper.classList.add('has-open');
+        updateImage(li.getAttribute('data-image'));
+
+        var pending = 2;
+        var onDone = function() {
+          pending -= 1;
+          if (pending === 0) isAnimating = false;
+        };
+        animateBody(prevBody, false, onDone);
+        animateBody(body, true, onDone);
       } else {
+        isAnimating = true;
         li.classList.add('is-open');
         currentOpen = li;
         sectoresWrapper.classList.add('has-open');
@@ -932,6 +936,73 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   renderMonth();
+});
+
+// Scroll-spy: resalta en el navbar la sección que está en pantalla
+document.addEventListener('DOMContentLoaded', function() {
+  var nav = document.getElementById('site-nav');
+  if (!nav) return;
+
+  var items = [];
+  nav.querySelectorAll('li').forEach(function(li) {
+    var link = li.querySelector('a');
+    if (!link) return;
+    items.push({ li: li, href: link.getAttribute('href') || '' });
+  });
+
+  var anchorItems = [];
+  items.forEach(function(item) {
+    if (item.href.indexOf('#') === 0) {
+      var id = item.href.slice(1);
+      var section = document.getElementById(id);
+      if (section) {
+        anchorItems.push({ li: item.li, section: section });
+      }
+    }
+  });
+
+  if (!anchorItems.length) return;
+
+  var homeItems = items.filter(function(item) {
+    return item.href.indexOf('#') !== 0;
+  });
+
+  function clearActive() {
+    items.forEach(function(item) {
+      item.li.classList.remove('current-menu-item');
+    });
+  }
+
+  function activate(li) {
+    clearActive();
+    if (li) li.classList.add('current-menu-item');
+  }
+
+  var OFFSET = 120;
+
+  function update() {
+    var scrollPos = window.scrollY + OFFSET;
+    var active = null;
+
+    anchorItems.forEach(function(item) {
+      var top = item.section.offsetTop;
+      var bottom = top + item.section.offsetHeight;
+      if (scrollPos >= top && scrollPos < bottom) {
+        active = item.li;
+      }
+    });
+
+    if (active) {
+      activate(active);
+    } else if (scrollPos < anchorItems[0].section.offsetTop && homeItems.length) {
+      activate(homeItems[0].li);
+    } else {
+      activate(null);
+    }
+  }
+
+  update();
+  window.addEventListener('scroll', update, { passive: true });
 });
 
 })();
