@@ -128,6 +128,10 @@
   const preloader = document.getElementById('preloader');
   
   if (preloader) {
+    try {
+      sessionStorage.setItem('viera_preloader', '1');
+    } catch (e) {}
+
     setTimeout(function() {
       preloader.classList.add('is-hidden');
       setTimeout(function() {

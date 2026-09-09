@@ -48,6 +48,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</div>
 
+	<script>
+		(function () {
+			try {
+				if (sessionStorage.getItem('viera_preloader')) {
+					var p = document.getElementById('preloader');
+					if (p) p.remove();
+				}
+			} catch (e) {}
+		})();
+	</script>
+
 	<?php get_template_part( 'template-parts/header' ); ?>
 
 	<main id="main-content" role="main">

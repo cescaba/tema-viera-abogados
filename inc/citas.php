@@ -291,7 +291,7 @@ function tema_viera_citas_book_ajax() {
 	$whatsapp_numero = preg_replace( '/[^0-9]/', '', (string) get_option( 'tema_viera_abogados_contacto_telefono', '' ) );
 
 	wp_send_json_success( array(
-		'mensaje'          => esc_html__( 'Tu cita fue agendada correctamente.', 'tema-viera-abogados' ),
+		'mensaje'          => esc_html__( 'Tu cita se agendará correctamente a través de WhatsApp.', 'tema-viera-abogados' ),
 		'whatsapp_numero'  => $whatsapp_numero,
 	) );
 }
