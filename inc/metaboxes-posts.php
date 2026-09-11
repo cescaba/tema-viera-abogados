@@ -47,7 +47,7 @@ function tema_viera_post_render_bloque( $bloque = array() ) {
 function tema_viera_render_post_metabox( $post ) {
 	wp_nonce_field( 'tema_viera_post_nonce', 'tema_viera_post_nonce_field' );
 
-	$subtitulo          = get_post_meta( $post->ID, '_post_subtitulo', true );
+	$descripcion        = get_post_meta( $post->ID, '_post_descripcion', true );
 	$area_practica      = get_post_meta( $post->ID, '_post_area_practica', true );
 	$descripcion_mobile = get_post_meta( $post->ID, '_post_descripcion_mobile', true );
 	?>
@@ -75,14 +75,13 @@ function tema_viera_render_post_metabox( $post ) {
 	</style>
 
 	<div class="tema-viera-post-field">
-		<label for="tema_viera_post_subtitulo">
-			<?php esc_html_e( 'Subtítulo', 'tema-viera-abogados' ); ?>
+		<label for="tema_viera_post_descripcion">
+			<?php esc_html_e( 'Descripción', 'tema-viera-abogados' ); ?>
 		</label>
-		<input type="text" id="tema_viera_post_subtitulo" name="tema_viera_post_subtitulo"
-			value="<?php echo esc_attr( $subtitulo ); ?>"
-			placeholder="<?php esc_attr_e( 'Texto que aparece debajo del título', 'tema-viera-abogados' ); ?>" />
+		<textarea id="tema_viera_post_descripcion" name="tema_viera_post_descripcion" rows="3"
+			placeholder="<?php esc_attr_e( 'Texto breve que aparece debajo del título', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $descripcion ); ?></textarea>
 		<div class="tema-viera-help-text">
-			<?php esc_html_e( 'Se muestra como etiqueta en las tarjetas del landing y debajo del título en la página de detalle.', 'tema-viera-abogados' ); ?>
+			<?php esc_html_e( 'Se muestra debajo del título en la página de detalle.', 'tema-viera-abogados' ); ?>
 		</div>
 	</div>
 
@@ -237,8 +236,8 @@ function tema_viera_save_post_metabox( $post_id ) {
 		return;
 	}
 
-	if ( isset( $_POST['tema_viera_post_subtitulo'] ) ) {
-		update_post_meta( $post_id, '_post_subtitulo', sanitize_text_field( $_POST['tema_viera_post_subtitulo'] ) );
+	if ( isset( $_POST['tema_viera_post_descripcion'] ) ) {
+		update_post_meta( $post_id, '_post_descripcion', sanitize_textarea_field( wp_unslash( $_POST['tema_viera_post_descripcion'] ) ) );
 	}
 
 	if ( isset( $_POST['tema_viera_post_area_practica'] ) ) {

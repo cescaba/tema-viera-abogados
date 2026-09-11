@@ -470,9 +470,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
   const track = document.getElementById('equipo-track');
-  const dotsContainer = document.getElementById('equipo-dots');
   
-  if (!track || !dotsContainer) return;
+  if (!track) return;
 
   const cards = track.querySelectorAll('.miembro-card');
   const totalCards = cards.length;
@@ -492,28 +491,12 @@ document.addEventListener('DOMContentLoaded', function() {
   function renderSlider() {
     const totalPages = getTotalPages();
     
-    dotsContainer.innerHTML = '';
-    
     if (totalPages <= 1) {
       track.style.transform = `translateX(0)`;
       return;
     }
 
     if (currentPage >= totalPages) currentPage = totalPages - 1;
-
-    for (let i = 0; i < totalPages; i++) {
-      const dot = document.createElement('div');
-      dot.classList.add('equipo-dot');
-      if (i === currentPage) dot.classList.add('is-active');
-      
-      dot.addEventListener('click', () => {
-        currentPage = i;
-        updateSliderPosition();
-        startAutoplay();
-      });
-      
-      dotsContainer.appendChild(dot);
-    }
     
     updateSliderPosition();
   }
@@ -523,11 +506,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const cardsPerView = getCardsPerView();
     
     if (currentPage >= totalPages) currentPage = totalPages - 1;
-
-    const dots = dotsContainer.querySelectorAll('.equipo-dot');
-    dots.forEach((dot, idx) => {
-      dot.classList.toggle('is-active', idx === currentPage);
-    });
 
     const cardWidth = cards[0].offsetWidth;
     const gap = 20; 

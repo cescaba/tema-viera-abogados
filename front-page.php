@@ -430,8 +430,6 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
 
             </div>
           </div>
-
-          <div class="equipo-dots" id="equipo-dots"></div>
         <?php endif; ?>
       </div>
 
@@ -733,7 +731,6 @@ $bloques_noticias = array_chunk( $noticias_query->posts, 5 );
             <?php foreach ( $bloque as $post_item ) : 
               $img_url   = get_the_post_thumbnail_url( $post_item->ID, 'medium_large' );
               $enlace    = get_permalink( $post_item->ID );
-              $subtitulo = tema_viera_post_meta_t( $post_item->ID, '_post_subtitulo' );
               $descripcion_mobile = tema_viera_post_meta_t( $post_item->ID, '_post_descripcion_mobile' );
               if ( ! $descripcion_mobile ) {
                 $descripcion_mobile = wp_trim_words( wp_strip_all_tags( tema_viera_post_contenido_t( $post_item->ID ) ), 20, '…' );
@@ -750,7 +747,7 @@ $bloques_noticias = array_chunk( $noticias_query->posts, 5 );
                 </div>
 
                 <div class="noticia-content">
-                  <span class="noticia-categoria"><?php echo esc_html( $subtitulo ?: tema_viera_post_titulo( $post_item->ID ) ); ?></span>
+                  <span class="noticia-categoria"><?php echo esc_html( tema_viera_blog_post_category( $post_item->ID ) ); ?></span>
                   <h3 class="noticia-title"><?php echo esc_html( tema_viera_post_titulo( $post_item->ID ) ); ?></h3>
                   <p class="noticia-descripcion"><?php echo esc_html( $descripcion_mobile ); ?></p>
                 </div>

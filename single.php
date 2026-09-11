@@ -21,7 +21,7 @@ if ( have_posts() ) :
 
 		$post_id   = get_the_ID();
 		$titulo    = tema_viera_post_titulo( $post_id );
-		$excerpto  = tema_viera_post_meta_t( $post_id, '_post_subtitulo' );
+		$descripcion = tema_viera_post_meta_t( $post_id, '_post_descripcion' );
 		$autor     = tema_viera_post_autor( $post_id );
 		$bloques   = tema_viera_post_bloques( $post_id );
 		$relacionados = tema_viera_post_relacionados( $post_id );
@@ -58,8 +58,8 @@ if ( have_posts() ) :
 
 						<h1 class="sp-title"><?php echo esc_html( $titulo ); ?></h1>
 
-						<?php if ( $excerpto ) : ?>
-							<p class="sp-excerpt"><?php echo esc_html( $excerpto ); ?></p>
+						<?php if ( $descripcion ) : ?>
+							<p class="sp-excerpt"><?php echo esc_html( $descripcion ); ?></p>
 						<?php endif; ?>
 
 						<div class="sp-meta">

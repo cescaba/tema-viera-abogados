@@ -151,7 +151,7 @@ function tema_viera_post_contenido_t( $post_id ) {
  * Devuelve un meta de una noticia (post) traducido al idioma actual.
  *
  * @param int    $post_id ID del post.
- * @param string $field   Nombre completo del meta (ej: `_post_subtitulo`).
+ * @param string $field   Nombre completo del meta (ej: `_post_descripcion`).
  * @return string
  */
 function tema_viera_post_meta_t( $post_id, $field ) {
@@ -200,7 +200,7 @@ function tema_viera_post_translation_status( $post_id ) {
 
 	$sources = array(
 		get_the_title( $post_id ),
-		get_post_meta( $post_id, '_post_subtitulo', true ),
+		get_post_meta( $post_id, '_post_descripcion', true ),
 		get_post_meta( $post_id, '_post_area_practica', true ),
 		get_post_meta( $post_id, '_post_descripcion_mobile', true ),
 		get_post_field( 'post_content', $post_id ),
@@ -599,7 +599,7 @@ function tema_viera_register_post_strings() {
 
 		$fields = array(
 			'Título'              => get_the_title( $id ),
-			'Subtítulo'           => get_post_meta( $id, '_post_subtitulo', true ),
+			'Descripción'        => get_post_meta( $id, '_post_descripcion', true ),
 			'Área de práctica'    => get_post_meta( $id, '_post_area_practica', true ),
 			'Descripción móvil'   => get_post_meta( $id, '_post_descripcion_mobile', true ),
 			'Contenido'           => get_post_field( 'post_content', $id ),
