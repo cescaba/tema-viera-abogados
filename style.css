@@ -4794,6 +4794,12 @@ img {
     font-size: 15px;
   }
 
+  .sp-author-avatar {
+    width: 36px;
+    height: 61.52px;
+    border-radius: 18px;
+  }
+
   .sp-author-bio {
     flex-direction: column;
     align-items: flex-start;
@@ -4802,9 +4808,9 @@ img {
   }
 
   .sp-author-bio-img {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
+    width: 64px;
+    height: 109.37px;
+    border-radius: 0;
   }
 
   .sp-related-grid {
