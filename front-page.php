@@ -699,7 +699,7 @@ $noticias_titulo     = tema_viera_t( get_option( 'tema_viera_abogados_noticias_t
 $btn_cargar_mas      = tema_viera_t( get_option( 'tema_viera_abogados_noticias_btn', 'CARGAR MÁS ∨' ) );
 
 $noticias_query = new WP_Query( array(
-	'category_name'  => 'destacados',
+	'post_type'      => 'post',
 	'posts_per_page' => 6,
 ) );
 
@@ -768,7 +768,7 @@ $bloques_noticias = array_chunk( $noticias_query->posts, 5 );
 
     <?php if ( count($bloques_noticias) > 1 ) : ?>
       <div class="noticias-action">
-        <a href="<?php echo esc_url( get_category_link( get_cat_ID( 'Destacados' ) ) ); ?>" class="btn-outline-dark-square">
+        <a href="<?php echo esc_url( tema_viera_blog_url() ); ?>" class="btn-outline-dark-square">
           <?php echo esc_html( $btn_cargar_mas ); ?>
         </a>
       </div>

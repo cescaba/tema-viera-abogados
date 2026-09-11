@@ -60,7 +60,7 @@ $social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
             echo '<li><a href="#servicios">' . esc_html( tema_viera_t( 'Servicio' ) ) . '</a></li>';
             echo '<li><a href="#experiencia">' . esc_html( tema_viera_t( 'Experiencia' ) ) . '</a></li>';
             echo '<li><a href="#equipo">' . esc_html( tema_viera_t( 'Equipo' ) ) . '</a></li>';
-            echo '<li><a href="#blog">' . esc_html( tema_viera_t( 'Blog' ) ) . '</a></li>';
+            echo '<li><a href="' . esc_url( tema_viera_blog_url() ) . '">' . esc_html( tema_viera_t( 'Blog' ) ) . '</a></li>';
             echo '</ul>';
           },
         ) );

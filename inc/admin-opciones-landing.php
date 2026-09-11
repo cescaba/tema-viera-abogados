@@ -1045,11 +1045,11 @@ function tema_viera_opciones_landing_page() {
 						<li><?php esc_html_e( 'Ve a Entradas > Agregar nueva.', 'tema-viera-abogados' ); ?></li>
 						<li><?php esc_html_e( 'Escribe el contenido de la noticia.', 'tema-viera-abogados' ); ?></li>
 						<li><?php esc_html_e( 'Asigna una imagen destacada.', 'tema-viera-abogados' ); ?></li>
-						<li><?php esc_html_e( 'En "CategorÃ­as", selecciona la categorÃ­a "Destacados".', 'tema-viera-abogados' ); ?></li>
+						<li><?php esc_html_e( 'En "Categorías", elige una clasificación (Litigios Civiles, Litigios Administrativos, Litigios Penales, Litigios Laborales o Reconocimientos).', 'tema-viera-abogados' ); ?></li>
 						<li><?php esc_html_e( 'Publica la entrada.', 'tema-viera-abogados' ); ?></li>
 					</ol>
 					<p>
-						<?php esc_html_e( 'Las 6 noticias mÃ¡s recientes de la categorÃ­a "Destacados" se mostrarÃ¡n automÃ¡ticamente en el landing.', 'tema-viera-abogados' ); ?>
+						<?php esc_html_e( 'Las 6 noticias más recientes se mostrarán automáticamente en el landing, y todas estarán disponibles en la página de Blog.', 'tema-viera-abogados' ); ?>
 					</p>
 				</div>
 			</div>

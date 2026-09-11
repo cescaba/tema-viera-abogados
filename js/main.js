@@ -1009,4 +1009,130 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('scroll', update, { passive: true });
 });
 
+// Blog: filtros por categoría y "cargar más artículos"
+document.addEventListener('DOMContentLoaded', function() {
+  var filtersWrap = document.getElementById('blog-filters');
+  var featuredWrap = document.getElementById('blog-featured');
+  var grid = document.getElementById('blog-grid');
+  var action = document.getElementById('blog-action');
+  var btn = document.getElementById('blog-btn-cargar');
+
+  if (!filtersWrap || !featuredWrap || !grid) return;
+
+  var activeFilter = filtersWrap.querySelector('.blog-filter.is-active');
+  var currentCat = activeFilter ? (activeFilter.getAttribute('data-cat') || '') : '';
+  var offset = 6;
+
+  function postAjax(data, cb) {
+    fetch(miTemaAbogados.ajaxUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data)
+    })
+      .then(function(r) { return r.json(); })
+      .then(cb)
+      .catch(function() { cb({ success: false }); });
+  }
+
+  function setLoading(loading) {
+    if (btn) btn.classList.toggle('is-loading', !!loading);
+  }
+
+  function updateButton(hasMore) {
+    if (action) action.hidden = !hasMore;
+  }
+
+  function revealNewCards(nodes) {
+    nodes.forEach(function(n, i) {
+      n.style.opacity = '0';
+      n.style.transform = 'translateY(12px)';
+      n.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      setTimeout(function() {
+        n.style.opacity = '1';
+        n.style.transform = 'translateY(0)';
+      }, i * 80);
+    });
+  }
+
+  function applyFilter(cat) {
+    currentCat = cat;
+    offset = 6;
+    if (btn) btn.setAttribute('data-cat', cat);
+
+    filtersWrap.querySelectorAll('.blog-filter').forEach(function(f) {
+      f.classList.toggle('is-active', f.getAttribute('data-cat') === cat);
+    });
+
+    setLoading(true);
+    postAjax({ action: 'tema_viera_blog_load', nonce: miTemaAbogados.nonce, categoria: cat, mode: 'filter', offset: 0 }, function(res) {
+      setLoading(false);
+      if (!res || !res.success) return;
+
+      if (!res.data.featured && !res.data.grid) {
+        featuredWrap.innerHTML = '';
+        grid.innerHTML = '<div class="blog-empty"><p>No hay noticias publicadas todavía.</p></div>';
+      } else {
+        featuredWrap.innerHTML = res.data.featured;
+        grid.innerHTML = res.data.grid;
+      }
+      updateButton(res.data.has_more);
+    });
+  }
+
+  filtersWrap.addEventListener('click', function(e) {
+    var target = e.target.closest ? e.target.closest('.blog-filter') : null;
+    if (!target || !filtersWrap.contains(target)) return;
+    var cat = target.getAttribute('data-cat') || '';
+    if (cat === currentCat) return;
+    applyFilter(cat);
+  });
+
+  if (btn && action) {
+    btn.addEventListener('click', function() {
+      setLoading(true);
+      postAjax({ action: 'tema_viera_blog_load', nonce: miTemaAbogados.nonce, categoria: currentCat, mode: 'load', offset: offset }, function(res) {
+        setLoading(false);
+        if (!res || !res.success) return;
+
+        var before = grid.children.length;
+        grid.insertAdjacentHTML('beforeend', res.data.grid);
+        var newNodes = Array.prototype.slice.call(grid.children).slice(before);
+        offset += (res.data.count || 0);
+        revealNewCards(newNodes);
+        updateButton(res.data.has_more);
+      });
+    });
+  }
+});
+
+// Single post: copiar enlace en "Compartir"
+document.addEventListener('DOMContentLoaded', function() {
+  var copyBtns = document.querySelectorAll('.sp-share-btn[data-copy]');
+  if (!copyBtns.length) return;
+
+  function mark(btn) {
+    btn.classList.add('is-copied');
+    setTimeout(function() { btn.classList.remove('is-copied'); }, 2000);
+  }
+
+  copyBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var url = btn.getAttribute('data-copy');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() { mark(btn); });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        mark(btn);
+      }
+    });
+  });
+});
+
 })();

@@ -2,7 +2,8 @@
 /**
  * Plantilla: Single Post (Noticia)
  *
- * Página de detalle de cada noticia/caso destacado
+ * Página de detalle de cada noticia con encabezado, cuerpo editable,
+ * autor opcional y artículos relacionados.
  *
  * @package TemaVieraAbogados
  * @since 1.0.0
@@ -18,80 +19,162 @@ if ( have_posts() ) :
 	while ( have_posts() ) :
 		the_post();
 
-		$post_id        = get_the_ID();
-		$subtitulo      = tema_viera_post_meta_t( $post_id, '_post_subtitulo' );
-		$area_practica  = tema_viera_post_meta_t( $post_id, '_post_area_practica' );
-		$bg_img_url     = has_post_thumbnail() ? get_the_post_thumbnail_url( $post_id, 'full' ) : '';
+		$post_id   = get_the_ID();
+		$titulo    = tema_viera_post_titulo( $post_id );
+		$excerpto  = tema_viera_post_meta_t( $post_id, '_post_subtitulo' );
+		$autor     = tema_viera_post_autor( $post_id );
+		$bloques   = tema_viera_post_bloques( $post_id );
+		$relacionados = tema_viera_post_relacionados( $post_id );
+		$cover_url = has_post_thumbnail() ? get_the_post_thumbnail_url( $post_id, 'full' ) : '';
+
+		$cats     = get_the_category( $post_id );
+		$cat_name = ! empty( $cats ) ? tema_viera_t( $cats[0]->name ) : '';
+		$cat_slug = ! empty( $cats ) ? $cats[0]->slug : '';
+
+		$share_url = get_permalink( $post_id );
 		?>
+		<article>
 
-		<article class="single-noticia">
+			<!-- Breadcrumb -->
+			<div class="container">
+				<nav class="sp-breadcrumb" aria-label="<?php esc_attr_e( 'Miga de pan', 'tema-viera-abogados' ); ?>">
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Inicio', 'tema-viera-abogados' ); ?></a>
+					<span class="sp-breadcrumb-sep">/</span>
+					<a href="<?php echo esc_url( tema_viera_blog_url() ); ?>"><?php esc_html_e( 'Blog', 'tema-viera-abogados' ); ?></a>
+					<?php if ( $cat_name ) : ?>
+						<span class="sp-breadcrumb-sep">/</span>
+						<a href="<?php echo esc_url( tema_viera_blog_url() . '?cat=' . $cat_slug ); ?>"><?php echo esc_html( $cat_name ); ?></a>
+					<?php endif; ?>
+				</nav>
+			</div>
 
-			<section class="hero-viera single-noticia-hero" <?php echo $bg_img_url ? 'style="background: linear-gradient(90deg, rgba(7, 17, 44, 0.89) 31.45%, rgba(7, 17, 44, 0) 55.01%), url(\'' . esc_url( $bg_img_url ) . '\'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 420px;"' : 'style="background: linear-gradient(90deg, rgba(7, 17, 44, 0.89) 31.45%, rgba(7, 17, 44, 0) 55.01%); min-height: 420px;"'; ?>>
-				
-				<div class="hero-overlay"></div>
-
-				<div class="container hero-container" style="display:flex; align-items:flex-end; min-height:420px;">
-					<div class="hero-content-box reveal" style="padding-bottom:60px;">
-						
-						<nav style="margin-bottom:24px;">
-							<a href="<?php echo esc_url( home_url( '/' ) ); ?>" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px;">
-								<?php esc_html_e( 'Inicio', 'tema-viera-abogados' ); ?>
-							</a>
-							<span style="color:rgba(255,255,255,0.6); margin:0 8px;">/</span>
-							<a href="<?php echo esc_url( get_category_link( get_cat_ID( 'Destacados' ) ) ); ?>" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px;">
-								<?php esc_html_e( 'Destacados', 'tema-viera-abogados' ); ?>
-							</a>
-						</nav>
-
-						<?php if ( $subtitulo ) : ?>
-							<span class="hero-overline"><?php echo esc_html( $subtitulo ); ?></span>
+			<!-- Encabezado -->
+			<header class="sp-header">
+				<div class="container">
+					<div class="sp-header-inner">
+						<?php if ( $cat_name ) : ?>
+							<span class="blog-badge"><?php echo esc_html( strtoupper( $cat_name ) ); ?></span>
 						<?php endif; ?>
 
-						<h1 class="hero-title"><?php echo esc_html( tema_viera_post_titulo( $post_id ) ); ?></h1>
+						<h1 class="sp-title"><?php echo esc_html( $titulo ); ?></h1>
 
-						<div class="hero-subtitle-wrapper">
-							<hr class="hero-divider">
-							<div style="display:flex; gap:20px; flex-wrap:wrap;">
-								<?php if ( $area_practica ) : ?>
-									<p class="hero-subtitle" style="display:flex; align-items:center; gap:6px;">
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-											<path d="M8 14.5C8 14.5 13 10.5 13 6.5C13 3.73858 10.7614 1.5 8 1.5C5.23858 1.5 3 3.73858 3 6.5C3 10.5 8 14.5 8 14.5Z" stroke="currentColor" stroke-width="1.5"/>
-											<circle cx="8" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-										</svg>
-										<?php echo esc_html( $area_practica ); ?>
-									</p>
+						<?php if ( $excerpto ) : ?>
+							<p class="sp-excerpt"><?php echo esc_html( $excerpto ); ?></p>
+						<?php endif; ?>
+
+						<div class="sp-meta">
+							<?php if ( $autor && ! empty( $autor['img'] ) ) : ?>
+								<img class="sp-author-avatar" src="<?php echo esc_url( $autor['img'] ); ?>" alt="<?php echo esc_attr( $autor['nombre'] ); ?>">
+							<?php endif; ?>
+							<div class="sp-meta-text">
+								<?php if ( $autor ) : ?>
+									<span class="sp-author-name"><?php echo esc_html( $autor['nombre'] ); ?></span>
 								<?php endif; ?>
-								<p class="hero-subtitle" style="display:flex; align-items:center; gap:6px;">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-										<rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
-										<path d="M2 6.5H14" stroke="currentColor" stroke-width="1.5"/>
-										<path d="M5.5 1.5V4.5M10.5 1.5V4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-									</svg>
-									<?php echo esc_html( get_the_date() ); ?>
-								</p>
+								<span class="sp-date"><?php echo esc_html( tema_viera_blog_fecha( $post_id ) . ' · ' . tema_viera_blog_lectura( $post_id ) ); ?></span>
 							</div>
 						</div>
-
 					</div>
 				</div>
-			</section>
+			</header>
 
-			<section style="padding:80px 0; background:var(--color-white);">
-				<div class="container" style="max-width:800px; margin:0 auto;">
-					<div class="section-content reveal" style="font-size:16px; line-height:1.8; color:var(--color-text, #333);">
-						<?php echo apply_filters( 'the_content', tema_viera_post_contenido_t( $post_id ) ); ?>
-					</div>
-
-					<div style="margin-top:60px; padding-top:30px; border-top:1px solid var(--color-border, #e0e0e0); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
-						<a href="<?php echo esc_url( get_category_link( get_cat_ID( 'Destacados' ) ) ); ?>" style="display:inline-flex; align-items:center; gap:8px; color:var(--color-primary); text-decoration:none; font-size:14px; font-weight:600;">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-								<path d="M15 10H5M5 10L10 15M5 10L10 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-							</svg>
-							<?php esc_html_e( 'Volver a Destacados', 'tema-viera-abogados' ); ?>
-						</a>
+			<!-- Imagen de portada -->
+			<?php if ( $cover_url ) : ?>
+				<div class="container">
+					<div class="sp-cover">
+						<img src="<?php echo esc_url( $cover_url ); ?>" alt="<?php echo esc_attr( $titulo ); ?>">
 					</div>
 				</div>
-			</section>
+			<?php endif; ?>
+
+			<!-- Cuerpo -->
+			<div class="container">
+				<div class="sp-body">
+					<?php foreach ( $bloques as $bloque ) :
+						$subtitulo   = isset( $bloque['subtitulo'] ) ? trim( (string) $bloque['subtitulo'] ) : '';
+						$descripcion = isset( $bloque['descripcion'] ) ? (string) $bloque['descripcion'] : '';
+						$cita        = isset( $bloque['cita'] ) ? trim( (string) $bloque['cita'] ) : '';
+						$cita_autor  = isset( $bloque['cita_autor'] ) ? trim( (string) $bloque['cita_autor'] ) : '';
+						$lista       = isset( $bloque['lista'] ) ? trim( (string) $bloque['lista'] ) : '';
+					?>
+						<?php if ( $subtitulo ) : ?>
+							<h2 class="sp-subtitle"><?php echo esc_html( tema_viera_t( $subtitulo ) ); ?></h2>
+						<?php endif; ?>
+
+						<?php if ( $descripcion ) : ?>
+							<div class="sp-p"><?php echo wp_kses_post( wpautop( tema_viera_t( $descripcion ) ) ); ?></div>
+						<?php endif; ?>
+
+						<?php if ( $cita ) : ?>
+							<blockquote class="sp-quote">
+								<p><?php echo esc_html( tema_viera_t( $cita ) ); ?></p>
+								<?php if ( $cita_autor ) : ?>
+									<cite><?php echo esc_html( tema_viera_t( $cita_autor ) ); ?></cite>
+								<?php endif; ?>
+							</blockquote>
+						<?php endif; ?>
+
+						<?php if ( $lista ) : ?>
+							<?php
+							$items = array_filter( array_map( 'trim', explode( "\n", $lista ) ) );
+							?>
+							<?php if ( ! empty( $items ) ) : ?>
+								<ul class="sp-list">
+									<?php foreach ( $items as $item ) : ?>
+										<li><?php echo esc_html( tema_viera_t( $item ) ); ?></li>
+									<?php endforeach; ?>
+								</ul>
+							<?php endif; ?>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</div>
+			</div>
+
+			<!-- Compartir -->
+			<div class="container">
+				<div class="sp-share">
+					<span class="sp-share-label"><?php echo esc_html( tema_viera_t( 'COMPARTIR' ) ); ?></span>
+					<a class="sp-share-btn" href="<?php echo esc_url( 'https://www.linkedin.com/sharing/share-offsite/?url=' . rawurlencode( $share_url ) ); ?>" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
+					<a class="sp-share-btn" href="<?php echo esc_url( 'https://twitter.com/intent/tweet?url=' . rawurlencode( $share_url ) . '&text=' . rawurlencode( $titulo ) ); ?>" target="_blank" rel="noopener noreferrer" aria-label="X">X</a>
+					<a class="sp-share-btn" href="<?php echo esc_url( 'https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $share_url ) ); ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a>
+					<button type="button" class="sp-share-btn" data-copy="<?php echo esc_url( $share_url ); ?>" aria-label="<?php esc_attr_e( 'Copiar enlace', 'tema-viera-abogados' ); ?>">🔗</button>
+				</div>
+			</div>
+
+			<!-- Bio del autor -->
+			<?php if ( $autor ) : ?>
+				<div class="container">
+					<div class="sp-author-bio">
+						<?php if ( ! empty( $autor['img'] ) ) : ?>
+							<img class="sp-author-bio-img" src="<?php echo esc_url( $autor['img'] ); ?>" alt="<?php echo esc_attr( $autor['nombre'] ); ?>">
+						<?php endif; ?>
+						<div class="sp-author-bio-content">
+							<span class="sp-author-bio-label"><?php esc_html_e( 'ESCRITO POR', 'tema-viera-abogados' ); ?></span>
+							<h3 class="sp-author-bio-name"><?php echo esc_html( $autor['nombre'] ); ?><?php echo $autor['cargo'] ? ' — ' . esc_html( $autor['cargo'] ) : ''; ?></h3>
+							<?php if ( $autor['bio'] ) : ?>
+								<div class="sp-author-bio-text"><?php echo wp_kses_post( $autor['bio'] ); ?></div>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+			<?php endif; ?>
+
+			<!-- Artículos relacionados -->
+			<?php if ( ! empty( $relacionados ) ) : ?>
+				<?php
+				$rel_ids = array_slice( array_map( 'absint', $relacionados ), 0, 3 );
+				?>
+				<div class="container">
+					<h2 class="sp-related-title"><?php esc_html_e( 'Artículos relacionados', 'tema-viera-abogados' ); ?></h2>
+					<div class="sp-related-grid">
+						<?php foreach ( $rel_ids as $rid ) :
+							$rp = get_post( $rid );
+							if ( $rp ) {
+								tema_viera_blog_render_related_card( $rp );
+							}
+						endforeach; ?>
+					</div>
+				</div>
+			<?php endif; ?>
 
 		</article>
 

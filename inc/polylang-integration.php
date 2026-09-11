@@ -407,6 +407,25 @@ function tema_viera_register_polylang_strings() {
 		tema_viera_pll_register_string( $cfg[0], get_option( $key, '' ), 'Términos', $cfg[1] );
 	}
 
+	// Grupo "Blog" (page-blog.php).
+	$blog = array(
+		'Blog · Título'                          => 'Casos, noticias y actualidad legal',
+		'Blog · Descripción'                     => 'Análisis, novedades regulatorias y actualizaciones de nuestro equipo sobre los temas legales más relevantes para tu empresa.',
+		'Blog · Todos'                           => 'Todos',
+		'Blog · Cargar más'                      => 'CARGAR MÁS ARTÍCULOS',
+		'Blog · Leer artículo'                   => 'Leer artículo completo',
+		'Blog · min de lectura'                  => 'min de lectura',
+		'Blog · Categoría Litigios Civiles'      => 'Litigios Civiles',
+		'Blog · Categoría Litigios Administrativos' => 'Litigios Administrativos',
+		'Blog · Categoría Litigios Penales'      => 'Litigios Penales',
+		'Blog · Categoría Litigios Laborales'    => 'Litigios Laborales',
+		'Blog · Categoría Reconocimientos'       => 'Reconocimientos',
+	);
+
+	foreach ( $blog as $name => $string ) {
+		tema_viera_pll_register_string( $name, $string, 'Blog' );
+	}
+
 	// Secciones de Términos (array).
 	$terminos_secciones = get_option( 'tema_viera_abogados_terminos_secciones', array() );
 	if ( is_array( $terminos_secciones ) ) {
@@ -477,6 +496,9 @@ function tema_viera_register_polylang_strings() {
 		'Términos de privacidad',
 		'Libro de reclamaciones',
 		'Información legal',
+		'COMPARTIR',
+		'ESCRITO POR',
+		'Artículos relacionados',
 	);
 	foreach ( $ui_strings as $string ) {
 		tema_viera_pll_register_string( 'UI · ' . $string, $string, 'Interfaz' );
@@ -587,6 +609,19 @@ function tema_viera_register_post_strings() {
 		foreach ( $fields as $label => $value ) {
 			tema_viera_pll_register_string( 'Noticia ' . $id . ' · ' . $label, $value, $group, ( 'Contenido' === $label ) );
 		}
+
+		$bloques = get_post_meta( $id, '_post_bloques', true );
+		if ( is_array( $bloques ) ) {
+			foreach ( $bloques as $i => $bloque ) {
+				$n = $i + 1;
+				$b = wp_parse_args( (array) $bloque, array( 'subtitulo' => '', 'descripcion' => '', 'cita' => '', 'cita_autor' => '', 'lista' => '' ) );
+				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Subtítulo', $b['subtitulo'], $group );
+				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Descripción', $b['descripcion'], $group, true );
+				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Cita', $b['cita'], $group );
+				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Autor cita', $b['cita_autor'], $group );
+				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Lista', $b['lista'], $group, true );
+			}
+		}
 	}
 }
 add_action( 'init', 'tema_viera_register_post_strings', 30 );
@@ -602,7 +637,7 @@ function tema_viera_pll_post_types( $types ) {
 add_filter( 'pll_get_post_types', 'tema_viera_pll_post_types', 10, 1 );
 
 /**
- * Evita que Polylang traduzca categorías y etiquetas (una sola "Destacados").
+ * Evita que Polylang traduzca categorías y etiquetas (un solo set de categorías del blog).
  */
 function tema_viera_pll_taxonomies( $taxonomies ) {
 	$taxonomies = array_values( array_diff( (array) $taxonomies, array( 'category', 'post_tag' ) ) );
