@@ -478,46 +478,57 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (totalCards === 0) return;
 
-  let currentPage = 0;
-  
+  let currentStep = 0;
+
   function getCardsPerView() {
     return window.innerWidth <= 768 ? 1 : 2;
   }
 
-  function getTotalPages() {
-    return Math.ceil(totalCards / getCardsPerView());
+  function canSlide() {
+    return totalCards > getCardsPerView();
   }
 
-  function renderSlider() {
-    const totalPages = getTotalPages();
-    
-    if (totalPages <= 1) {
-      track.style.transform = `translateX(0)`;
-      return;
-    }
+  function setupClones() {
+    track.querySelectorAll('.miembro-card.is-clone').forEach(function(c) { c.remove(); });
+    if (!canSlide()) return;
 
-    if (currentPage >= totalPages) currentPage = totalPages - 1;
-    
-    updateSliderPosition();
+    const cardsPerView = getCardsPerView();
+    const originals = track.querySelectorAll('.miembro-card:not(.is-clone)');
+    for (let i = 0; i < cardsPerView && i < originals.length; i++) {
+      const clone = originals[i].cloneNode(true);
+      clone.classList.add('is-clone');
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    }
   }
 
   function updateSliderPosition() {
-    const totalPages = getTotalPages();
-    const cardsPerView = getCardsPerView();
-    
-    if (currentPage >= totalPages) currentPage = totalPages - 1;
+    const firstCard = track.querySelector('.miembro-card');
+    const cardWidth = firstCard ? firstCard.offsetWidth : 0;
+    const gap = 20;
+    const moveAmount = (cardWidth + gap) * currentStep;
 
-    const cardWidth = cards[0].offsetWidth;
-    const gap = 20; 
-    const moveAmount = (cardWidth + gap) * cardsPerView * currentPage;
-    
     track.style.transform = `translateX(-${moveAmount}px)`;
   }
 
+  function renderSlider() {
+    if (!canSlide()) {
+      track.style.transition = 'none';
+      track.style.transform = `translateX(0)`;
+      currentStep = 0;
+      return;
+    }
+
+    if (currentStep >= totalCards) currentStep = totalCards - 1;
+    updateSliderPosition();
+  }
+
+  setupClones();
   renderSlider();
 
   let autoplay = null;
   const AUTOPLAY_DELAY = 3500;
+  const TRANSITION_MS = 400;
 
   function stopAutoplay() {
     if (autoplay) {
@@ -526,13 +537,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  function goToNext() {
+    if (!canSlide()) return;
+
+    currentStep++;
+    updateSliderPosition();
+
+    // Avanzamos de a una tarjeta y, al alcanzar las clonadas (idénticas al
+    // inicio), volvemos al paso 0 sin animación: bucle continuo, sin saltos
+    // hacia atrás. Funciona con cantidad par o impar de abogados.
+    if (currentStep >= totalCards) {
+      setTimeout(function() {
+        track.style.transition = 'none';
+        currentStep = 0;
+        updateSliderPosition();
+        void track.offsetWidth;
+        track.style.transition = '';
+      }, TRANSITION_MS);
+    }
+  }
+
   function startAutoplay() {
     stopAutoplay();
-    if (getTotalPages() <= 1) return;
-    autoplay = setInterval(() => {
-      currentPage = (currentPage + 1) % getTotalPages();
-      updateSliderPosition();
-    }, AUTOPLAY_DELAY);
+    if (!canSlide()) return;
+    autoplay = setInterval(goToNext, AUTOPLAY_DELAY);
   }
 
   startAutoplay();
@@ -544,7 +572,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   window.addEventListener('resize', () => {
-    setTimeout(renderSlider, 100);
+    setTimeout(function() {
+      setupClones();
+      renderSlider();
+    }, 100);
   });
 });
 
