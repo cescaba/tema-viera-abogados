@@ -138,6 +138,11 @@ img {
     --lateral-spacing: clamp(20px, 5vw, 40px);
     --header-spacing: clamp(20px, 5vw, 40px);
   }
+
+  .sp-cover {
+    margin-left: calc(-1 * var(--lateral-spacing));
+    margin-right: calc(-1 * var(--lateral-spacing));
+  }
 }
 
 @media (max-width: 480px) {
