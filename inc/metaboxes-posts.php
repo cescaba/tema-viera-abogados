@@ -42,10 +42,10 @@ function tema_viera_post_render_bloque( $bloque = array() ) {
 	) );
 	?>
 	<div class="tema-viera-bloque">
-		<input type="text" name="tema_viera_bloques[][subtitulo]" value="<?php echo esc_attr( $bloque['subtitulo'] ); ?>" placeholder="<?php esc_attr_e( 'Subtítulo (opcional)', 'tema-viera-abogados' ); ?>" />
-		<textarea name="tema_viera_bloques[][descripcion]" placeholder="<?php esc_attr_e( 'Descripción', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $bloque['descripcion'] ); ?></textarea>
-		<input type="text" name="tema_viera_bloques[][cita]" value="<?php echo esc_attr( $bloque['cita'] ); ?>" placeholder="<?php esc_attr_e( 'Cita (opcional)', 'tema-viera-abogados' ); ?>" />
-		<select name="tema_viera_bloques[][cita_autor]">
+		<input type="text" name="tema_viera_bloques[subtitulo][]" value="<?php echo esc_attr( $bloque['subtitulo'] ); ?>" placeholder="<?php esc_attr_e( 'Subtítulo (opcional)', 'tema-viera-abogados' ); ?>" />
+		<textarea name="tema_viera_bloques[descripcion][]" placeholder="<?php esc_attr_e( 'Descripción', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $bloque['descripcion'] ); ?></textarea>
+		<input type="text" name="tema_viera_bloques[cita][]" value="<?php echo esc_attr( $bloque['cita'] ); ?>" placeholder="<?php esc_attr_e( 'Cita (opcional)', 'tema-viera-abogados' ); ?>" />
+		<select name="tema_viera_bloques[cita_autor][]">
 			<option value=""><?php esc_html_e( '— Autor de la cita (opcional) —', 'tema-viera-abogados' ); ?></option>
 			<?php foreach ( $abogados as $ab ) : ?>
 				<option value="<?php echo esc_attr( $ab->ID ); ?>" <?php selected( (string) $bloque['cita_autor'], (string) $ab->ID ); ?>>
@@ -53,7 +53,7 @@ function tema_viera_post_render_bloque( $bloque = array() ) {
 				</option>
 			<?php endforeach; ?>
 		</select>
-		<textarea name="tema_viera_bloques[][lista]" placeholder="<?php esc_attr_e( 'Lista de puntos (uno por línea, opcional)', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $bloque['lista'] ); ?></textarea>
+		<textarea name="tema_viera_bloques[lista][]" placeholder="<?php esc_attr_e( 'Lista de puntos (uno por línea, opcional)', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $bloque['lista'] ); ?></textarea>
 		<button type="button" class="tema-viera-btn-remove-bloque"><?php esc_html_e( 'Eliminar bloque', 'tema-viera-abogados' ); ?></button>
 	</div>
 	<?php
@@ -268,14 +268,23 @@ function tema_viera_save_post_metabox( $post_id ) {
 	}
 
 	if ( isset( $_POST['tema_viera_bloques'] ) && is_array( $_POST['tema_viera_bloques'] ) ) {
+		$raw = $_POST['tema_viera_bloques'];
+
+		$subtitulos   = isset( $raw['subtitulo'] ) && is_array( $raw['subtitulo'] ) ? $raw['subtitulo'] : array();
+		$descripciones = isset( $raw['descripcion'] ) && is_array( $raw['descripcion'] ) ? $raw['descripcion'] : array();
+		$citas        = isset( $raw['cita'] ) && is_array( $raw['cita'] ) ? $raw['cita'] : array();
+		$cita_autores = isset( $raw['cita_autor'] ) && is_array( $raw['cita_autor'] ) ? $raw['cita_autor'] : array();
+		$listas       = isset( $raw['lista'] ) && is_array( $raw['lista'] ) ? $raw['lista'] : array();
+
+		$n       = max( count( $subtitulos ), count( $descripciones ), count( $citas ), count( $cita_autores ), count( $listas ) );
 		$bloques = array();
-		foreach ( $_POST['tema_viera_bloques'] as $bloque ) {
+		for ( $i = 0; $i < $n; $i++ ) {
 			$bloques[] = array(
-				'subtitulo'   => isset( $bloque['subtitulo'] ) ? sanitize_text_field( wp_unslash( $bloque['subtitulo'] ) ) : '',
-				'descripcion' => isset( $bloque['descripcion'] ) ? wp_kses_post( wp_unslash( $bloque['descripcion'] ) ) : '',
-				'cita'        => isset( $bloque['cita'] ) ? sanitize_text_field( wp_unslash( $bloque['cita'] ) ) : '',
-				'cita_autor'  => isset( $bloque['cita_autor'] ) ? absint( $bloque['cita_autor'] ) : 0,
-				'lista'       => isset( $bloque['lista'] ) ? sanitize_textarea_field( wp_unslash( $bloque['lista'] ) ) : '',
+				'subtitulo'   => isset( $subtitulos[ $i ] ) ? sanitize_text_field( wp_unslash( $subtitulos[ $i ] ) ) : '',
+				'descripcion' => isset( $descripciones[ $i ] ) ? wp_kses_post( wp_unslash( $descripciones[ $i ] ) ) : '',
+				'cita'        => isset( $citas[ $i ] ) ? sanitize_text_field( wp_unslash( $citas[ $i ] ) ) : '',
+				'cita_autor'  => isset( $cita_autores[ $i ] ) ? absint( $cita_autores[ $i ] ) : 0,
+				'lista'       => isset( $listas[ $i ] ) ? sanitize_textarea_field( wp_unslash( $listas[ $i ] ) ) : '',
 			);
 		}
 		update_post_meta( $post_id, '_post_bloques', $bloques );
