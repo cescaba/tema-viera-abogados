@@ -4544,6 +4544,16 @@ img {
   font-style: normal;
 }
 
+.sp-quote-cargo {
+  color: #A0A6B1;
+}
+
+.sp-quote-cargo::before {
+  content: '·';
+  margin: 0 6px;
+  color: #6B7385;
+}
+
 .sp-list {
   list-style: none;
   margin: 0;

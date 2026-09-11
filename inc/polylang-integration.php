@@ -614,11 +614,10 @@ function tema_viera_register_post_strings() {
 		if ( is_array( $bloques ) ) {
 			foreach ( $bloques as $i => $bloque ) {
 				$n = $i + 1;
-				$b = wp_parse_args( (array) $bloque, array( 'subtitulo' => '', 'descripcion' => '', 'cita' => '', 'cita_autor' => '', 'lista' => '' ) );
+				$b = wp_parse_args( (array) $bloque, array( 'subtitulo' => '', 'descripcion' => '', 'cita' => '', 'lista' => '' ) );
 				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Subtítulo', $b['subtitulo'], $group );
 				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Descripción', $b['descripcion'], $group, true );
 				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Cita', $b['cita'], $group );
-				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Autor cita', $b['cita_autor'], $group );
 				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Lista', $b['lista'], $group, true );
 			}
 		}

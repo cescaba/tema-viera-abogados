@@ -32,12 +32,27 @@ function tema_viera_post_render_bloque( $bloque = array() ) {
 		'cita_autor'  => '',
 		'lista'       => '',
 	) );
+
+	$abogados = get_posts( array(
+		'post_type'      => 'abogado',
+		'posts_per_page' => -1,
+		'orderby'        => 'menu_order',
+		'order'          => 'ASC',
+		'post_status'    => 'any',
+	) );
 	?>
 	<div class="tema-viera-bloque">
 		<input type="text" name="tema_viera_bloques[][subtitulo]" value="<?php echo esc_attr( $bloque['subtitulo'] ); ?>" placeholder="<?php esc_attr_e( 'Subtítulo (opcional)', 'tema-viera-abogados' ); ?>" />
 		<textarea name="tema_viera_bloques[][descripcion]" placeholder="<?php esc_attr_e( 'Descripción', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $bloque['descripcion'] ); ?></textarea>
 		<input type="text" name="tema_viera_bloques[][cita]" value="<?php echo esc_attr( $bloque['cita'] ); ?>" placeholder="<?php esc_attr_e( 'Cita (opcional)', 'tema-viera-abogados' ); ?>" />
-		<input type="text" name="tema_viera_bloques[][cita_autor]" value="<?php echo esc_attr( $bloque['cita_autor'] ); ?>" placeholder="<?php esc_attr_e( 'Autor de la cita (opcional)', 'tema-viera-abogados' ); ?>" />
+		<select name="tema_viera_bloques[][cita_autor]">
+			<option value=""><?php esc_html_e( '— Autor de la cita (opcional) —', 'tema-viera-abogados' ); ?></option>
+			<?php foreach ( $abogados as $ab ) : ?>
+				<option value="<?php echo esc_attr( $ab->ID ); ?>" <?php selected( (string) $bloque['cita_autor'], (string) $ab->ID ); ?>>
+					<?php echo esc_html( $ab->post_title ); ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
 		<textarea name="tema_viera_bloques[][lista]" placeholder="<?php esc_attr_e( 'Lista de puntos (uno por línea, opcional)', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $bloque['lista'] ); ?></textarea>
 		<button type="button" class="tema-viera-btn-remove-bloque"><?php esc_html_e( 'Eliminar bloque', 'tema-viera-abogados' ); ?></button>
 	</div>
@@ -66,7 +81,7 @@ function tema_viera_render_post_metabox( $post ) {
 			background: #f9f9f9; border: 1px solid #e5e5e5; border-left: 3px solid #222F50;
 			padding: 12px; margin-bottom: 12px; border-radius: 4px; position: relative;
 		}
-		.tema-viera-bloque input, .tema-viera-bloque textarea { margin-bottom: 8px; }
+		.tema-viera-bloque input, .tema-viera-bloque textarea, .tema-viera-bloque select { margin-bottom: 8px; }
 		.tema-viera-bloque textarea { min-height: 70px; }
 		.tema-viera-btn-remove-bloque {
 			background: #dc3545; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;
@@ -259,7 +274,7 @@ function tema_viera_save_post_metabox( $post_id ) {
 				'subtitulo'   => isset( $bloque['subtitulo'] ) ? sanitize_text_field( wp_unslash( $bloque['subtitulo'] ) ) : '',
 				'descripcion' => isset( $bloque['descripcion'] ) ? wp_kses_post( wp_unslash( $bloque['descripcion'] ) ) : '',
 				'cita'        => isset( $bloque['cita'] ) ? sanitize_text_field( wp_unslash( $bloque['cita'] ) ) : '',
-				'cita_autor'  => isset( $bloque['cita_autor'] ) ? sanitize_text_field( wp_unslash( $bloque['cita_autor'] ) ) : '',
+				'cita_autor'  => isset( $bloque['cita_autor'] ) ? absint( $bloque['cita_autor'] ) : 0,
 				'lista'       => isset( $bloque['lista'] ) ? sanitize_textarea_field( wp_unslash( $bloque['lista'] ) ) : '',
 			);
 		}

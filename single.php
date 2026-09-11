@@ -93,7 +93,7 @@ if ( have_posts() ) :
 						$subtitulo   = isset( $bloque['subtitulo'] ) ? trim( (string) $bloque['subtitulo'] ) : '';
 						$descripcion = isset( $bloque['descripcion'] ) ? (string) $bloque['descripcion'] : '';
 						$cita        = isset( $bloque['cita'] ) ? trim( (string) $bloque['cita'] ) : '';
-						$cita_autor  = isset( $bloque['cita_autor'] ) ? trim( (string) $bloque['cita_autor'] ) : '';
+						$cita_autor  = isset( $bloque['cita_autor'] ) ? absint( $bloque['cita_autor'] ) : 0;
 						$lista       = isset( $bloque['lista'] ) ? trim( (string) $bloque['lista'] ) : '';
 					?>
 						<?php if ( $subtitulo ) : ?>
@@ -108,7 +108,13 @@ if ( have_posts() ) :
 							<blockquote class="sp-quote">
 								<p><?php echo esc_html( tema_viera_t( $cita ) ); ?></p>
 								<?php if ( $cita_autor ) : ?>
-									<cite><?php echo esc_html( tema_viera_t( $cita_autor ) ); ?></cite>
+									<cite>
+										<span class="sp-quote-name"><?php echo esc_html( tema_viera_abogado_titulo( $cita_autor ) ); ?></span>
+										<?php $cargo = tema_viera_abogado_meta_t( $cita_autor, 'cargo' ); ?>
+										<?php if ( $cargo ) : ?>
+											<span class="sp-quote-cargo"><?php echo esc_html( $cargo ); ?></span>
+										<?php endif; ?>
+									</cite>
 								<?php endif; ?>
 							</blockquote>
 						<?php endif; ?>
