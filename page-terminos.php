@@ -72,7 +72,7 @@ if ( ! is_array( $secciones ) ) {
 
 			<?php foreach ( $secciones as $index => $seccion ) :
 				$seccion_titulo   = tema_viera_t( isset( $seccion['titulo'] ) ? $seccion['titulo'] : '' );
-				$seccion_contenido = isset( $seccion['contenido'] ) ? $seccion['contenido'] : '';
+				$seccion_contenido = tema_viera_t( isset( $seccion['contenido'] ) ? (string) $seccion['contenido'] : '' );
 				if ( '' === trim( $seccion_titulo ) && '' === trim( wp_strip_all_tags( $seccion_contenido ) ) ) {
 					continue;
 				}

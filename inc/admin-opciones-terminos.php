@@ -179,6 +179,7 @@ function tema_viera_opciones_terminos_page() {
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Términos y Condiciones', 'tema-viera-abogados' ); ?></h1>
+		<?php tema_viera_translation_button( 'Términos' ); ?>
 
 		<form method="post">
 			<?php wp_nonce_field( 'tema_viera_opciones_terminos_action', 'tema_viera_opciones_terminos_nonce' ); ?>
