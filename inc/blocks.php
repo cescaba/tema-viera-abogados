@@ -357,23 +357,10 @@ function tema_viera_map_block_texts( $blocks, $callback ) {
 }
 
 /**
- * Imprime el contenido de una noticia en el idioma actual.
- *
- * Si la noticia tiene contenido en inglés propio, se usa ese; si no,
- * se traduce el contenido en español por bloques (cadenas compartidas).
+ * Imprime el contenido de una noticia ya traducido (por bloque).
  */
 function tema_viera_the_post_content() {
-	$post_id = get_the_ID();
-
-	if ( function_exists( 'tema_viera_current_lang' ) && 'en' === tema_viera_current_lang() ) {
-		$en = get_post_meta( $post_id, '_post_content_en', true );
-		if ( is_string( $en ) && '' !== trim( $en ) ) {
-			echo apply_filters( 'the_content', $en );
-			return;
-		}
-	}
-
-	$content = get_post_field( 'post_content', $post_id );
+	$content = get_post_field( 'post_content', get_the_ID() );
 
 	if ( function_exists( 'parse_blocks' ) && function_exists( 'serialize_blocks' ) ) {
 		$blocks  = parse_blocks( $content );
@@ -396,17 +383,7 @@ function tema_viera_the_post_content() {
  * @return string
  */
 function tema_viera_post_content_plain( $post_id ) {
-	$post_id = (int) $post_id;
-
-	// Contenido en inglés propio de la noticia (tiene prioridad).
-	if ( function_exists( 'tema_viera_current_lang' ) && 'en' === tema_viera_current_lang() ) {
-		$en = get_post_meta( $post_id, '_post_content_en', true );
-		if ( is_string( $en ) && '' !== trim( $en ) ) {
-			return trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( $en ) ) );
-		}
-	}
-
-	$content = get_post_field( 'post_content', $post_id );
+	$content = get_post_field( 'post_content', (int) $post_id );
 
 	if ( ! function_exists( 'parse_blocks' ) ) {
 		return wp_strip_all_tags( preg_replace( '/<!--.*?-->/s', '', $content ) );

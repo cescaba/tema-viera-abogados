@@ -29,11 +29,6 @@ function tema_viera_render_post_metabox( $post ) {
 
 	$descripcion        = get_post_meta( $post->ID, '_post_descripcion', true );
 	$area_practica      = get_post_meta( $post->ID, '_post_area_practica', true );
-
-	$titulo_en          = get_post_meta( $post->ID, '_post_title_en', true );
-	$descripcion_en     = get_post_meta( $post->ID, '_post_descripcion_en', true );
-	$area_practica_en   = get_post_meta( $post->ID, '_post_area_practica_en', true );
-	$contenido_en       = get_post_meta( $post->ID, '_post_content_en', true );
 	?>
 
 	<style>
@@ -136,58 +131,6 @@ function tema_viera_render_post_metabox( $post ) {
 		</div>
 	<?php endif; ?>
 
-	<div style="border-top: 2px solid #d4af37; margin-top: 20px; padding-top: 15px;">
-		<h3 style="margin: 0 0 5px;"><?php esc_html_e( 'Traducción al inglés (individual por noticia)', 'tema-viera-abogados' ); ?></h3>
-		<p class="tema-viera-help-text" style="margin-bottom: 15px;">
-			<?php esc_html_e( 'Estos campos tienen prioridad sobre las traducciones de cadenas y son propios de esta noticia: aunque otra noticia tenga el mismo texto en español, aquí puedes poner un inglés distinto.', 'tema-viera-abogados' ); ?>
-		</p>
-
-		<div class="tema-viera-post-field">
-			<label for="tema_viera_post_title_en">
-				<?php esc_html_e( 'Título en inglés', 'tema-viera-abogados' ); ?>
-			</label>
-			<input type="text" id="tema_viera_post_title_en" name="tema_viera_post_title_en"
-				value="<?php echo esc_attr( $titulo_en ); ?>"
-				placeholder="<?php esc_attr_e( 'Si se deja vacío, se usa la traducción de cadenas', 'tema-viera-abogados' ); ?>" />
-		</div>
-
-		<div class="tema-viera-post-field">
-			<label for="tema_viera_post_descripcion_en">
-				<?php esc_html_e( 'Descripción en inglés', 'tema-viera-abogados' ); ?>
-			</label>
-			<textarea id="tema_viera_post_descripcion_en" name="tema_viera_post_descripcion_en" rows="3"
-				placeholder="<?php esc_attr_e( 'Si se deja vacío, se usa la traducción de cadenas', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $descripcion_en ); ?></textarea>
-		</div>
-
-		<div class="tema-viera-post-field">
-			<label for="tema_viera_post_area_practica_en">
-				<?php esc_html_e( 'Área de práctica en inglés', 'tema-viera-abogados' ); ?>
-			</label>
-			<input type="text" id="tema_viera_post_area_practica_en" name="tema_viera_post_area_practica_en"
-				value="<?php echo esc_attr( $area_practica_en ); ?>"
-				placeholder="<?php esc_attr_e( 'Si se deja vacío, se usa la traducción de cadenas', 'tema-viera-abogados' ); ?>" />
-		</div>
-
-		<div class="tema-viera-post-field">
-			<label for="tema_viera_post_content_en">
-				<?php esc_html_e( 'Contenido en inglés', 'tema-viera-abogados' ); ?>
-			</label>
-			<?php
-			wp_editor(
-				$contenido_en,
-				'tema_viera_post_content_en',
-				array(
-					'textarea_rows' => 12,
-					'media_buttons' => true,
-				)
-			);
-			?>
-			<div class="tema-viera-help-text">
-				<?php esc_html_e( 'Cuerpo completo de la noticia en inglés. Si se deja vacío, se muestra el contenido en español traducido por cadenas.', 'tema-viera-abogados' ); ?>
-			</div>
-		</div>
-	</div>
-
 	<?php
 }
 
@@ -210,23 +153,7 @@ function tema_viera_save_post_metabox( $post_id ) {
 	}
 
 	if ( isset( $_POST['tema_viera_post_area_practica'] ) ) {
-		update_post_meta( $post_id, '_post_area_practica', sanitize_text_field( wp_unslash( $_POST['tema_viera_post_area_practica'] ) ) );
-	}
-
-	if ( isset( $_POST['tema_viera_post_title_en'] ) ) {
-		update_post_meta( $post_id, '_post_title_en', sanitize_text_field( wp_unslash( $_POST['tema_viera_post_title_en'] ) ) );
-	}
-
-	if ( isset( $_POST['tema_viera_post_descripcion_en'] ) ) {
-		update_post_meta( $post_id, '_post_descripcion_en', sanitize_textarea_field( wp_unslash( $_POST['tema_viera_post_descripcion_en'] ) ) );
-	}
-
-	if ( isset( $_POST['tema_viera_post_area_practica_en'] ) ) {
-		update_post_meta( $post_id, '_post_area_practica_en', sanitize_text_field( wp_unslash( $_POST['tema_viera_post_area_practica_en'] ) ) );
-	}
-
-	if ( isset( $_POST['tema_viera_post_content_en'] ) ) {
-		update_post_meta( $post_id, '_post_content_en', wp_kses_post( wp_unslash( $_POST['tema_viera_post_content_en'] ) ) );
+		update_post_meta( $post_id, '_post_area_practica', sanitize_text_field( $_POST['tema_viera_post_area_practica'] ) );
 	}
 
 	if ( isset( $_POST['tema_viera_post_autor'] ) ) {
