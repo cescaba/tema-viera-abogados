@@ -1073,7 +1073,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     setLoading(true);
-    postAjax({ action: 'tema_viera_blog_load', nonce: miTemaAbogados.nonce, categoria: cat, mode: 'filter', offset: 0 }, function(res) {
+    postAjax({ action: 'tema_viera_blog_load', nonce: miTemaAbogados.nonce, categoria: cat, mode: 'filter', offset: 0, pll_lang: (typeof miTemaAbogados !== 'undefined' && miTemaAbogados.lang) ? miTemaAbogados.lang : '' }, function(res) {
       setLoading(false);
       if (!res || !res.success) return;
 
@@ -1099,7 +1099,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (btn && action) {
     btn.addEventListener('click', function() {
       setLoading(true);
-      postAjax({ action: 'tema_viera_blog_load', nonce: miTemaAbogados.nonce, categoria: currentCat, mode: 'load', offset: offset }, function(res) {
+      postAjax({ action: 'tema_viera_blog_load', nonce: miTemaAbogados.nonce, categoria: currentCat, mode: 'load', offset: offset, pll_lang: (typeof miTemaAbogados !== 'undefined' && miTemaAbogados.lang) ? miTemaAbogados.lang : '' }, function(res) {
         setLoading(false);
         if (!res || !res.success) return;
 

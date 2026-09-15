@@ -33,6 +33,38 @@ if ( ! defined( 'ABSPATH' ) ) {
         ?>
       </div>
       <div class="header-right">
+        <?php
+        $lang_actual = function_exists( 'tema_viera_current_lang' )
+          ? tema_viera_current_lang()
+          : ( function_exists( 'pll_current_language' ) ? pll_current_language() : 'es' );
+        if ( ! $lang_actual ) {
+          $lang_actual = 'es';
+        }
+        // URLs que permanecen en el mismo contenido (noticia, blog con ?cat=,
+        // archivo de categoría). Si hay traducción real de Polylang se usa;
+        // si no, se reconstruye la misma ruta con el prefijo del idioma.
+        if ( function_exists( 'tema_viera_switch_url' ) ) {
+          $lang_es_url = tema_viera_switch_url( 'es' );
+          $lang_en_url = tema_viera_switch_url( 'en' );
+        } else {
+          $langs = array();
+          if ( function_exists( 'pll_the_languages' ) ) {
+            $langs = pll_the_languages( array( 'raw' => 1 ) );
+          }
+          $lang_map = array();
+          if ( is_array( $langs ) ) {
+            foreach ( $langs as $l ) {
+              if ( ! empty( $l['slug'] ) ) {
+                $lang_map[ $l['slug'] ] = $l;
+              }
+            }
+          }
+          $lang_es_url = isset( $lang_map['es'] ) ? $lang_map['es']['url'] : home_url( '/' );
+          $lang_en_url = isset( $lang_map['en'] ) ? $lang_map['en']['url'] : home_url( '/' );
+        }
+        $lang_target      = ( $lang_actual === 'en' ) ? 'es' : 'en';
+        $lang_target_url  = ( $lang_actual === 'en' ) ? $lang_es_url : $lang_en_url;
+        ?>
         <nav class="site-nav" id="site-nav">
           <?php
           wp_nav_menu( array(
@@ -49,6 +81,11 @@ if ( ! defined( 'ABSPATH' ) ) {
             'container'      => false,
           ) );
           ?>
+          <div class="mobile-lang-switch" aria-label="<?php esc_attr_e( 'Cambiar idioma', 'tema-viera-abogados' ); ?>">
+            <a href="<?php echo esc_url( $lang_es_url ); ?>" class="mobile-lang-opt<?php echo ( $lang_actual === 'es' ) ? ' is-current' : ''; ?>"<?php echo ( $lang_actual === 'es' ) ? ' aria-current="true"' : ''; ?>>ES</a>
+            <span class="mobile-lang-sep" aria-hidden="true">|</span>
+            <a href="<?php echo esc_url( $lang_en_url ); ?>" class="mobile-lang-opt<?php echo ( $lang_actual === 'en' ) ? ' is-current' : ''; ?>"<?php echo ( $lang_actual === 'en' ) ? ' aria-current="true"' : ''; ?>>EN</a>
+          </div>
         </nav>
         
         <div class="header-actions">
@@ -62,27 +99,6 @@ if ( ! defined( 'ABSPATH' ) ) {
           </button>
 
           <!-- Switch de Idiomas -->
-          <?php
-          $langs = array();
-          if ( function_exists( 'pll_the_languages' ) ) {
-            $langs = pll_the_languages( array( 'raw' => 1 ) );
-          }
-          $lang_map = array();
-          if ( is_array( $langs ) ) {
-            foreach ( $langs as $l ) {
-              if ( ! empty( $l['slug'] ) ) {
-                $lang_map[ $l['slug'] ] = $l;
-              }
-            }
-          }
-          $lang_es_url = isset( $lang_map['es'] ) ? $lang_map['es']['url'] : home_url( '/' );
-          $lang_en_url = isset( $lang_map['en'] ) ? $lang_map['en']['url'] : home_url( '/' );
-          $lang_actual = function_exists( 'pll_current_language' ) ? pll_current_language() : 'es';
-          ?>
-          <?php
-          $lang_target      = ( $lang_actual === 'en' ) ? 'es' : 'en';
-          $lang_target_url  = ( $lang_actual === 'en' ) ? $lang_es_url : $lang_en_url;
-          ?>
           <a href="<?php echo esc_url( $lang_target_url ); ?>" class="lang-switch desktop-only <?php echo ( $lang_actual === 'es' ) ? 'is-es' : 'is-en'; ?>" role="switch" aria-checked="<?php echo ( $lang_actual === 'en' ) ? 'true' : 'false'; ?>" aria-label="Cambiar idioma a <?php echo esc_attr( strtoupper( $lang_target ) ); ?>">
             <span class="lang-opt">ES</span>
             <span class="lang-opt">EN</span>

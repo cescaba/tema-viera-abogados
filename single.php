@@ -30,7 +30,7 @@ if ( have_posts() ) :
 		$cat_name = ! empty( $cats ) ? tema_viera_t( $cats[0]->name ) : '';
 		$cat_slug = ! empty( $cats ) ? $cats[0]->slug : '';
 
-		$share_url = get_permalink( $post_id );
+		$share_url = function_exists( 'tema_viera_post_permalink' ) ? tema_viera_post_permalink( $post_id ) : get_permalink( $post_id );
 		?>
 		<article>
 

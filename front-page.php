@@ -299,6 +299,11 @@ $equipo_pre_titulo = tema_viera_t( get_option( 'tema_viera_abogados_equipo_pre',
 $equipo_titulo     = tema_viera_t( get_option( 'tema_viera_abogados_equipo_titulo', 'NUESTRO EQUIPO' ) );
 $equipo_enlace_txt = tema_viera_t( get_option( 'tema_viera_abogados_equipo_enlace_txt', 'CONOCE A TODO EL EQUIPO →' ) );
 $equipo_enlace_url = get_option( 'tema_viera_abogados_equipo_enlace_url', '' );
+// URL del equipo en el idioma actual (el enlace personalizado también respeta /en/).
+$equipo_url_final = function_exists( 'tema_viera_equipo_url' ) ? tema_viera_equipo_url() : home_url( '/equipo/' );
+if ( $equipo_enlace_url && function_exists( 'tema_viera_swap_home_lang' ) && function_exists( 'tema_viera_current_lang' ) ) {
+	$equipo_url_final = tema_viera_swap_home_lang( $equipo_enlace_url, tema_viera_current_lang() );
+}
 
 $fundador_post_id     = get_option( 'tema_viera_abogados_fundador_post_id', '' );
 $equipo_seleccionados = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );
@@ -363,7 +368,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
       </div>
       
       <?php if ( $equipo_enlace_txt ) : ?>
-        <a href="<?php echo esc_url( $equipo_enlace_url ?: tema_viera_equipo_url() ); ?>" class="equipo-enlace">
+        <a href="<?php echo esc_url( $equipo_url_final ); ?>" class="equipo-enlace">
           <?php echo esc_html( $equipo_enlace_txt ); ?>
           <svg class="equipo-enlace-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true"><path d="M13.7437 4.59388L10.6436 7.69406C10.4727 7.86493 10.2488 7.95035 10.0248 7.95035C9.80088 7.95035 9.57696 7.86493 9.40609 7.69406C9.0644 7.35234 9.0644 6.79833 9.40609 6.45662L11.0126 4.85017H0.875C0.391754 4.85017 0 4.45842 0 3.97517C0 3.49193 0.391754 3.10017 0.875 3.10017H11.0126L9.40609 1.49373C9.0644 1.15201 9.0644 0.598001 9.40609 0.256286C9.74783 -0.0854287 10.3018 -0.0854287 10.6436 0.256286L13.7437 3.35647C14.0854 3.69815 14.0854 4.25219 13.7437 4.59388Z" fill="currentColor"/></svg>
         </a>
@@ -455,7 +460,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
         <?php endforeach; ?>
       </div>
 
-      <a href="<?php echo esc_url( $equipo_enlace_url ?: tema_viera_equipo_url() ); ?>" class="equipo-btn-ver"><?php echo esc_html( tema_viera_t( 'VER EQUIPO COMPLETO' ) ); ?></a>
+      <a href="<?php echo esc_url( $equipo_url_final ); ?>" class="equipo-btn-ver"><?php echo esc_html( tema_viera_t( 'VER EQUIPO COMPLETO' ) ); ?></a>
     </div>
     <?php endif; ?>
 
@@ -714,7 +719,7 @@ $bloques_noticias = array_chunk( $noticias_query->posts, 5 );
             
             <?php foreach ( $bloque as $post_item ) : 
               $img_url   = get_the_post_thumbnail_url( $post_item->ID, 'medium_large' );
-              $enlace    = get_permalink( $post_item->ID );
+              $enlace    = function_exists( 'tema_viera_post_permalink' ) ? tema_viera_post_permalink( $post_item->ID ) : get_permalink( $post_item->ID );
               $descripcion = tema_viera_post_meta_t( $post_item->ID, '_post_descripcion' );
               if ( ! $descripcion ) {
                 $descripcion = wp_trim_words( tema_viera_post_content_plain( $post_item->ID ), 20, '…' );

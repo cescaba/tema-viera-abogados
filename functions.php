@@ -97,9 +97,13 @@ function tema_viera_abogados_enqueue_assets() {
 	);
 
 	// Localizar variables JavaScript
+	$current_lang = function_exists( 'tema_viera_current_lang' )
+		? tema_viera_current_lang()
+		: ( function_exists( 'pll_current_language' ) ? pll_current_language() : 'es' );
 	wp_localize_script( 'tema-viera-abogados-main', 'miTemaAbogados', array(
 		'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 		'nonce'   => wp_create_nonce( 'tema-viera-abogados-nonce' ),
+		'lang'    => $current_lang ? $current_lang : 'es',
 	) );
 }
 add_action( 'wp_enqueue_scripts', 'tema_viera_abogados_enqueue_assets' );

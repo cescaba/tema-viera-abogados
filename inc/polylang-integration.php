@@ -213,6 +213,238 @@ function tema_viera_post_translation_status( $post_id ) {
 }
 
 /**
+ * Idioma actual (teniendo en cuenta AJAX del blog).
+ *
+ * @return string Slug del idioma (ej: 'es', 'en').
+ */
+function tema_viera_current_lang() {
+	// El AJAX del blog envía el idioma explícitamente (ver js/main.js).
+	if ( ! empty( $_REQUEST['pll_lang'] ) && is_string( $_REQUEST['pll_lang'] ) ) {
+		$req = sanitize_key( wp_unslash( $_REQUEST['pll_lang'] ) );
+		if ( function_exists( 'pll_languages_list' ) && in_array( $req, (array) pll_languages_list(), true ) ) {
+			return $req;
+		}
+	}
+	if ( function_exists( 'pll_current_language' ) ) {
+		$lang = pll_current_language();
+		if ( is_string( $lang ) && '' !== $lang ) {
+			return $lang;
+		}
+	}
+	// Fallback: detectar /en/ en la URL de referencia (peticiones AJAX).
+	if ( ! empty( $_SERVER['HTTP_REFERER'] ) && is_string( $_SERVER['HTTP_REFERER'] ) ) {
+		$ref = wp_unslash( $_SERVER['HTTP_REFERER'] );
+		if ( preg_match( '#/en(/|$|\?|\#)#', $ref ) ) {
+			return 'en';
+		}
+	}
+	return function_exists( 'pll_default_language' ) ? (string) pll_default_language() : 'es';
+}
+
+/**
+ * Home URL para un idioma dado (respeta el prefijo /en/ de Polylang).
+ *
+ * @param string|null $lang Slug del idioma. Null = idioma actual.
+ * @return string
+ */
+function tema_viera_home_url( $lang = null ) {
+	if ( function_exists( 'pll_home_url' ) ) {
+		$target = $lang ? $lang : tema_viera_current_lang();
+		$url    = pll_home_url( $target );
+		if ( is_string( $url ) && '' !== $url ) {
+			return trailingslashit( $url );
+		}
+	}
+	return trailingslashit( home_url( '/' ) );
+}
+
+/**
+ * Intercambia el home (ES ↔ EN) de una URL para mantener el mismo path
+ * en el otro idioma. Ej: /mi-noticia/ → /en/mi-noticia/.
+ *
+ * Se usa para contenidos de idioma único (noticias/posts y taxonomías,
+ * excluidos de la traducción de Polylang por diseño): la misma entrada
+ * existe en ambos idiomas y solo cambia el prefijo.
+ *
+ * @param string      $url    URL original.
+ * @param string|null $target Idioma destino. Null = el otro idioma.
+ * @return string
+ */
+function tema_viera_swap_home_lang( $url, $target = null ) {
+	if ( ! is_string( $url ) || '' === $url ) {
+		return $url;
+	}
+	if ( ! function_exists( 'pll_home_url' ) || ! function_exists( 'pll_default_language' ) ) {
+		return $url;
+	}
+
+	$current = tema_viera_current_lang();
+	$default = (string) pll_default_language();
+	if ( '' === $default ) {
+		return $url;
+	}
+
+	if ( null === $target ) {
+		$langs = function_exists( 'pll_languages_list' ) ? (array) pll_languages_list() : array( $default );
+		$target = ( $current === $default && count( $langs ) > 1 ) ? $langs[0] : $default;
+		foreach ( (array) $langs as $slug ) {
+			if ( $slug !== $current ) {
+				$target = $slug;
+				break;
+			}
+		}
+	}
+
+	$home_target  = trailingslashit( (string) pll_home_url( $target ) );
+	$home_default = trailingslashit( (string) pll_home_url( $default ) );
+	$home_current = trailingslashit( (string) pll_home_url( $current ) );
+
+	// Caso habitual: la URL cuelga del home actual o del home por defecto.
+	foreach ( array_unique( array( $home_current, $home_default ) ) as $home_from ) {
+		if ( '' !== $home_from && 0 === strpos( $url, $home_from ) ) {
+			return $home_target . substr( $url, strlen( $home_from ) );
+		}
+	}
+
+	return $url;
+}
+
+/**
+ * Permalink de una noticia/post en el idioma actual.
+ *
+ * Los posts están excluidos de la traducción de Polylang (una sola entrada,
+ * textos traducidos como cadenas), así que get_permalink() siempre devuelve
+ * la URL en español. Esta función le aplica el prefijo /en/ cuando toca.
+ *
+ * @param int $post_id ID del post.
+ * @return string
+ */
+function tema_viera_post_permalink( $post_id ) {
+	$url = get_permalink( (int) $post_id );
+	if ( ! $url ) {
+		return '';
+	}
+	if ( ! function_exists( 'pll_current_language' ) ) {
+		return $url;
+	}
+	$current = tema_viera_current_lang();
+	$default = function_exists( 'pll_default_language' ) ? (string) pll_default_language() : 'es';
+	if ( $current && $default && $current !== $default ) {
+		$url = tema_viera_swap_home_lang( $url, $current );
+	}
+	return $url;
+}
+
+/**
+ * URL de la página actual pero en el idioma destino, sin pasar por home.
+ *
+ * - Si Polylang conoce la traducción (páginas, portada, abogados), usa su URL.
+ * - Si Polylang devuelve el home por falta de traducción (noticias, blog sin
+ *   traducir, archivos de categoría), reconstruye la misma ruta con el home
+ *   del idioma destino y conserva la query string (?cat=...).
+ *
+ * @param string $target Slug del idioma destino ('es' | 'en').
+ * @return string
+ */
+function tema_viera_switch_url( $target ) {
+	$target = sanitize_key( (string) $target );
+	if ( '' === $target ) {
+		return home_url( '/' );
+	}
+
+	$pll_url = '';
+	if ( function_exists( 'pll_the_languages' ) ) {
+		$langs = pll_the_languages( array( 'raw' => 1 ) );
+		if ( is_array( $langs ) ) {
+			foreach ( $langs as $l ) {
+				if ( isset( $l['slug'] ) && $l['slug'] === $target && ! empty( $l['url'] ) ) {
+					$pll_url = $l['url'];
+					break;
+				}
+			}
+		}
+	}
+
+	$target_home = function_exists( 'pll_home_url' )
+		? trailingslashit( (string) pll_home_url( $target ) )
+		: trailingslashit( home_url( '/' ) );
+
+	$is_translatable_context = false;
+	if ( is_singular( 'post' ) || is_category() || is_tag() || is_tax() ) {
+		// Contenidos de idioma único por diseño: Polylang siempre devuelve home.
+		$is_translatable_context = false;
+	} elseif ( is_singular() || is_page() || is_front_page() || is_home() ) {
+		$is_translatable_context = true;
+	}
+
+	// Noticias y taxonomías: misma entrada, solo cambia el prefijo.
+	if ( is_singular( 'post' ) && get_the_ID() ) {
+		$canon = get_permalink( get_the_ID() );
+		if ( $canon ) {
+			return tema_viera_swap_home_lang( $canon, $target );
+		}
+	}
+	if ( is_category() || is_tag() || is_tax() ) {
+		$term_url = get_term_link( get_queried_object() );
+		if ( $term_url && ! is_wp_error( $term_url ) ) {
+			return tema_viera_swap_home_lang( $term_url, $target );
+		}
+	}
+
+	// Si hay traducción real (la URL no es el home), usarla.
+	if ( '' !== $pll_url ) {
+		$norm_pll  = trailingslashit( strtok( $pll_url, '?#' ) );
+		$norm_home = trailingslashit( strtok( $target_home, '?#' ) );
+		$is_home_fallback = ( $norm_pll === $norm_home );
+		$current_is_home  = is_front_page() || is_home();
+
+		if ( ! $is_home_fallback || $current_is_home ) {
+			return $pll_url;
+		}
+		// Hay fallback a home pero estamos en contenido traducible con
+		// traducción existente no detectada (raro): si el objeto actual tiene
+		// traducción, usarla antes del fallback manual.
+		if ( $is_translatable_context && is_singular() && function_exists( 'pll_get_post' ) ) {
+			$tr = pll_get_post( get_the_ID(), $target );
+			if ( $tr ) {
+				$permalink = get_permalink( $tr );
+				if ( $permalink ) {
+					return $permalink;
+				}
+			}
+		}
+	}
+
+	// Fallback manual: misma ruta (?cat= incluido) bajo el home destino.
+	global $wp;
+	$request = isset( $wp->request ) ? trim( (string) $wp->request, '/' ) : '';
+	if ( '' === $request && ! empty( $_SERVER['REQUEST_URI'] ) ) {
+		$request = trim( wp_parse_url( wp_unslash( $_SERVER['REQUEST_URI'] ), PHP_URL_PATH ), '/' );
+		$site_path = trim( wp_parse_url( site_url( '/' ), PHP_URL_PATH ), '/' );
+		if ( '' !== $site_path && 0 === strpos( $request, $site_path ) ) {
+			$request = trim( substr( $request, strlen( $site_path ) ), '/' );
+		}
+	}
+	// Quitar el prefijo de idioma actual (/en/...) para no duplicarlo.
+	if ( function_exists( 'pll_languages_list' ) ) {
+		foreach ( (array) pll_languages_list() as $slug ) {
+			$slug = (string) $slug;
+			if ( '' !== $slug && ( $request === $slug || 0 === strpos( $request, $slug . '/' ) ) ) {
+				$request = trim( substr( $request, strlen( $slug ) ), '/' );
+				break;
+			}
+		}
+	}
+
+	$qs = '';
+	if ( ! empty( $_SERVER['QUERY_STRING'] ) && is_string( $_SERVER['QUERY_STRING'] ) ) {
+		$qs = '?' . ltrim( wp_unslash( $_SERVER['QUERY_STRING'] ), '?&' );
+	}
+
+	return $target_home . $request . $qs;
+}
+
+/**
  * Devuelve el ID del post traducido al idioma actual (o el original si no hay traducción).
  *
  * @param int $post_id ID del post original.
@@ -241,12 +473,18 @@ function tema_viera_post_translated( $post_id ) {
 function tema_viera_equipo_url() {
 	$page = get_page_by_path( 'equipo' );
 	if ( $page ) {
-		$url = get_permalink( tema_viera_post_translated( $page->ID ) );
+		$translated_id = tema_viera_post_translated( $page->ID );
+		$url = get_permalink( $translated_id );
 		if ( $url ) {
+			// Si la página no tiene traducción al idioma actual, get_permalink
+			// devuelve la URL en español: aplicar el prefijo /en/.
+			if ( $translated_id === (int) $page->ID ) {
+				$url = tema_viera_swap_home_lang( $url, tema_viera_current_lang() );
+			}
 			return $url;
 		}
 	}
-	return home_url( '/equipo/' );
+	return tema_viera_swap_home_lang( home_url( '/equipo/' ), tema_viera_current_lang() );
 }
 
 /**
@@ -262,21 +500,29 @@ function tema_viera_terminos_url() {
 	) );
 
 	if ( ! empty( $page ) ) {
-		$url = get_permalink( tema_viera_post_translated( $page[0]->ID ) );
+		$translated_id = tema_viera_post_translated( $page[0]->ID );
+		$url = get_permalink( $translated_id );
 		if ( $url ) {
+			if ( $translated_id === (int) $page[0]->ID ) {
+				$url = tema_viera_swap_home_lang( $url, tema_viera_current_lang() );
+			}
 			return $url;
 		}
 	}
 
 	$page = get_page_by_path( 'terminos-y-condiciones' );
 	if ( $page ) {
-		$url = get_permalink( tema_viera_post_translated( $page->ID ) );
+		$translated_id = tema_viera_post_translated( $page->ID );
+		$url = get_permalink( $translated_id );
 		if ( $url ) {
+			if ( $translated_id === (int) $page->ID ) {
+				$url = tema_viera_swap_home_lang( $url, tema_viera_current_lang() );
+			}
 			return $url;
 		}
 	}
 
-	return home_url( '/terminos-y-condiciones/' );
+	return tema_viera_swap_home_lang( home_url( '/terminos-y-condiciones/' ), tema_viera_current_lang() );
 }
 
 /**

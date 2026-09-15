@@ -390,6 +390,11 @@ img {
   color: #F0F0F0;
 }
 
+/* Switch de idioma dentro del menú móvil (oculto en desktop). */
+.mobile-lang-switch {
+  display: none;
+}
+
 /* ========================================
    ESTILOS RESPONSIVOS
    ======================================== */
@@ -484,6 +489,34 @@ img {
   .site-nav a {
     font-size: 16px; 
     display: block;
+  }
+
+  .mobile-lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .mobile-lang-switch .mobile-lang-opt {
+    color: var(--color-white-alpha, rgba(255, 255, 255, 0.8));
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding-bottom: 6px;
+  }
+
+  .mobile-lang-switch .mobile-lang-opt.is-current {
+    color: #ffffff;
+    border-bottom: 2px solid #ffffff;
+  }
+
+  .mobile-lang-switch .mobile-lang-sep {
+    color: rgba(255, 255, 255, 0.4);
   }
 }
 
@@ -614,7 +647,6 @@ img {
 }
 
 .btn-outline-white {
-  background-color: rgba(11, 26, 48, 0.4);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.4);
 }

@@ -77,21 +77,31 @@ function tema_viera_blog_url() {
 	) );
 
 	if ( ! empty( $page ) ) {
-		$url = get_permalink( tema_viera_post_translated( $page[0]->ID ) );
+		$translated_id = tema_viera_post_translated( $page[0]->ID );
+		$url = get_permalink( $translated_id );
 		if ( $url ) {
+			if ( function_exists( 'tema_viera_swap_home_lang' ) && $translated_id === (int) $page[0]->ID ) {
+				$url = tema_viera_swap_home_lang( $url, tema_viera_current_lang() );
+			}
 			return $url;
 		}
 	}
 
 	$page = get_page_by_path( 'blog' );
 	if ( $page ) {
-		$url = get_permalink( tema_viera_post_translated( $page->ID ) );
+		$translated_id = tema_viera_post_translated( $page->ID );
+		$url = get_permalink( $translated_id );
 		if ( $url ) {
+			if ( function_exists( 'tema_viera_swap_home_lang' ) && $translated_id === (int) $page->ID ) {
+				$url = tema_viera_swap_home_lang( $url, tema_viera_current_lang() );
+			}
 			return $url;
 		}
 	}
 
-	return home_url( '/blog/' );
+	return function_exists( 'tema_viera_swap_home_lang' )
+		? tema_viera_swap_home_lang( home_url( '/blog/' ), tema_viera_current_lang() )
+		: home_url( '/blog/' );
 }
 
 /**
@@ -130,15 +140,21 @@ function tema_viera_blog_post_category( $post_id ) {
 }
 
 /**
- * Fecha legible en español.
+ * Fecha legible en el idioma actual.
  *
  * @param int    $post_id ID del post.
  * @param string $tipo    'largo' (5 de septiembre, 2026) o 'corto' (2 sept 2026).
  * @return string
  */
 function tema_viera_blog_fecha( $post_id, $tipo = 'largo' ) {
-	$meses_largo = array( 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' );
-	$meses_corto = array( 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic' );
+	$is_en = function_exists( 'tema_viera_current_lang' ) && 'en' === tema_viera_current_lang();
+
+	$meses_largo = $is_en
+		? array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' )
+		: array( 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' );
+	$meses_corto = $is_en
+		? array( 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' )
+		: array( 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic' );
 
 	$ts = get_post_time( 'U', true, $post_id );
 	$d  = (int) gmdate( 'j', $ts );
@@ -183,7 +199,7 @@ function tema_viera_blog_excerpt( $post_id, $palabras = 20 ) {
  */
 function tema_viera_blog_render_featured( $post ) {
 	$id       = (int) $post->ID;
-	$enlace   = get_permalink( $id );
+	$enlace   = function_exists( 'tema_viera_post_permalink' ) ? tema_viera_post_permalink( $id ) : get_permalink( $id );
 	$img_url  = get_the_post_thumbnail_url( $id, 'large' );
 	$titulo   = tema_viera_post_titulo( $id );
 	$categoria = tema_viera_blog_post_category( $id );
@@ -224,7 +240,7 @@ function tema_viera_blog_render_featured( $post ) {
  */
 function tema_viera_blog_render_card( $post ) {
 	$id        = (int) $post->ID;
-	$enlace    = get_permalink( $id );
+	$enlace    = function_exists( 'tema_viera_post_permalink' ) ? tema_viera_post_permalink( $id ) : get_permalink( $id );
 	$img_url   = get_the_post_thumbnail_url( $id, 'medium_large' );
 	$titulo    = tema_viera_post_titulo( $id );
 	$categoria = tema_viera_blog_post_category( $id );
@@ -300,7 +316,7 @@ function tema_viera_post_relacionados( $post_id ) {
  */
 function tema_viera_blog_render_related_card( $post ) {
 	$id        = (int) $post->ID;
-	$enlace    = get_permalink( $id );
+	$enlace    = function_exists( 'tema_viera_post_permalink' ) ? tema_viera_post_permalink( $id ) : get_permalink( $id );
 	$img_url   = get_the_post_thumbnail_url( $id, 'medium_large' );
 	$titulo    = tema_viera_post_titulo( $id );
 	$categoria = tema_viera_blog_post_category( $id );
