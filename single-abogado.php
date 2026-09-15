@@ -115,7 +115,7 @@ if ( have_posts() ) {
 						<?php endif; ?>
 
 						<div style="margin-top: var(--spacing-2xl);">
-							<a href="<?php echo esc_url( home_url( '/#abogados' ) ); ?>" class="btn btn-secondary">
+							<a href="<?php echo esc_url( tema_viera_anchor_url( 'equipo' ) ); ?>" class="btn btn-secondary">
 								<?php esc_html_e( 'Volver al Equipo', 'tema-viera-abogados' ); ?>
 							</a>
 						</div>

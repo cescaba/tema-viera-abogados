@@ -68,7 +68,7 @@ $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
         <?php endif; ?>
 
         <?php if ( ! empty( $hero_btn2_texto ) ) : ?>
-          <a href="#contacto" class="btn-hero btn-outline-white">
+          <a href="#agendar-cita" class="btn-hero btn-outline-white">
             <span><?php echo esc_html( $hero_btn2_texto ); ?></span>
             <svg class="btn-arrow-desktop" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 13 13" fill="none">
               <path d="M4.875 9.75L8.125 6.5L4.875 3.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

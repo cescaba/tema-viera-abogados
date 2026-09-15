@@ -466,6 +466,21 @@ function tema_viera_post_translated( $post_id ) {
 }
 
 /**
+ * URL con ancla (#seccion) del home en el idioma actual.
+ *
+ * Garantiza el prefijo /en/ sin depender del filtro de home_url de Polylang.
+ * Ej: https://tusitio.com/en/#agendar-cita
+ *
+ * @param string $anchor Nombre del ancla sin # (ej: 'agendar-cita').
+ * @return string
+ */
+function tema_viera_anchor_url( $anchor ) {
+	$anchor = ltrim( (string) $anchor, '#/' );
+	$home   = function_exists( 'tema_viera_home_url' ) ? tema_viera_home_url() : trailingslashit( home_url( '/' ) );
+	return $home . '#' . $anchor;
+}
+
+/**
  * URL de la página de equipo en el idioma actual.
  *
  * @return string
@@ -862,6 +877,33 @@ function tema_viera_register_post_strings() {
 	}
 }
 add_action( 'init', 'tema_viera_register_post_strings', 30 );
+
+/**
+ * Registra el nombre de cada categoría de noticias como cadena de Polylang
+ * (grupo "Blog") para que se pueda traducir desde
+ * Idiomas → Traducciones de cadenas sin duplicar categorías por idioma.
+ *
+ * Las categorías base ya están registradas; aquí se cubren también las
+ * personalizadas creadas en Entradas → Categorías.
+ */
+function tema_viera_register_category_strings() {
+	if ( ! tema_viera_pll_active() ) {
+		return;
+	}
+
+	$terms = get_terms( array(
+		'taxonomy'   => 'category',
+		'hide_empty' => false,
+	) );
+	if ( is_wp_error( $terms ) || ! is_array( $terms ) ) {
+		return;
+	}
+
+	foreach ( $terms as $term ) {
+		tema_viera_pll_register_string( 'Categoría · ' . $term->name, $term->name, 'Blog' );
+	}
+}
+add_action( 'init', 'tema_viera_register_category_strings', 30 );
 
 /**
  * Evita que Polylang traduzca las entradas (post) creando copias por idioma;

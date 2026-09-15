@@ -73,8 +73,8 @@ if ( ! defined( 'ABSPATH' ) ) {
               $is_equipo = is_page('equipo');
               echo '<ul>';
               echo '<li' . ( is_front_page() ? ' class="current-menu-item"' : '' ) . '><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html( tema_viera_t( 'INICIO' ) ) . '</a></li>';
-              echo '<li><a href="' . esc_url( home_url( '/#servicios' ) ) . '">' . esc_html( tema_viera_t( 'SERVICIOS' ) ) . '</a></li>';
-              echo '<li><a href="' . esc_url( home_url( '/#experiencia' ) ) . '">' . esc_html( tema_viera_t( 'EXPERIENCIA' ) ) . '</a></li>';
+              echo '<li><a href="' . esc_url( tema_viera_anchor_url( 'servicios' ) ) . '">' . esc_html( tema_viera_t( 'SERVICIOS' ) ) . '</a></li>';
+              echo '<li><a href="' . esc_url( tema_viera_anchor_url( 'experiencia' ) ) . '">' . esc_html( tema_viera_t( 'EXPERIENCIA' ) ) . '</a></li>';
               echo '<li' . ( $is_equipo ? ' class="current-menu-item"' : '' ) . '><a href="' . esc_url( tema_viera_equipo_url() ) . '">' . esc_html( tema_viera_t( 'EQUIPO' ) ) . '</a></li>';
               echo '</ul>';
             },
@@ -89,7 +89,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </nav>
         
         <div class="header-actions">
-          <a href="<?php echo esc_url( home_url( '/#agendar-cita' ) ); ?>" class="btn-outline desktop-only"><?php echo esc_html( tema_viera_t( 'CONVERSEMOS' ) ); ?></a>
+          <a href="<?php echo esc_url( tema_viera_anchor_url( 'agendar-cita' ) ); ?>" class="btn-outline desktop-only"><?php echo esc_html( tema_viera_t( 'CONVERSEMOS' ) ); ?></a>
           
           <button class="btn-search" aria-label="Buscar">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 50 50" fill="none">

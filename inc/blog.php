@@ -13,26 +13,64 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Categorías (clasificaciones) del blog, en orden de aparición.
+ * Categorías base del blog (slug => nombre en español) en orden de aparición.
  *
- * @return array Lista de array( 'slug' => string, 'name' => string ).
+ * @return array
  */
-function tema_viera_blog_categories() {
-	$cats = array(
+function tema_viera_blog_base_categories() {
+	return array(
 		'litigios-civiles'         => 'Litigios Civiles',
 		'litigios-administrativos' => 'Litigios Administrativos',
 		'litigios-penales'         => 'Litigios Penales',
 		'litigios-laborales'       => 'Litigios Laborales',
 		'reconocimientos'          => 'Reconocimientos',
 	);
+}
 
-	$out = array();
-	foreach ( $cats as $slug => $name ) {
+/**
+ * Categorías (clasificaciones) del blog, en orden de aparición.
+ *
+ * Incluye las base más cualquier otra categoría creada en el admin
+ * (excepto la por defecto de WordPress). Los nombres salen traducidos
+ * al idioma actual vía cadenas de Polylang (grupo "Blog").
+ *
+ * @return array Lista de array( 'slug' => string, 'name' => string ).
+ */
+function tema_viera_blog_categories() {
+	$out  = array();
+	$seen = array();
+
+	foreach ( tema_viera_blog_base_categories() as $slug => $name ) {
+		$term  = get_term_by( 'slug', $slug, 'category' );
+		$label = ( $term && ! is_wp_error( $term ) ) ? $term->name : $name;
 		$out[] = array(
 			'slug' => $slug,
-			'name' => tema_viera_t( $name ),
+			'name' => tema_viera_t( $label ),
 		);
+		$seen[ $slug ] = true;
 	}
+
+	// Categorías personalizadas creadas en Entradas → Categorías.
+	$default_cat = (int) get_option( 'default_category', 0 );
+	$extra       = get_terms( array(
+		'taxonomy'   => 'category',
+		'hide_empty' => false,
+		'orderby'    => 'name',
+		'order'      => 'ASC',
+	) );
+	if ( ! is_wp_error( $extra ) && is_array( $extra ) ) {
+		foreach ( $extra as $term ) {
+			if ( isset( $seen[ $term->slug ] ) || (int) $term->term_id === $default_cat ) {
+				continue;
+			}
+			$seen[ $term->slug ] = true;
+			$out[] = array(
+				'slug' => $term->slug,
+				'name' => tema_viera_t( $term->name ),
+			);
+		}
+	}
+
 	return $out;
 }
 
@@ -53,12 +91,12 @@ function tema_viera_blog_filtros() {
 }
 
 /**
- * Registra las categorías del blog si no existen.
+ * Registra las categorías del blog si no existen (siempre con nombre en español).
  */
 function tema_viera_register_blog_categories() {
-	foreach ( tema_viera_blog_categories() as $cat ) {
-		if ( ! term_exists( $cat['slug'], 'category' ) ) {
-			wp_insert_term( $cat['name'], 'category', array( 'slug' => $cat['slug'] ) );
+	foreach ( tema_viera_blog_base_categories() as $slug => $name ) {
+		if ( ! term_exists( $slug, 'category' ) ) {
+			wp_insert_term( $name, 'category', array( 'slug' => $slug ) );
 		}
 	}
 }
