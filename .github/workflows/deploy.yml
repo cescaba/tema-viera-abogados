@@ -26,8 +26,30 @@ jobs:
           local-dir: ./
           server-dir: /
 
-      - name: Reintentar subida por FTP
+      - name: Esperar antes del reintento
         if: steps.ftp_deploy_primary.outcome == 'failure'
+        run: sleep 30
+
+      - name: Reintentar subida por FTP (intento 2)
+        id: ftp_deploy_retry_1
+        if: steps.ftp_deploy_primary.outcome == 'failure'
+        continue-on-error: true
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          timeout: 300000
+          local-dir: ./
+          server-dir: /
+
+      - name: Esperar antes del último reintento
+        if: steps.ftp_deploy_primary.outcome == 'failure' && steps.ftp_deploy_retry_1.outcome == 'failure'
+        run: sleep 60
+
+      - name: Reintentar subida por FTP (intento 3)
+        if: steps.ftp_deploy_primary.outcome == 'failure' && steps.ftp_deploy_retry_1.outcome == 'failure'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_HOST }}
