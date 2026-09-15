@@ -138,16 +138,6 @@ function tema_viera_post_titulo( $post_id ) {
 }
 
 /**
- * Devuelve el contenido de una noticia (post) traducido al idioma actual.
- *
- * @param int $post_id ID del post.
- * @return string
- */
-function tema_viera_post_contenido_t( $post_id ) {
-	return tema_viera_t( get_post_field( 'post_content', $post_id ) );
-}
-
-/**
  * Devuelve un meta de una noticia (post) traducido al idioma actual.
  *
  * @param int    $post_id ID del post.
@@ -202,7 +192,6 @@ function tema_viera_post_translation_status( $post_id ) {
 		get_the_title( $post_id ),
 		get_post_meta( $post_id, '_post_descripcion', true ),
 		get_post_meta( $post_id, '_post_area_practica', true ),
-		get_post_meta( $post_id, '_post_descripcion_mobile', true ),
 		get_post_field( 'post_content', $post_id ),
 	);
 
@@ -339,7 +328,6 @@ function tema_viera_register_polylang_strings() {
 		'tema_viera_abogados_equipo_pre'          => array( 'Equipo · Pre-título', false ),
 		'tema_viera_abogados_equipo_titulo'       => array( 'Equipo · Título', false ),
 		'tema_viera_abogados_equipo_enlace_txt'   => array( 'Equipo · Texto del enlace', false ),
-		'tema_viera_abogados_fundador_bio_mobile' => array( 'Equipo · Fundador · Texto móvil', true ),
 		'tema_viera_abogados_kpi_1_label'         => array( 'KPI 1 · Etiqueta', false ),
 		'tema_viera_abogados_kpi_2_label'         => array( 'KPI 2 · Etiqueta', false ),
 		'tema_viera_abogados_kpi_3_label'         => array( 'KPI 3 · Etiqueta', false ),
@@ -349,13 +337,10 @@ function tema_viera_register_polylang_strings() {
 		'tema_viera_abogados_agenda_desc'         => array( 'Agenda · Descripción', true ),
 		'tema_viera_abogados_badge1_titulo'       => array( 'Badge 1 · Título', false ),
 		'tema_viera_abogados_badge1_sub'          => array( 'Badge 1 · Subtítulo', false ),
-		'tema_viera_abogados_badge1_sub_mobile'   => array( 'Badge 1 · Subtítulo móvil', false ),
 		'tema_viera_abogados_badge2_titulo'       => array( 'Badge 2 · Título', false ),
 		'tema_viera_abogados_badge2_sub'          => array( 'Badge 2 · Subtítulo', false ),
-		'tema_viera_abogados_badge2_sub_mobile'   => array( 'Badge 2 · Subtítulo móvil', false ),
 		'tema_viera_abogados_badge3_titulo'       => array( 'Badge 3 · Título', false ),
 		'tema_viera_abogados_badge3_sub'          => array( 'Badge 3 · Subtítulo', false ),
-		'tema_viera_abogados_badge3_sub_mobile'   => array( 'Badge 3 · Subtítulo móvil', false ),
 		'tema_viera_abogados_citas_zona'          => array( 'Citas · Zona horaria', false ),
 		'tema_viera_abogados_citas_form_titulo'   => array( 'Citas · Título formulario', false ),
 		'tema_viera_abogados_citas_form_sub'      => array( 'Citas · Subtítulo formulario', false ),
@@ -378,7 +363,6 @@ function tema_viera_register_polylang_strings() {
 		'tema_viera_abogados_detalle_pre'         => array( 'Detalle · Pre-título', false ),
 		'tema_viera_abogados_detalle_titulo'      => array( 'Detalle · Título', false ),
 		'tema_viera_abogados_detalle_contenido'   => array( 'Detalle · Contenido', true ),
-		'tema_viera_abogados_detalle_contenido_mobile' => array( 'Detalle · Contenido móvil', true ),
 		'tema_viera_abogados_sidebar_esp_titulo'  => array( 'Sidebar · Título especialidades', false ),
 		'tema_viera_abogados_sidebar_mem_titulo'  => array( 'Sidebar · Título membresías', false ),
 		'tema_viera_abogados_sidebar_correo_tit'  => array( 'Sidebar · Título correo', false ),
@@ -493,7 +477,7 @@ function tema_viera_register_polylang_strings() {
 		'Experiencia',
 		'Equipo',
 		'Blog',
-		'Términos de privacidad',
+		'Términos y Condiciones',
 		'Libro de reclamaciones',
 		'Información legal',
 		'COMPARTIR',
@@ -598,28 +582,36 @@ function tema_viera_register_post_strings() {
 		}
 
 		$fields = array(
-			'Título'              => get_the_title( $id ),
-			'Descripción'        => get_post_meta( $id, '_post_descripcion', true ),
-			'Área de práctica'    => get_post_meta( $id, '_post_area_practica', true ),
-			'Descripción móvil'   => get_post_meta( $id, '_post_descripcion_mobile', true ),
-			'Contenido'           => get_post_field( 'post_content', $id ),
+			'Título'           => get_the_title( $id ),
+			'Descripción'     => get_post_meta( $id, '_post_descripcion', true ),
+			'Área de práctica' => get_post_meta( $id, '_post_area_practica', true ),
 		);
 		$group = tema_viera_post_translation_group( $id );
 
 		foreach ( $fields as $label => $value ) {
-			tema_viera_pll_register_string( 'Noticia ' . $id . ' · ' . $label, $value, $group, ( 'Contenido' === $label ) );
+			tema_viera_pll_register_string( 'Noticia ' . $id . ' · ' . $label, $value, $group );
 		}
 
-		$bloques = get_post_meta( $id, '_post_bloques', true );
-		if ( is_array( $bloques ) ) {
-			foreach ( $bloques as $i => $bloque ) {
-				$n = $i + 1;
-				$b = wp_parse_args( (array) $bloque, array( 'subtitulo' => '', 'descripcion' => '', 'cita' => '', 'lista' => '' ) );
-				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Subtítulo', $b['subtitulo'], $group );
-				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Descripción', $b['descripcion'], $group, true );
-				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Cita', $b['cita'], $group );
-				tema_viera_pll_register_string( 'Noticia ' . $id . ' · Bloque ' . $n . ' Lista', $b['lista'], $group, true );
-			}
+		// Registrar el cuerpo del artículo por bloque (texto limpio, sin markup).
+		if ( function_exists( 'parse_blocks' ) && function_exists( 'tema_viera_map_block_texts' ) ) {
+			$labels = array(
+				'heading'   => 'Subtítulo',
+				'paragraph' => 'Párrafo',
+				'list_item' => 'Lista',
+				'cita'      => 'Cita',
+			);
+			$counts = array();
+
+			$blocks = parse_blocks( get_post_field( 'post_content', $id ) );
+			tema_viera_map_block_texts( $blocks, function( $type, $value ) use ( &$counts, $labels, $id, $group ) {
+				if ( ! isset( $counts[ $type ] ) ) {
+					$counts[ $type ] = 0;
+				}
+				$counts[ $type ]++;
+				$label = 'Noticia ' . $id . ' · ' . $labels[ $type ] . ' ' . $counts[ $type ];
+				tema_viera_pll_register_string( $label, $value, $group, ( 'paragraph' === $type ) );
+				return $value;
+			} );
 		}
 	}
 }

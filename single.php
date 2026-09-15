@@ -23,7 +23,6 @@ if ( have_posts() ) :
 		$titulo    = tema_viera_post_titulo( $post_id );
 		$descripcion = tema_viera_post_meta_t( $post_id, '_post_descripcion' );
 		$autor     = tema_viera_post_autor( $post_id );
-		$bloques   = tema_viera_post_bloques( $post_id );
 		$relacionados = tema_viera_post_relacionados( $post_id );
 		$cover_url = has_post_thumbnail() ? get_the_post_thumbnail_url( $post_id, 'full' ) : '';
 
@@ -89,49 +88,7 @@ if ( have_posts() ) :
 			<!-- Cuerpo -->
 			<div class="container">
 				<div class="sp-body">
-					<?php foreach ( $bloques as $bloque ) :
-						$subtitulo   = isset( $bloque['subtitulo'] ) ? trim( (string) $bloque['subtitulo'] ) : '';
-						$descripcion = isset( $bloque['descripcion'] ) ? (string) $bloque['descripcion'] : '';
-						$cita        = isset( $bloque['cita'] ) ? trim( (string) $bloque['cita'] ) : '';
-						$cita_autor  = isset( $bloque['cita_autor'] ) ? absint( $bloque['cita_autor'] ) : 0;
-						$lista       = isset( $bloque['lista'] ) ? trim( (string) $bloque['lista'] ) : '';
-					?>
-						<?php if ( $subtitulo ) : ?>
-							<h2 class="sp-subtitle"><?php echo esc_html( tema_viera_t( $subtitulo ) ); ?></h2>
-						<?php endif; ?>
-
-						<?php if ( $descripcion ) : ?>
-							<div class="sp-p"><?php echo wp_kses_post( wpautop( tema_viera_t( $descripcion ) ) ); ?></div>
-						<?php endif; ?>
-
-						<?php if ( $cita ) : ?>
-							<blockquote class="sp-quote">
-								<p><?php echo esc_html( tema_viera_t( $cita ) ); ?></p>
-								<?php if ( $cita_autor ) : ?>
-									<cite>
-										<span class="sp-quote-name"><?php echo esc_html( tema_viera_abogado_titulo( $cita_autor ) ); ?></span>
-										<?php $cargo = tema_viera_abogado_meta_t( $cita_autor, 'cargo' ); ?>
-										<?php if ( $cargo ) : ?>
-											<span class="sp-quote-cargo"><?php echo esc_html( $cargo ); ?></span>
-										<?php endif; ?>
-									</cite>
-								<?php endif; ?>
-							</blockquote>
-						<?php endif; ?>
-
-						<?php if ( $lista ) : ?>
-							<?php
-							$items = array_filter( array_map( 'trim', explode( "\n", $lista ) ) );
-							?>
-							<?php if ( ! empty( $items ) ) : ?>
-								<ul class="sp-list">
-									<?php foreach ( $items as $item ) : ?>
-										<li><?php echo esc_html( tema_viera_t( $item ) ); ?></li>
-									<?php endforeach; ?>
-								</ul>
-							<?php endif; ?>
-						<?php endif; ?>
-					<?php endforeach; ?>
+					<?php tema_viera_the_post_content(); ?>
 				</div>
 			</div>
 

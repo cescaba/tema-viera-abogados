@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Versión del tema
  */
-define( 'TEMA_VIERA_ABOGADOS_VERSION', '1.0.0' );
+define( 'TEMA_VIERA_ABOGADOS_VERSION', '1.0.4' );
 define( 'TEMA_VIERA_ABOGADOS_PATH', get_template_directory() );
 define( 'TEMA_VIERA_ABOGADOS_URL', get_template_directory_uri() );
 
@@ -67,12 +67,24 @@ add_action( 'after_setup_theme', 'tema_viera_abogados_setup' );
  * Registrar estilos y scripts
  */
 function tema_viera_abogados_enqueue_assets() {
+	// Versión por fecha de modificación (evita caché en local/dev).
+	$css_ver = TEMA_VIERA_ABOGADOS_VERSION;
+	$css_file = TEMA_VIERA_ABOGADOS_PATH . '/style.css';
+	if ( file_exists( $css_file ) ) {
+		$css_ver = (string) filemtime( $css_file );
+	}
+	$js_ver = TEMA_VIERA_ABOGADOS_VERSION;
+	$js_file = TEMA_VIERA_ABOGADOS_PATH . '/js/main.js';
+	if ( file_exists( $js_file ) ) {
+		$js_ver = (string) filemtime( $js_file );
+	}
+
 	// Enqueue de estilos
 	wp_enqueue_style(
 		'tema-viera-abogados-style',
 		TEMA_VIERA_ABOGADOS_URL . '/style.css',
 		array(),
-		TEMA_VIERA_ABOGADOS_VERSION
+		$css_ver
 	);
 
 	// Enqueue de scripts
@@ -80,7 +92,7 @@ function tema_viera_abogados_enqueue_assets() {
 		'tema-viera-abogados-main',
 		TEMA_VIERA_ABOGADOS_URL . '/js/main.js',
 		array(),
-		TEMA_VIERA_ABOGADOS_VERSION,
+		$js_ver,
 		true
 	);
 
@@ -110,6 +122,7 @@ require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/cpt-abogados.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/metaboxes-abogados.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/metaboxes-posts.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/blog.php';
+require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/blocks.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-landing.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-equipo.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-terminos.php';

@@ -24,47 +24,11 @@ function tema_viera_register_post_metabox() {
 }
 add_action( 'add_meta_boxes', 'tema_viera_register_post_metabox' );
 
-function tema_viera_post_render_bloque( $bloque = array() ) {
-	$bloque = wp_parse_args( (array) $bloque, array(
-		'subtitulo'   => '',
-		'descripcion' => '',
-		'cita'        => '',
-		'cita_autor'  => '',
-		'lista'       => '',
-	) );
-
-	$abogados = get_posts( array(
-		'post_type'      => 'abogado',
-		'posts_per_page' => -1,
-		'orderby'        => 'menu_order',
-		'order'          => 'ASC',
-		'post_status'    => 'any',
-	) );
-	?>
-	<div class="tema-viera-bloque">
-		<input type="text" name="tema_viera_bloques[subtitulo][]" value="<?php echo esc_attr( $bloque['subtitulo'] ); ?>" placeholder="<?php esc_attr_e( 'Subtítulo (opcional)', 'tema-viera-abogados' ); ?>" />
-		<textarea name="tema_viera_bloques[descripcion][]" placeholder="<?php esc_attr_e( 'Descripción', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $bloque['descripcion'] ); ?></textarea>
-		<input type="text" name="tema_viera_bloques[cita][]" value="<?php echo esc_attr( $bloque['cita'] ); ?>" placeholder="<?php esc_attr_e( 'Cita (opcional)', 'tema-viera-abogados' ); ?>" />
-		<select name="tema_viera_bloques[cita_autor][]">
-			<option value=""><?php esc_html_e( '— Autor de la cita (opcional) —', 'tema-viera-abogados' ); ?></option>
-			<?php foreach ( $abogados as $ab ) : ?>
-				<option value="<?php echo esc_attr( $ab->ID ); ?>" <?php selected( (string) $bloque['cita_autor'], (string) $ab->ID ); ?>>
-					<?php echo esc_html( $ab->post_title ); ?>
-				</option>
-			<?php endforeach; ?>
-		</select>
-		<textarea name="tema_viera_bloques[lista][]" placeholder="<?php esc_attr_e( 'Lista de puntos (uno por línea, opcional)', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $bloque['lista'] ); ?></textarea>
-		<button type="button" class="tema-viera-btn-remove-bloque"><?php esc_html_e( 'Eliminar bloque', 'tema-viera-abogados' ); ?></button>
-	</div>
-	<?php
-}
-
 function tema_viera_render_post_metabox( $post ) {
 	wp_nonce_field( 'tema_viera_post_nonce', 'tema_viera_post_nonce_field' );
 
 	$descripcion        = get_post_meta( $post->ID, '_post_descripcion', true );
 	$area_practica      = get_post_meta( $post->ID, '_post_area_practica', true );
-	$descripcion_mobile = get_post_meta( $post->ID, '_post_descripcion_mobile', true );
 	?>
 
 	<style>
@@ -77,16 +41,6 @@ function tema_viera_render_post_metabox( $post ) {
 			outline: none; border-color: #d4af37; box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
 		}
 		.tema-viera-help-text { font-size: 12px; color: #999; margin-top: 3px; }
-		.tema-viera-bloque {
-			background: #f9f9f9; border: 1px solid #e5e5e5; border-left: 3px solid #222F50;
-			padding: 12px; margin-bottom: 12px; border-radius: 4px; position: relative;
-		}
-		.tema-viera-bloque input, .tema-viera-bloque textarea, .tema-viera-bloque select { margin-bottom: 8px; }
-		.tema-viera-bloque textarea { min-height: 70px; }
-		.tema-viera-btn-remove-bloque {
-			background: #dc3545; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;
-		}
-		.tema-viera-btn-remove-bloque:hover { background: #c82333; }
 	</style>
 
 	<div class="tema-viera-post-field">
@@ -112,24 +66,9 @@ function tema_viera_render_post_metabox( $post ) {
 		</div>
 	</div>
 
-	<div class="tema-viera-post-field">
-		<label for="tema_viera_post_descripcion_mobile">
-			<?php esc_html_e( 'Descripción para móvil', 'tema-viera-abogados' ); ?>
-		</label>
-		<textarea id="tema_viera_post_descripcion_mobile" name="tema_viera_post_descripcion_mobile" rows="3"
-			placeholder="<?php esc_attr_e( 'Texto corto que se muestra en las tarjetas del landing en móvil. Si se deja vacío, se usa un recorte del contenido.', 'tema-viera-abogados' ); ?>"><?php echo esc_textarea( $descripcion_mobile ); ?></textarea>
-		<div class="tema-viera-help-text">
-			<?php esc_html_e( 'Descripción breve para las tarjetas de noticias en móvil.', 'tema-viera-abogados' ); ?>
-		</div>
-	</div>
-
 	<?php
 	$autor_id    = get_post_meta( $post->ID, '_post_autor_id', true );
-	$bloques     = get_post_meta( $post->ID, '_post_bloques', true );
 	$relacionados = get_post_meta( $post->ID, '_post_relacionados', true );
-	if ( ! is_array( $bloques ) ) {
-		$bloques = array();
-	}
 	if ( ! is_array( $relacionados ) ) {
 		$relacionados = array();
 	}
@@ -158,27 +97,6 @@ function tema_viera_render_post_metabox( $post ) {
 		<div class="tema-viera-help-text">
 			<?php esc_html_e( 'Abogado que firma la noticia. Se muestra en el encabezado y en la bio "Escrito por". Si no eliges ninguno, no se mostrará.', 'tema-viera-abogados' ); ?>
 		</div>
-	</div>
-
-	<div class="tema-viera-post-field">
-		<label><?php esc_html_e( 'Cuerpo del artículo', 'tema-viera-abogados' ); ?></label>
-		<p class="tema-viera-help-text" style="margin-bottom:10px;">
-			<?php esc_html_e( 'Cada bloque puede llevar subtítulo, descripción y, opcionalmente, una cita o una lista de puntos.', 'tema-viera-abogados' ); ?>
-		</p>
-
-		<div id="tema-viera-bloques">
-			<?php foreach ( $bloques as $bloque ) : ?>
-				<?php tema_viera_post_render_bloque( $bloque ); ?>
-			<?php endforeach; ?>
-		</div>
-
-		<template id="tema-viera-bloque-tmpl">
-			<?php tema_viera_post_render_bloque( array() ); ?>
-		</template>
-
-		<button type="button" id="tema-viera-btn-add-bloque" class="button button-primary">
-			<?php esc_html_e( '+ Agregar bloque', 'tema-viera-abogados' ); ?>
-		</button>
 	</div>
 
 	<div class="tema-viera-post-field">
@@ -213,27 +131,6 @@ function tema_viera_render_post_metabox( $post ) {
 		</div>
 	<?php endif; ?>
 
-	<script>
-	(function () {
-		var wrap = document.getElementById('tema-viera-bloques');
-		var btn = document.getElementById('tema-viera-btn-add-bloque');
-		var tmpl = document.getElementById('tema-viera-bloque-tmpl');
-		if (!wrap || !btn || !tmpl) return;
-
-		btn.addEventListener('click', function () {
-			var node = tmpl.content.firstElementChild.cloneNode(true);
-			wrap.appendChild(node);
-		});
-
-		wrap.addEventListener('click', function (e) {
-			var target = e.target;
-			if (target && target.classList && target.classList.contains('tema-viera-btn-remove-bloque')) {
-				var block = target.closest('.tema-viera-bloque');
-				if (block) block.parentNode.removeChild(block);
-			}
-		});
-	})();
-	</script>
 	<?php
 }
 
@@ -259,37 +156,8 @@ function tema_viera_save_post_metabox( $post_id ) {
 		update_post_meta( $post_id, '_post_area_practica', sanitize_text_field( $_POST['tema_viera_post_area_practica'] ) );
 	}
 
-	if ( isset( $_POST['tema_viera_post_descripcion_mobile'] ) ) {
-		update_post_meta( $post_id, '_post_descripcion_mobile', sanitize_textarea_field( $_POST['tema_viera_post_descripcion_mobile'] ) );
-	}
-
 	if ( isset( $_POST['tema_viera_post_autor'] ) ) {
 		update_post_meta( $post_id, '_post_autor_id', absint( $_POST['tema_viera_post_autor'] ) );
-	}
-
-	if ( isset( $_POST['tema_viera_bloques'] ) && is_array( $_POST['tema_viera_bloques'] ) ) {
-		$raw = $_POST['tema_viera_bloques'];
-
-		$subtitulos   = isset( $raw['subtitulo'] ) && is_array( $raw['subtitulo'] ) ? $raw['subtitulo'] : array();
-		$descripciones = isset( $raw['descripcion'] ) && is_array( $raw['descripcion'] ) ? $raw['descripcion'] : array();
-		$citas        = isset( $raw['cita'] ) && is_array( $raw['cita'] ) ? $raw['cita'] : array();
-		$cita_autores = isset( $raw['cita_autor'] ) && is_array( $raw['cita_autor'] ) ? $raw['cita_autor'] : array();
-		$listas       = isset( $raw['lista'] ) && is_array( $raw['lista'] ) ? $raw['lista'] : array();
-
-		$n       = max( count( $subtitulos ), count( $descripciones ), count( $citas ), count( $cita_autores ), count( $listas ) );
-		$bloques = array();
-		for ( $i = 0; $i < $n; $i++ ) {
-			$bloques[] = array(
-				'subtitulo'   => isset( $subtitulos[ $i ] ) ? sanitize_text_field( wp_unslash( $subtitulos[ $i ] ) ) : '',
-				'descripcion' => isset( $descripciones[ $i ] ) ? wp_kses_post( wp_unslash( $descripciones[ $i ] ) ) : '',
-				'cita'        => isset( $citas[ $i ] ) ? sanitize_text_field( wp_unslash( $citas[ $i ] ) ) : '',
-				'cita_autor'  => isset( $cita_autores[ $i ] ) ? absint( $cita_autores[ $i ] ) : 0,
-				'lista'       => isset( $listas[ $i ] ) ? sanitize_textarea_field( wp_unslash( $listas[ $i ] ) ) : '',
-			);
-		}
-		update_post_meta( $post_id, '_post_bloques', $bloques );
-	} else {
-		delete_post_meta( $post_id, '_post_bloques' );
 	}
 
 	if ( isset( $_POST['tema_viera_relacionados'] ) && is_array( $_POST['tema_viera_relacionados'] ) ) {

@@ -57,9 +57,9 @@ $social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
           'container'      => false,
           'fallback_cb'    => function() {
             echo '<ul>';
-            echo '<li><a href="#servicios">' . esc_html( tema_viera_t( 'Servicio' ) ) . '</a></li>';
-            echo '<li><a href="#experiencia">' . esc_html( tema_viera_t( 'Experiencia' ) ) . '</a></li>';
-            echo '<li><a href="#equipo">' . esc_html( tema_viera_t( 'Equipo' ) ) . '</a></li>';
+            echo '<li><a href="' . esc_url( home_url( '/#servicios' ) ) . '">' . esc_html( tema_viera_t( 'Servicio' ) ) . '</a></li>';
+            echo '<li><a href="' . esc_url( home_url( '/#experiencia' ) ) . '">' . esc_html( tema_viera_t( 'Experiencia' ) ) . '</a></li>';
+            echo '<li><a href="' . esc_url( tema_viera_equipo_url() ) . '">' . esc_html( tema_viera_t( 'Equipo' ) ) . '</a></li>';
             echo '<li><a href="' . esc_url( tema_viera_blog_url() ) . '">' . esc_html( tema_viera_t( 'Blog' ) ) . '</a></li>';
             echo '</ul>';
           },
@@ -75,9 +75,8 @@ $social_linkedin    = get_option( 'tema_viera_abogados_social_in', '#' );
           'container'      => false,
           'fallback_cb'    => function() {
             echo '<ul>';
-            echo '<li><a href="' . esc_url( tema_viera_terminos_url() ) . '">' . esc_html( tema_viera_t( 'Términos de privacidad' ) ) . '</a></li>';
-            echo '<li><a href="#reclamaciones">' . esc_html( tema_viera_t( 'Libro de reclamaciones' ) ) . '</a></li>';
-            echo '<li><a href="#legal">' . esc_html( tema_viera_t( 'Información legal' ) ) . '</a></li>';
+            echo '<li><a href="' . esc_url( tema_viera_terminos_url() ) . '">' . esc_html( tema_viera_t( 'Términos y Condiciones' ) ) . '</a></li>';
+            echo '<li><a href="' . esc_url( tema_viera_terminos_url() . '#termino-9' ) . '">' . esc_html( tema_viera_t( 'Información legal' ) ) . '</a></li>';
             echo '</ul>';
           },
         ) );

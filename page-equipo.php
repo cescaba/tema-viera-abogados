@@ -94,8 +94,6 @@ $perfil_logos_ids    = get_option( 'tema_viera_abogados_perfil_logos', array() )
 $detalle_pre_titulo    = tema_viera_t( get_option( 'tema_viera_abogados_detalle_pre', 'EXPERIENCIA' ) );
 $detalle_titulo        = tema_viera_t( get_option( 'tema_viera_abogados_detalle_titulo', 'PERFIL DEL FUNDADOR' ) );
 $detalle_contenido     = tema_viera_t( get_option( 'tema_viera_abogados_detalle_contenido', '<p>Rafael es socio fundador de Viera Abogados y...</p>' ) );
-$detalle_contenido_mobile = tema_viera_t( get_option( 'tema_viera_abogados_detalle_contenido_mobile', '' ) );
-$detalle_contenido_mobile = $detalle_contenido_mobile ?: $detalle_contenido;
 
 $sidebar_esp_titulo    = tema_viera_t( get_option( 'tema_viera_abogados_sidebar_esp_titulo', 'ESPECIALIDADES' ) );
 $sidebar_esp_items     = array_map( 'tema_viera_t', (array) get_option( 'tema_viera_abogados_sidebar_esp_items', array( 'Arbitraje', 'Litigios Civiles', 'Litigios Comerciales', 'Procesos Constitucionales', 'Resolución de Controversias' ) ) );
@@ -123,12 +121,8 @@ $sidebar_linkedin      = get_option( 'tema_viera_abogados_sidebar_linkedin', '#'
 					<h2 class="detalle-titulo"><?php echo esc_html( $detalle_titulo ); ?></h2>
 				<?php endif; ?>
 
-				<div class="detalle-contenido-texto detalle-contenido-desktop">
+				<div class="detalle-contenido-texto">
 					<?php echo wp_kses_post( nl2br( $detalle_contenido ) ); ?>
-				</div>
-
-				<div class="detalle-contenido-texto detalle-contenido-mobile">
-					<?php echo wp_kses_post( nl2br( $detalle_contenido_mobile ) ); ?>
 				</div>
 
 			</div>

@@ -159,7 +159,8 @@ function tema_viera_blog_fecha( $post_id, $tipo = 'largo' ) {
  */
 function tema_viera_blog_lectura( $post_id ) {
 	$contenido = get_post_field( 'post_content', $post_id );
-	$palabras  = str_word_count( wp_strip_all_tags( (string) $contenido ) );
+	$contenido = preg_replace( '/<!--.*?-->/s', '', (string) $contenido );
+	$palabras  = str_word_count( wp_strip_all_tags( $contenido ) );
 	$minutos   = max( 1, (int) ceil( $palabras / 200 ) );
 	return $minutos . ' ' . tema_viera_t( 'min de lectura' );
 }
@@ -172,7 +173,7 @@ function tema_viera_blog_lectura( $post_id ) {
  * @return string
  */
 function tema_viera_blog_excerpt( $post_id, $palabras = 20 ) {
-	return wp_trim_words( wp_strip_all_tags( tema_viera_post_contenido_t( $post_id ) ), $palabras, '…' );
+	return wp_trim_words( tema_viera_post_content_plain( $post_id ), $palabras, '…' );
 }
 
 /**

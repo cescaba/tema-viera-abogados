@@ -171,10 +171,6 @@ function tema_viera_register_settings() {
 	);
 	register_setting(
 		'tema_viera_opciones_landing',
-		'tema_viera_abogados_fundador_bio_mobile'
-	);
-	register_setting(
-		'tema_viera_opciones_landing',
 		'tema_viera_abogados_equipo_seleccionados'
 	);
 
@@ -204,13 +200,10 @@ function tema_viera_register_settings() {
 	// Opciones Trust Badges (debajo de Agendar Cita)
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge1_titulo' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge1_sub' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge1_sub_mobile' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge2_titulo' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge2_sub' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge2_sub_mobile' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge3_titulo' );
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge3_sub' );
-	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_badge3_sub_mobile' );
 
 	// Opciones de Citas / Calendario
 	register_setting( 'tema_viera_opciones_landing', 'tema_viera_abogados_citas_horarios' );
@@ -285,7 +278,6 @@ function tema_viera_opciones_landing_page() {
 	$equipo_enlace_txt     = get_option( 'tema_viera_abogados_equipo_enlace_txt', '' );
 	$equipo_enlace_url     = get_option( 'tema_viera_abogados_equipo_enlace_url', '' );
 	$fundador_post_id      = get_option( 'tema_viera_abogados_fundador_post_id', '' );
-	$fundador_bio_mobile   = get_option( 'tema_viera_abogados_fundador_bio_mobile', '' );
 	$equipo_seleccionados  = get_option( 'tema_viera_abogados_equipo_seleccionados', array() );
 
 	$kpi_1_prefix = get_option( 'tema_viera_abogados_kpi_1_prefix', '+' );
@@ -311,13 +303,10 @@ function tema_viera_opciones_landing_page() {
 
 	$badge1_titulo = get_option( 'tema_viera_abogados_badge1_titulo', 'Sin compromiso' );
 	$badge1_sub    = get_option( 'tema_viera_abogados_badge1_sub', 'La sesión es 100% gratuita' );
-	$badge1_sub_mobile = get_option( 'tema_viera_abogados_badge1_sub_mobile', '' );
 	$badge2_titulo = get_option( 'tema_viera_abogados_badge2_titulo', 'Respuesta rápida' );
 	$badge2_sub    = get_option( 'tema_viera_abogados_badge2_sub', 'Confirmación en minutos' );
-	$badge2_sub_mobile = get_option( 'tema_viera_abogados_badge2_sub_mobile', '' );
 	$badge3_titulo = get_option( 'tema_viera_abogados_badge3_titulo', 'Flexible' );
 	$badge3_sub    = get_option( 'tema_viera_abogados_badge3_sub', 'Reagenda cuando quieras' );
-	$badge3_sub_mobile = get_option( 'tema_viera_abogados_badge3_sub_mobile', '' );
 
 	$citas_horarios    = get_option( 'tema_viera_abogados_citas_horarios', "09:00\n10:30\n14:00\n16:30" );
 	$citas_zona        = get_option( 'tema_viera_abogados_citas_zona', 'Hora de Lima (GMT-5)' );
@@ -777,12 +766,6 @@ function tema_viera_opciones_landing_page() {
 					</select>
 				</div>
 
-				<div class="mi-tema-form-group">
-					<label for="fundador_bio_mobile"><?php esc_html_e( 'Texto corto para móvil (biografía del fundador)', 'tema-viera-abogados' ); ?></label>
-					<textarea id="fundador_bio_mobile" name="fundador_bio_mobile" style="min-height:80px;"><?php echo esc_textarea( $fundador_bio_mobile ); ?></textarea>
-					<p class="description"><?php esc_html_e( 'Se muestra en dispositivos móviles en lugar de la biografía completa, para reducir la altura de la tarjeta.', 'tema-viera-abogados' ); ?></p>
-				</div>
-
 				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Miembros del Equipo', 'tema-viera-abogados' ); ?></h3>
 				<p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'Selecciona los abogados que aparecerÃ¡n en la secciÃ³n de equipo. Se mostrarÃ¡n en el mismo orden que tienen en el CPT.', 'tema-viera-abogados' ); ?></p>
 
@@ -935,10 +918,6 @@ function tema_viera_opciones_landing_page() {
 					<label for="badge1_sub"><?php esc_html_e( 'Badge 1 — Subtítulo', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="badge1_sub" name="badge1_sub" value="<?php echo esc_attr( $badge1_sub ); ?>" />
 				</div>
-				<div class="mi-tema-form-group">
-					<label for="badge1_sub_mobile"><?php esc_html_e( 'Badge 1 — Subtítulo móvil (corto)', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="badge1_sub_mobile" name="badge1_sub_mobile" value="<?php echo esc_attr( $badge1_sub_mobile ); ?>" />
-				</div>
 
 				<div class="mi-tema-form-group">
 					<label for="badge2_titulo"><?php esc_html_e( 'Badge 2 — Título', 'tema-viera-abogados' ); ?></label>
@@ -948,10 +927,6 @@ function tema_viera_opciones_landing_page() {
 					<label for="badge2_sub"><?php esc_html_e( 'Badge 2 — Subtítulo', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="badge2_sub" name="badge2_sub" value="<?php echo esc_attr( $badge2_sub ); ?>" />
 				</div>
-				<div class="mi-tema-form-group">
-					<label for="badge2_sub_mobile"><?php esc_html_e( 'Badge 2 — Subtítulo móvil (corto)', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="badge2_sub_mobile" name="badge2_sub_mobile" value="<?php echo esc_attr( $badge2_sub_mobile ); ?>" />
-				</div>
 
 				<div class="mi-tema-form-group">
 					<label for="badge3_titulo"><?php esc_html_e( 'Badge 3 — Título', 'tema-viera-abogados' ); ?></label>
@@ -960,10 +935,6 @@ function tema_viera_opciones_landing_page() {
 				<div class="mi-tema-form-group">
 					<label for="badge3_sub"><?php esc_html_e( 'Badge 3 — Subtítulo', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="badge3_sub" name="badge3_sub" value="<?php echo esc_attr( $badge3_sub ); ?>" />
-				</div>
-				<div class="mi-tema-form-group">
-					<label for="badge3_sub_mobile"><?php esc_html_e( 'Badge 3 — Subtítulo móvil (corto)', 'tema-viera-abogados' ); ?></label>
-					<input type="text" id="badge3_sub_mobile" name="badge3_sub_mobile" value="<?php echo esc_attr( $badge3_sub_mobile ); ?>" />
 				</div>
 			</div>
 
@@ -1617,9 +1588,6 @@ function tema_viera_procesar_opciones_landing() {
 	if ( isset( $_POST['fundador_post_id'] ) ) {
 		update_option( 'tema_viera_abogados_fundador_post_id', intval( $_POST['fundador_post_id'] ) );
 	}
-	if ( isset( $_POST['fundador_bio_mobile'] ) ) {
-		update_option( 'tema_viera_abogados_fundador_bio_mobile', wp_kses_post( $_POST['fundador_bio_mobile'] ) );
-	}
 	if ( isset( $_POST['equipo_seleccionados'] ) && is_array( $_POST['equipo_seleccionados'] ) ) {
 		$seleccionados = array_map( 'intval', $_POST['equipo_seleccionados'] );
 		$seleccionados = array_filter( $seleccionados, function( $id ) { return $id > 0; } );
@@ -1700,26 +1668,17 @@ function tema_viera_procesar_opciones_landing() {
 	if ( isset( $_POST['badge1_sub'] ) ) {
 		update_option( 'tema_viera_abogados_badge1_sub', sanitize_text_field( $_POST['badge1_sub'] ) );
 	}
-	if ( isset( $_POST['badge1_sub_mobile'] ) ) {
-		update_option( 'tema_viera_abogados_badge1_sub_mobile', sanitize_text_field( $_POST['badge1_sub_mobile'] ) );
-	}
 	if ( isset( $_POST['badge2_titulo'] ) ) {
 		update_option( 'tema_viera_abogados_badge2_titulo', sanitize_text_field( $_POST['badge2_titulo'] ) );
 	}
 	if ( isset( $_POST['badge2_sub'] ) ) {
 		update_option( 'tema_viera_abogados_badge2_sub', sanitize_text_field( $_POST['badge2_sub'] ) );
 	}
-	if ( isset( $_POST['badge2_sub_mobile'] ) ) {
-		update_option( 'tema_viera_abogados_badge2_sub_mobile', sanitize_text_field( $_POST['badge2_sub_mobile'] ) );
-	}
 	if ( isset( $_POST['badge3_titulo'] ) ) {
 		update_option( 'tema_viera_abogados_badge3_titulo', sanitize_text_field( $_POST['badge3_titulo'] ) );
 	}
 	if ( isset( $_POST['badge3_sub'] ) ) {
 		update_option( 'tema_viera_abogados_badge3_sub', sanitize_text_field( $_POST['badge3_sub'] ) );
-	}
-	if ( isset( $_POST['badge3_sub_mobile'] ) ) {
-		update_option( 'tema_viera_abogados_badge3_sub_mobile', sanitize_text_field( $_POST['badge3_sub_mobile'] ) );
 	}
 
 	// Procesar Citas / Calendario

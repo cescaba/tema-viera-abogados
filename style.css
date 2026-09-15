@@ -441,6 +441,14 @@ img {
     height: 48px;
   }
 
+  .site-header.is-scrolled .header-content {
+    height: 56px;
+  }
+
+  .site-header.is-scrolled .logo img {
+    height: 40px;
+  }
+
   .desktop-only {
     display: none !important;
   }
@@ -486,6 +494,14 @@ img {
 
   .logo img {
     height: 40px;
+  }
+
+  .site-header.is-scrolled .header-content {
+    height: 50px;
+  }
+
+  .site-header.is-scrolled .logo img {
+    height: 34px;
   }
 
   .header-actions {
@@ -1676,10 +1692,6 @@ img {
   margin-bottom: 30px;
 }
 
-.fundador-bio--mobile {
-  display: none;
-}
-
 .equipo-slider-container {
   width: 50%;
   display: flex;
@@ -1912,14 +1924,6 @@ img {
     display: none;
   }
 
-  .fundador-card.has-mobile-bio .fundador-bio:not(.fundador-bio--mobile) {
-    display: none;
-  }
-
-  .fundador-card.has-mobile-bio .fundador-bio--mobile {
-    display: block;
-  }
-  
   .miembro-card {
     flex: 0 0 100%;
   }
@@ -2690,6 +2694,10 @@ img {
   .booking-form-row {
     grid-template-columns: 1fr;
   }
+
+  .booking-submit {
+    width: 100%;
+  }
 }
 
 
@@ -2742,10 +2750,6 @@ img {
   color: #808799;
 }
 
-.trust-badge-sub-mobile {
-  display: none;
-}
-
 @media (max-width: 768px) {
   .section-trust-badges {
     background-color: #F2F5F9;
@@ -2773,16 +2777,6 @@ img {
   .trust-badge-titulo {
     font-size: 12.5px;
     line-height: 15px;
-  }
-
-  .trust-badge-sub {
-    display: none;
-  }
-
-  .trust-badge-sub-mobile {
-    display: block;
-    font-size: 11px;
-    line-height: 13px;
   }
 }
 
@@ -3441,10 +3435,6 @@ img {
   margin-bottom: 20px;
 }
 
-.detalle-contenido-mobile {
-  display: none;
-}
-
 .perfil-sidebar-col {
   padding-top: 10px;
 }
@@ -3545,14 +3535,6 @@ img {
 }
 
 @media (max-width: 768px) {
-  .detalle-contenido-desktop {
-    display: none;
-  }
-
-  .detalle-contenido-mobile {
-    display: block;
-  }
-
   .section-perfil-detalle {
     background-color: #FFFFFF;
     padding: 36px 0px;
@@ -4585,6 +4567,71 @@ img {
   top: 9px;
   width: 7px;
   height: 7px;
+  background: #222F50;
+}
+
+/* Cuerpo del artículo (contenido de Gutenberg) */
+.sp-body h2 {
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 29px;
+  color: #222F50;
+  margin: 0;
+}
+
+.sp-body p {
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 170%;
+  color: #474D5C;
+  margin: 0;
+}
+
+.sp-body ul,
+.sp-body .wp-block-list {
+  list-style: none !important;
+  list-style-type: none !important;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.sp-body ul li,
+.sp-body .wp-block-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding-left: 0;
+  list-style: none !important;
+  list-style-type: none !important;
+  font-family: var(--font-main);
+  font-size: 15.5px;
+  font-weight: 400;
+  line-height: 160%;
+  color: #474D5C;
+}
+
+.sp-body ul li::marker,
+.sp-body .wp-block-list li::marker,
+.sp-body ol li::marker {
+  content: none !important;
+}
+
+.sp-body ul li::before,
+.sp-body .wp-block-list li::before {
+  content: '';
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  margin-top: 9px;
   background: #222F50;
 }
 
