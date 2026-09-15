@@ -640,16 +640,21 @@ function tema_viera_register_polylang_strings() {
 	}
 
 	// Grupo "Términos y Condiciones" (page-terminos.php).
+	// Se usa el getter con defaults para que el grupo exista
+	// aunque aún no se haya guardado la página de opciones.
 	$terminos = array(
-		'tema_viera_abogados_terminos_pre'    => array( 'Términos · Pre-título', false ),
-		'tema_viera_abogados_terminos_titulo' => array( 'Términos · Título', false ),
-		'tema_viera_abogados_terminos_fecha'  => array( 'Términos · Fecha', false ),
-		'tema_viera_abogados_terminos_toc'    => array( 'Términos · Índice', false ),
-		'tema_viera_abogados_terminos_intro'  => array( 'Términos · Introducción', true ),
+		array( 'key' => 'pre',    'name' => 'Términos · Pre-título',  'multiline' => false ),
+		array( 'key' => 'titulo', 'name' => 'Términos · Título',      'multiline' => false ),
+		array( 'key' => 'fecha',  'name' => 'Términos · Fecha',       'multiline' => false ),
+		array( 'key' => 'toc',    'name' => 'Términos · Índice',      'multiline' => false ),
+		array( 'key' => 'intro',  'name' => 'Términos · Introducción', 'multiline' => true ),
 	);
 
-	foreach ( $terminos as $key => $cfg ) {
-		tema_viera_pll_register_string( $cfg[0], get_option( $key, '' ), 'Términos', $cfg[1] );
+	foreach ( $terminos as $cfg ) {
+		$value = function_exists( 'tema_viera_get_terminos_option' )
+			? tema_viera_get_terminos_option( $cfg['key'] )
+			: get_option( 'tema_viera_abogados_terminos_' . $cfg['key'], '' );
+		tema_viera_pll_register_string( $cfg['name'], $value, 'Términos', $cfg['multiline'] );
 	}
 
 	// Grupo "Blog" (page-blog.php).
@@ -671,8 +676,11 @@ function tema_viera_register_polylang_strings() {
 		tema_viera_pll_register_string( $name, $string, 'Blog' );
 	}
 
-	// Secciones de Términos (array).
-	$terminos_secciones = get_option( 'tema_viera_abogados_terminos_secciones', array() );
+	// Secciones de Términos (array). Con defaults para que existan
+	// aunque aún no se haya guardado la página de opciones.
+	$terminos_secciones = function_exists( 'tema_viera_get_terminos_option' )
+		? tema_viera_get_terminos_option( 'secciones' )
+		: get_option( 'tema_viera_abogados_terminos_secciones', array() );
 	if ( is_array( $terminos_secciones ) ) {
 		foreach ( $terminos_secciones as $i => $seccion ) {
 			$n = $i + 1;
