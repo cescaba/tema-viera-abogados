@@ -128,24 +128,44 @@ function tema_viera_abogado_translation_status( $post_id ) {
 }
 
 /**
- * Devuelve el título de una noticia (post) traducido al idioma actual.
+ * Devuelve el título de una noticia (post) en el idioma actual.
+ *
+ * Si la noticia tiene título en inglés propio (campo individual del editor),
+ * se usa ese; si no, se usa la traducción de cadenas compartida.
  *
  * @param int $post_id ID del post.
  * @return string
  */
 function tema_viera_post_titulo( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( function_exists( 'tema_viera_current_lang' ) && 'en' === tema_viera_current_lang() ) {
+		$en = get_post_meta( $post_id, '_post_title_en', true );
+		if ( is_string( $en ) && '' !== trim( $en ) ) {
+			return $en;
+		}
+	}
 	return tema_viera_t( get_the_title( $post_id ) );
 }
 
 /**
- * Devuelve un meta de una noticia (post) traducido al idioma actual.
+ * Devuelve un meta de una noticia (post) en el idioma actual.
+ *
+ * Si el campo tiene versión en inglés propia (meta con sufijo `_en`),
+ * se usa esa; si no, se usa la traducción de cadenas compartida.
  *
  * @param int    $post_id ID del post.
  * @param string $field   Nombre completo del meta (ej: `_post_descripcion`).
  * @return string
  */
 function tema_viera_post_meta_t( $post_id, $field ) {
-	$value = get_post_meta( (int) $post_id, $field, true );
+	$post_id = (int) $post_id;
+	if ( function_exists( 'tema_viera_current_lang' ) && 'en' === tema_viera_current_lang() ) {
+		$en = get_post_meta( $post_id, $field . '_en', true );
+		if ( is_string( $en ) && '' !== trim( $en ) ) {
+			return $en;
+		}
+	}
+	$value = get_post_meta( $post_id, $field, true );
 	return is_string( $value ) ? tema_viera_t( $value ) : $value;
 }
 
@@ -195,14 +215,26 @@ function tema_viera_post_translation_status( $post_id ) {
 		get_post_field( 'post_content', $post_id ),
 	);
 
+	// Traducciones individuales (campos en inglés propios de la noticia).
+	$own_en = array(
+		get_post_meta( $post_id, '_post_title_en', true ),
+		get_post_meta( $post_id, '_post_descripcion_en', true ),
+		get_post_meta( $post_id, '_post_area_practica_en', true ),
+		get_post_meta( $post_id, '_post_content_en', true ),
+	);
+
 	$total = 0;
 	$done  = 0;
-	foreach ( $sources as $src ) {
+	foreach ( $sources as $i => $src ) {
 		$src = (string) $src;
 		if ( '' === trim( $src ) ) {
 			continue;
 		}
 		$total++;
+		if ( isset( $own_en[ $i ] ) && '' !== trim( (string) $own_en[ $i ] ) ) {
+			$done++;
+			continue;
+		}
 		$tr = pll_translate_string( $src, $target );
 		if ( is_string( $tr ) && $tr !== $src ) {
 			$done++;
@@ -552,6 +584,15 @@ function tema_viera_pll_register_string( $name, $string, $context = 'Tema Viera'
 	if ( ! is_string( $string ) || '' === trim( $string ) ) {
 		return;
 	}
+	// Cada texto fuente se registra una sola vez (primera aparición): si el
+	// mismo texto se repite en varias noticias o secciones, comparten una
+	// única fila de traducción y traducirlo una vez lo aplica en todos lados.
+	static $seen = array();
+	$key = md5( trim( $string ) );
+	if ( isset( $seen[ $key ] ) ) {
+		return;
+	}
+	$seen[ $key ] = true;
 	if ( function_exists( 'pll_register_string' ) ) {
 		pll_register_string( $name, $string, $context, $multiline );
 	}
@@ -769,6 +810,8 @@ function tema_viera_register_abogado_strings() {
 		'post_type'      => 'abogado',
 		'posts_per_page' => -1,
 		'post_status'    => 'any',
+		'orderby'        => 'ID',
+		'order'          => 'ASC',
 	) );
 
 	// Términos compartidos: se registran una sola vez (sin duplicados).
@@ -830,6 +873,8 @@ function tema_viera_register_post_strings() {
 		'post_type'      => 'post',
 		'posts_per_page' => -1,
 		'post_status'    => 'any',
+		'orderby'        => 'ID',
+		'order'          => 'ASC',
 	) );
 
 	foreach ( $posts as $p ) {
