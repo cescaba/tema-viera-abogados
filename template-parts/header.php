@@ -91,7 +91,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="header-actions">
           <a href="<?php echo esc_url( tema_viera_anchor_url( 'agendar-cita' ) ); ?>" class="btn-outline desktop-only"><?php echo esc_html( tema_viera_t( 'CONVERSEMOS' ) ); ?></a>
           
-          <button class="btn-search" aria-label="Buscar">
+          <button class="btn-search" id="search-toggle" aria-label="<?php echo esc_attr( tema_viera_t( 'Buscar' ) ); ?>" aria-expanded="false" aria-controls="search-panel">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 50 50" fill="none">
             <path d="M22.9167 39.5833C32.1214 39.5833 39.5834 32.1214 39.5834 22.9167C39.5834 13.7119 32.1214 6.24997 22.9167 6.24997C13.7119 6.24997 6.25 13.7119 6.25 22.9167C6.25 32.1214 13.7119 39.5833 22.9167 39.5833Z" stroke="white" stroke-width="4.16667" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M43.7503 43.75L34.792 34.7917" stroke="white" stroke-width="4.16667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -114,3 +114,33 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
   </div>
 </header>
+
+<?php
+// Panel de búsqueda: gradient + overlay. Las búsquedas recientes se
+// gestionan en js/main.js con localStorage (separadas por idioma).
+?>
+<div class="search-backdrop" id="search-backdrop"></div>
+<section class="search-panel" id="search-panel" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr( tema_viera_t( 'Buscar' ) ); ?>">
+  <div class="container">
+    <form role="search" method="get" class="search-panel-form" id="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+      <button type="submit" class="search-panel-submit" aria-label="<?php echo esc_attr( tema_viera_t( 'Buscar' ) ); ?>">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 50 50" fill="none" aria-hidden="true">
+          <path d="M22.9167 39.5833C32.1214 39.5833 39.5834 32.1214 39.5834 22.9167C39.5834 13.7119 32.1214 6.24997 22.9167 6.24997C13.7119 6.24997 6.25 13.7119 6.25 22.9167C6.25 32.1214 13.7119 39.5833 22.9167 39.5833Z" stroke="white" stroke-width="4.16667" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M43.7503 43.75L34.792 34.7917" stroke="white" stroke-width="4.16667" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <input type="search" class="search-panel-input" id="search-input" name="s"
+        value="<?php echo esc_attr( get_search_query() ); ?>"
+        placeholder="<?php echo esc_attr( tema_viera_t( '¿Qué estás buscando?' ) ); ?>"
+        autocomplete="off" aria-label="<?php echo esc_attr( tema_viera_t( 'Buscar' ) ); ?>">
+      <button type="button" class="search-panel-close" id="search-close" aria-label="<?php echo esc_attr( tema_viera_t( 'Cerrar' ) ); ?>">×</button>
+    </form>
+    <div class="search-recent" id="search-recent" hidden>
+      <div class="search-recent-head">
+        <span><?php echo esc_html( tema_viera_t( 'Búsquedas recientes' ) ); ?></span>
+        <button type="button" class="search-recent-clear" id="search-clear"><?php echo esc_html( tema_viera_t( 'Limpiar' ) ); ?></button>
+      </div>
+      <div class="search-chips" id="search-chips"></div>
+    </div>
+  </div>
+</section>

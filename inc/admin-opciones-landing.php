@@ -2,8 +2,8 @@
 /**
  * Panel de Opciones de Landing Page
  *
- * Crea un menÃº personalizado en el admin para editar todo el contenido
- * de la landing page sin tocar cÃ³digo.
+ * Crea un menú personalizado en el admin para editar todo el contenido
+ * de la landing page sin tocar código.
  *
  * @package TemaVieraAbogados
  * @since 1.0.0
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Registrar el menÃº de opciones en el admin
+ * Registrar el menú de opciones en el admin
  */
 function tema_viera_add_admin_menu() {
 	add_menu_page(
@@ -30,7 +30,7 @@ function tema_viera_add_admin_menu() {
 add_action( 'admin_menu', 'tema_viera_add_admin_menu' );
 
 /**
- * Cargar scripts de medios en la pÃ¡gina de opciones
+ * Cargar scripts de medios en la página de opciones
  */
 function tema_viera_admin_enqueue_scripts( $hook ) {
 	if ( 'toplevel_page_mi-tema-opciones-landing' !== $hook ) {
@@ -80,7 +80,7 @@ function tema_viera_register_settings() {
 		'tema_viera_abogados_servicios_items'
 	);
 
-	// Opciones de SecciÃ³n Abogados
+	// Opciones de Sección Abogados
 	register_setting(
 		'tema_viera_opciones_landing',
 		'tema_viera_abogados_abogados_titulo'
@@ -90,7 +90,7 @@ function tema_viera_register_settings() {
 		'tema_viera_abogados_abogados_subtitulo'
 	);
 
-	// OpciÃ³n del Logo
+	// Opción del Logo
 	register_setting(
 		'tema_viera_opciones_landing',
 		'tema_viera_abogados_logo'
@@ -227,15 +227,15 @@ function tema_viera_register_settings() {
 add_action( 'admin_init', 'tema_viera_register_settings' );
 
 /**
- * Renderizar la pÃ¡gina de opciones
+ * Renderizar la página de opciones
  */
 function tema_viera_opciones_landing_page() {
 	// Verificar permisos
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_die( esc_html__( 'No tienes permiso para acceder a esta pÃ¡gina.', 'tema-viera-abogados' ) );
+		wp_die( esc_html__( 'No tienes permiso para acceder a esta página.', 'tema-viera-abogados' ) );
 	}
 
-	// Guardar si se enviÃ³ el formulario
+	// Guardar si se envió el formulario
 	if ( isset( $_POST['submit'] ) && isset( $_POST['tema_viera_opciones_landing_nonce'] ) ) {
 		if ( wp_verify_nonce( $_POST['tema_viera_opciones_landing_nonce'], 'tema_viera_opciones_landing_action' ) ) {
 			tema_viera_procesar_opciones_landing();
@@ -297,9 +297,9 @@ function tema_viera_opciones_landing_page() {
 	$kpi_4_suffix = get_option( 'tema_viera_abogados_kpi_4_suffix', '' );
 	$kpi_4_label  = get_option( 'tema_viera_abogados_kpi_4_label', 'Profesionales' );
 
-	$agenda_pre_titulo = get_option( 'tema_viera_abogados_agenda_pre', 'AGENDA UNA REUNIÃ“N' );
+	$agenda_pre_titulo = get_option( 'tema_viera_abogados_agenda_pre', 'AGENDA UNA REUNIÓN' );
 	$agenda_titulo     = get_option( 'tema_viera_abogados_agenda_titulo', 'HABLEMOS DE TU CASO' );
-	$agenda_desc       = get_option( 'tema_viera_abogados_agenda_desc', 'Agenda una reuniÃ³n con nuestro equipo legal de forma rÃ¡pida y sencilla. Estamos listos para escucharte y ayudarte.' );
+	$agenda_desc       = get_option( 'tema_viera_abogados_agenda_desc', 'Agenda una reunión con nuestro equipo legal de forma rápida y sencilla. Estamos listos para escucharte y ayudarte.' );
 
 	$badge1_titulo = get_option( 'tema_viera_abogados_badge1_titulo', 'Sin compromiso' );
 	$badge1_sub    = get_option( 'tema_viera_abogados_badge1_sub', 'La sesión es 100% gratuita' );
@@ -317,14 +317,14 @@ function tema_viera_opciones_landing_page() {
 	$citas_btn_txt     = get_option( 'tema_viera_abogados_citas_btn_txt', 'AGENDAR REUNIÓN' );
 	$citas_wa_msg      = get_option( 'tema_viera_abogados_citas_wa_msg', 'Hola, confirmo mi cita para el {fecha} a las {hora}. Soy {nombre}. Servicio: {servicio}.' );
 
-	$noticias_pre_titulo = get_option( 'tema_viera_abogados_noticias_pre', 'MÃS SOBRE NOSOTROS' );
-	$noticias_titulo     = get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÃS' );
-	$noticias_btn        = get_option( 'tema_viera_abogados_noticias_btn', 'CARGAR MÃS âˆ¨' );
+	$noticias_pre_titulo = get_option( 'tema_viera_abogados_noticias_pre', 'MÁS SOBRE NOSOTROS' );
+	$noticias_titulo     = get_option( 'tema_viera_abogados_noticias_titulo', 'CASOS, NOTICIAS Y MÁS' );
+	$noticias_btn        = get_option( 'tema_viera_abogados_noticias_btn', 'CARGAR MÁS ∨' );
 
 	$social_ig = get_option( 'tema_viera_abogados_social_ig', '#' );
 	$social_in = get_option( 'tema_viera_abogados_social_in', '#' );
 
-	// Obtener URLs de imÃ¡genes si existen
+	// Obtener URLs de imágenes si existen
 	$logo_url = $logo_id ? wp_get_attachment_url( $logo_id ) : '';
 	$hero_imagen_url = $hero_imagen_id ? wp_get_attachment_url( $hero_imagen_id ) : '';
 	?>
@@ -455,7 +455,7 @@ function tema_viera_opciones_landing_page() {
 				}
 			</style>
 
-			<!-- SECCIÃ“N LOGO -->
+			<!-- SECCIÓN LOGO -->
 			<div class="mi-tema-form-section">
 				<h2><?php esc_html_e( 'Logo del Sitio', 'tema-viera-abogados' ); ?></h2>
 
@@ -476,17 +476,17 @@ function tema_viera_opciones_landing_page() {
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N HERO -->
+			<!-- SECCIÓN HERO -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n Hero', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección Hero', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="hero_titulo"><?php esc_html_e( 'TÃ­tulo Principal', 'tema-viera-abogados' ); ?></label>
+					<label for="hero_titulo"><?php esc_html_e( 'Título Principal', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="hero_titulo" name="hero_titulo" value="<?php echo esc_attr( $hero_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="hero_subtitulo"><?php esc_html_e( 'SubtÃ­tulo / DescripciÃ³n', 'tema-viera-abogados' ); ?></label>
+					<label for="hero_subtitulo"><?php esc_html_e( 'Subtítulo / Descripción', 'tema-viera-abogados' ); ?></label>
 					<textarea id="hero_subtitulo" name="hero_subtitulo"><?php echo esc_textarea( $hero_subtitulo ); ?></textarea>
 				</div>
 
@@ -506,17 +506,17 @@ function tema_viera_opciones_landing_page() {
 					<?php endif; ?>
 				</div>
 
-				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'BotÃ³n 1 â€” lleva a #servicios', 'tema-viera-abogados' ); ?></h3>
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Botón 1 — lleva a #servicios', 'tema-viera-abogados' ); ?></h3>
 
 				<div class="mi-tema-form-group">
-					<label for="hero_btn1_texto"><?php esc_html_e( 'Texto del BotÃ³n 1', 'tema-viera-abogados' ); ?></label>
+					<label for="hero_btn1_texto"><?php esc_html_e( 'Texto del Botón 1', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="hero_btn1_texto" name="hero_btn1_texto" value="<?php echo esc_attr( $hero_btn1_texto ); ?>" />
 				</div>
 
-				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'BotÃ³n 2 â€” lleva a #contacto', 'tema-viera-abogados' ); ?></h3>
+				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Botón 2 — lleva a #contacto', 'tema-viera-abogados' ); ?></h3>
 
 				<div class="mi-tema-form-group">
-					<label for="hero_btn2_texto"><?php esc_html_e( 'Texto del BotÃ³n 2', 'tema-viera-abogados' ); ?></label>
+					<label for="hero_btn2_texto"><?php esc_html_e( 'Texto del Botón 2', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="hero_btn2_texto" name="hero_btn2_texto" value="<?php echo esc_attr( $hero_btn2_texto ); ?>" />
 				</div>
 
@@ -526,7 +526,7 @@ function tema_viera_opciones_landing_page() {
 					<label><?php esc_html_e( 'Logos de Reconocimientos', 'tema-viera-abogados' ); ?></label>
 					<input type="hidden" id="awards_logos" name="awards_logos" value="<?php echo esc_attr( json_encode( $awards_logos_ids ) ); ?>" />
 					<button type="button" class="mi-tema-btn-upload" onclick="tema_viera_upload_awards()">
-						<?php esc_html_e( 'Seleccionar ImÃ¡genes', 'tema-viera-abogados' ); ?>
+						<?php esc_html_e( 'Seleccionar Imágenes', 'tema-viera-abogados' ); ?>
 					</button>
 					<div id="awards-preview" class="mi-tema-image-preview" style="display:<?php echo ! empty( $awards_logos_ids ) ? 'flex' : 'none'; ?>; flex-wrap:wrap; gap:10px; margin-top:10px;">
 						<?php if ( ! empty( $awards_logos_ids ) && is_array( $awards_logos_ids ) ) : ?>
@@ -541,21 +541,21 @@ function tema_viera_opciones_landing_page() {
 							<?php endforeach; ?>
 						<?php endif; ?>
 					</div>
-					<p class="description" style="margin-top:5px;"><?php esc_html_e( 'Selecciona las imÃ¡genes de los reconocimientos internacionales.', 'tema-viera-abogados' ); ?></p>
+					<p class="description" style="margin-top:5px;"><?php esc_html_e( 'Selecciona las imágenes de los reconocimientos internacionales.', 'tema-viera-abogados' ); ?></p>
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N SERVICIOS -->
+			<!-- SECCIÓN SERVICIOS -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n Servicios', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección Servicios', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="servicios_titulo"><?php esc_html_e( 'TÃ­tulo de la SecciÃ³n', 'tema-viera-abogados' ); ?></label>
+					<label for="servicios_titulo"><?php esc_html_e( 'Título de la Sección', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="servicios_titulo" name="servicios_titulo" value="<?php echo esc_attr( $servicios_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-servicios-container">
-					<p><strong><?php esc_html_e( 'Servicios (MÃ¡ximo 6)', 'tema-viera-abogados' ); ?></strong></p>
+					<p><strong><?php esc_html_e( 'Servicios (Máximo 6)', 'tema-viera-abogados' ); ?></strong></p>
 					<div id="servicios-list">
 						<?php
 						if ( ! empty( $servicios_items ) && is_array( $servicios_items ) ) {
@@ -579,52 +579,52 @@ function tema_viera_opciones_landing_page() {
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N TEXTO ANIMADO -->
+			<!-- SECCIÓN TEXTO ANIMADO -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n Texto Animado', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección Texto Animado', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="texto_animado_1"><?php esc_html_e( 'LÃ­nea Superior (entra por izquierda)', 'tema-viera-abogados' ); ?></label>
+					<label for="texto_animado_1"><?php esc_html_e( 'Línea Superior (entra por izquierda)', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="texto_animado_1" name="texto_animado_1" value="<?php echo esc_attr( $texto_animado_1 ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="texto_animado_2"><?php esc_html_e( 'LÃ­nea Inferior (entra por derecha)', 'tema-viera-abogados' ); ?></label>
+					<label for="texto_animado_2"><?php esc_html_e( 'Línea Inferior (entra por derecha)', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="texto_animado_2" name="texto_animado_2" value="<?php echo esc_attr( $texto_animado_2 ); ?>" />
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N ABOGADOS -->
+			<!-- SECCIÓN ABOGADOS -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n Listado de Abogados', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección Listado de Abogados', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="abogados_titulo"><?php esc_html_e( 'TÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="abogados_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="abogados_titulo" name="abogados_titulo" value="<?php echo esc_attr( $abogados_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="abogados_subtitulo"><?php esc_html_e( 'SubtÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="abogados_subtitulo"><?php esc_html_e( 'Subtítulo', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="abogados_subtitulo" name="abogados_subtitulo" value="<?php echo esc_attr( $abogados_subtitulo ); ?>" />
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N EXPERIENCIA / SECTORES -->
+			<!-- SECCIÓN EXPERIENCIA / SECTORES -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n Experiencia â€” Nuestra Experiencia', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección Experiencia — Nuestra Experiencia', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="exp_pre_titulo"><?php esc_html_e( 'Pre-tÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="exp_pre_titulo"><?php esc_html_e( 'Pre-título', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="exp_pre_titulo" name="exp_pre_titulo" value="<?php echo esc_attr( $exp_pre_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="exp_titulo"><?php esc_html_e( 'TÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="exp_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="exp_titulo" name="exp_titulo" value="<?php echo esc_attr( $exp_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="exp_subtitulo"><?php esc_html_e( 'SubtÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="exp_subtitulo"><?php esc_html_e( 'Subtítulo', 'tema-viera-abogados' ); ?></label>
 					<textarea id="exp_subtitulo" name="exp_subtitulo"><?php echo esc_textarea( $exp_subtitulo ); ?></textarea>
 				</div>
 
@@ -646,12 +646,12 @@ function tema_viera_opciones_landing_page() {
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N CLIENTES -->
+			<!-- SECCIÓN CLIENTES -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n Clientes', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección Clientes', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="clientes_titulo"><?php esc_html_e( 'TÃ­tulo de la SecciÃ³n', 'tema-viera-abogados' ); ?></label>
+					<label for="clientes_titulo"><?php esc_html_e( 'Título de la Sección', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="clientes_titulo" name="clientes_titulo" value="<?php echo esc_attr( $clientes_titulo ); ?>" />
 				</div>
 
@@ -659,7 +659,7 @@ function tema_viera_opciones_landing_page() {
 					<label><?php esc_html_e( 'Logos de Clientes', 'tema-viera-abogados' ); ?></label>
 					<input type="hidden" id="clientes_logos" name="clientes_logos" value="<?php echo esc_attr( json_encode( $clientes_logos_ids ) ); ?>" />
 					<button type="button" class="mi-tema-btn-upload" onclick="tema_viera_upload_clientes()">
-						<?php esc_html_e( 'Seleccionar ImÃ¡genes', 'tema-viera-abogados' ); ?>
+						<?php esc_html_e( 'Seleccionar Imágenes', 'tema-viera-abogados' ); ?>
 					</button>
 					<div id="clientes-preview" class="mi-tema-image-preview" style="display:<?php echo ! empty( $clientes_logos_ids ) ? 'flex' : 'none'; ?>; flex-wrap:wrap; gap:10px; margin-top:10px;">
 						<?php if ( ! empty( $clientes_logos_ids ) && is_array( $clientes_logos_ids ) ) : ?>
@@ -678,19 +678,19 @@ function tema_viera_opciones_landing_page() {
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N FOOTER -->
+			<!-- SECCIÓN FOOTER -->
 			<div class="mi-tema-form-section">
 				<h2><?php esc_html_e( 'Footer', 'tema-viera-abogados' ); ?></h2>
 
 				<h3 style="color:#1a3a52;"><?php esc_html_e( 'Contacto', 'tema-viera-abogados' ); ?></h3>
 
 				<div class="mi-tema-form-group">
-					<label for="contacto_direccion"><?php esc_html_e( 'DirecciÃ³n', 'tema-viera-abogados' ); ?></label>
+					<label for="contacto_direccion"><?php esc_html_e( 'Dirección', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="contacto_direccion" name="contacto_direccion" value="<?php echo esc_attr( $contacto_direccion ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="contacto_telefono"><?php esc_html_e( 'TelÃ©fono', 'tema-viera-abogados' ); ?></label>
+					<label for="contacto_telefono"><?php esc_html_e( 'Teléfono', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="contacto_telefono" name="contacto_telefono" value="<?php echo esc_attr( $contacto_telefono ); ?>" />
 				</div>
 
@@ -712,17 +712,17 @@ function tema_viera_opciones_landing_page() {
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N EQUIPO / FUNDADOR -->
+			<!-- SECCIÓN EQUIPO / FUNDADOR -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n Equipo â€” Nuestro Equipo', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección Equipo — Nuestro Equipo', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="equipo_pre_titulo"><?php esc_html_e( 'Pre-tÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="equipo_pre_titulo"><?php esc_html_e( 'Pre-título', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="equipo_pre_titulo" name="equipo_pre_titulo" value="<?php echo esc_attr( $equipo_pre_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="equipo_titulo"><?php esc_html_e( 'TÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="equipo_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="equipo_titulo" name="equipo_titulo" value="<?php echo esc_attr( $equipo_titulo ); ?>" />
 				</div>
 
@@ -737,12 +737,12 @@ function tema_viera_opciones_landing_page() {
 				</div>
 
 				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Fundador', 'tema-viera-abogados' ); ?></h3>
-				<p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'Selecciona un abogado del CPT para mostrar como fundador destacado. AsegÃºrate de haber creado al abogado en la secciÃ³n "Abogados" previamente.', 'tema-viera-abogados' ); ?></p>
+				<p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'Selecciona un abogado del CPT para mostrar como fundador destacado. Asegúrate de haber creado al abogado en la sección "Abogados" previamente.', 'tema-viera-abogados' ); ?></p>
 
 				<div class="mi-tema-form-group">
 					<label for="fundador_post_id"><?php esc_html_e( 'Abogado Fundador', 'tema-viera-abogados' ); ?></label>
 					<select id="fundador_post_id" name="fundador_post_id" style="max-width:500px;">
-						<option value=""><?php esc_html_e( 'â€” Ninguno â€”', 'tema-viera-abogados' ); ?></option>
+						<option value=""><?php esc_html_e( '— Ninguno —', 'tema-viera-abogados' ); ?></option>
 						<?php
 						$abogados_query = new WP_Query( array(
 							'post_type'      => 'abogado',
@@ -767,7 +767,7 @@ function tema_viera_opciones_landing_page() {
 				</div>
 
 				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Miembros del Equipo', 'tema-viera-abogados' ); ?></h3>
-				<p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'Selecciona los abogados que aparecerÃ¡n en la secciÃ³n de equipo. Se mostrarÃ¡n en el mismo orden que tienen en el CPT.', 'tema-viera-abogados' ); ?></p>
+				<p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'Selecciona los abogados que aparecerán en la sección de equipo. Se mostrarán en el mismo orden que tienen en el CPT.', 'tema-viera-abogados' ); ?></p>
 
 				<div class="mi-tema-form-group">
 					<div style="max-height:300px; overflow-y:auto; border:1px solid #ddd; padding:15px; border-radius:4px; background:#f9f9f9; max-width:500px;">
@@ -805,16 +805,16 @@ function tema_viera_opciones_landing_page() {
 							wp_reset_postdata();
 						else:
 						?>
-							<p style="color:#999;"><?php esc_html_e( 'No hay abogados registrados aÃºn. CrÃ©alos en la secciÃ³n "Abogados".', 'tema-viera-abogados' ); ?></p>
+							<p style="color:#999;"><?php esc_html_e( 'No hay abogados registrados aún. Créalos en la sección "Abogados".', 'tema-viera-abogados' ); ?></p>
 						<?php endif; ?>
 					</div>
-					<p class="description" style="margin-top:5px;"><?php esc_html_e( 'Marca los abogados que quieres mostrar en esta secciÃ³n. El fundador seleccionado arriba se excluirÃ¡ automÃ¡ticamente.', 'tema-viera-abogados' ); ?></p>
+					<p class="description" style="margin-top:5px;"><?php esc_html_e( 'Marca los abogados que quieres mostrar en esta sección. El fundador seleccionado arriba se excluirá automáticamente.', 'tema-viera-abogados' ); ?></p>
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N KPIs -->
+			<!-- SECCIÓN KPIs -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n KPIs â€” Indicadores', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección KPIs — Indicadores', 'tema-viera-abogados' ); ?></h2>
 
 				<h3 style="margin-top:20px;color:#1a3a52;"><?php esc_html_e( 'KPI 1', 'tema-viera-abogados' ); ?></h3>
 				<div class="mi-tema-form-group">
@@ -822,7 +822,7 @@ function tema_viera_opciones_landing_page() {
 					<input type="text" id="kpi_1_prefix" name="kpi_1_prefix" value="<?php echo esc_attr( $kpi_1_prefix ); ?>" maxlength="5" />
 				</div>
 				<div class="mi-tema-form-group">
-					<label for="kpi_1_num"><?php esc_html_e( 'NÃºmero', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+					<label for="kpi_1_num"><?php esc_html_e( 'Número', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
 					<input type="text" id="kpi_1_num" name="kpi_1_num" value="<?php echo esc_attr( $kpi_1_num ); ?>" required pattern="[0-9,]+" />
 				</div>
 				<div class="mi-tema-form-group">
@@ -840,7 +840,7 @@ function tema_viera_opciones_landing_page() {
 					<input type="text" id="kpi_2_prefix" name="kpi_2_prefix" value="<?php echo esc_attr( $kpi_2_prefix ); ?>" maxlength="5" />
 				</div>
 				<div class="mi-tema-form-group">
-					<label for="kpi_2_num"><?php esc_html_e( 'NÃºmero', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+					<label for="kpi_2_num"><?php esc_html_e( 'Número', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
 					<input type="text" id="kpi_2_num" name="kpi_2_num" value="<?php echo esc_attr( $kpi_2_num ); ?>" required pattern="[0-9,]+" />
 				</div>
 				<div class="mi-tema-form-group">
@@ -858,7 +858,7 @@ function tema_viera_opciones_landing_page() {
 					<input type="text" id="kpi_3_prefix" name="kpi_3_prefix" value="<?php echo esc_attr( $kpi_3_prefix ); ?>" maxlength="5" />
 				</div>
 				<div class="mi-tema-form-group">
-					<label for="kpi_3_num"><?php esc_html_e( 'NÃºmero', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
+					<label for="kpi_3_num"><?php esc_html_e( 'Número', 'tema-viera-abogados' ); ?> <span style="color:red;">*</span></label>
 					<input type="text" id="kpi_3_num" name="kpi_3_num" value="<?php echo esc_attr( $kpi_3_num ); ?>" required pattern="[0-9,]+" />
 				</div>
 				<div class="mi-tema-form-group">
@@ -876,7 +876,7 @@ function tema_viera_opciones_landing_page() {
 					<input type="text" id="kpi_4_prefix" name="kpi_4_prefix" value="<?php echo esc_attr( $kpi_4_prefix ); ?>" maxlength="5" />
 				</div>
 				<div class="mi-tema-form-group">
-					<label for="kpi_4_num"><?php esc_html_e( 'NÃºmero (vacÃ­o para ocultar)', 'tema-viera-abogados' ); ?></label>
+					<label for="kpi_4_num"><?php esc_html_e( 'Número (vacío para ocultar)', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="kpi_4_num" name="kpi_4_num" value="<?php echo esc_attr( $kpi_4_num ); ?>" pattern="[0-9,]*" />
 				</div>
 				<div class="mi-tema-form-group">
@@ -889,22 +889,22 @@ function tema_viera_opciones_landing_page() {
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N AGENDAR CITA -->
+			<!-- SECCIÓN AGENDAR CITA -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n Agendar Cita', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección Agendar Cita', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="agenda_pre_titulo"><?php esc_html_e( 'Pre-tÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="agenda_pre_titulo"><?php esc_html_e( 'Pre-título', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="agenda_pre_titulo" name="agenda_pre_titulo" value="<?php echo esc_attr( $agenda_pre_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="agenda_titulo"><?php esc_html_e( 'TÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="agenda_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="agenda_titulo" name="agenda_titulo" value="<?php echo esc_attr( $agenda_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="agenda_desc"><?php esc_html_e( 'DescripciÃ³n', 'tema-viera-abogados' ); ?></label>
+					<label for="agenda_desc"><?php esc_html_e( 'Descripción', 'tema-viera-abogados' ); ?></label>
 					<textarea id="agenda_desc" name="agenda_desc"><?php echo esc_textarea( $agenda_desc ); ?></textarea>
 				</div>
 
@@ -984,22 +984,22 @@ function tema_viera_opciones_landing_page() {
 				</div>
 			</div>
 
-			<!-- SECCIÃ“N NOTICIAS -->
+			<!-- SECCIÓN NOTICIAS -->
 			<div class="mi-tema-form-section">
-				<h2><?php esc_html_e( 'SecciÃ³n Noticias y Casos', 'tema-viera-abogados' ); ?></h2>
+				<h2><?php esc_html_e( 'Sección Noticias y Casos', 'tema-viera-abogados' ); ?></h2>
 
 				<div class="mi-tema-form-group">
-					<label for="noticias_pre_titulo"><?php esc_html_e( 'Pre-tÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="noticias_pre_titulo"><?php esc_html_e( 'Pre-título', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="noticias_pre_titulo" name="noticias_pre_titulo" value="<?php echo esc_attr( $noticias_pre_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="noticias_titulo"><?php esc_html_e( 'TÃ­tulo', 'tema-viera-abogados' ); ?></label>
+					<label for="noticias_titulo"><?php esc_html_e( 'Título', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="noticias_titulo" name="noticias_titulo" value="<?php echo esc_attr( $noticias_titulo ); ?>" />
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label for="noticias_btn"><?php esc_html_e( 'Texto botÃ³n "Cargar MÃ¡s"', 'tema-viera-abogados' ); ?></label>
+					<label for="noticias_btn"><?php esc_html_e( 'Texto botón "Cargar Más"', 'tema-viera-abogados' ); ?></label>
 					<input type="text" id="noticias_btn" name="noticias_btn" value="<?php echo esc_attr( $noticias_btn ); ?>" />
 				</div>
 
@@ -1035,10 +1035,10 @@ function tema_viera_opciones_landing_page() {
 	</div>
 
 	<script>
-		// Variable global para rastrear el Ã­ndice de servicios
+		// Variable global para rastrear el índice de servicios
 		var servicioIndex = <?php echo isset( $servicios_items ) ? count( (array) $servicios_items ) : 0; ?>;
 
-		// Agregar un nuevo servicio dinÃ¡micamente
+		// Agregar un nuevo servicio dinámicamente
 		document.getElementById('btn-add-servicio').addEventListener('click', function( e ) {
 			e.preventDefault();
 			var container = document.getElementById('servicios-list');
@@ -1058,7 +1058,7 @@ function tema_viera_opciones_landing_page() {
 			container.insertAdjacentHTML('beforeend', html);
 			servicioIndex++;
 
-			// Deshabilitar botÃ³n si hay 6 servicios
+			// Deshabilitar botón si hay 6 servicios
 			if ( container.querySelectorAll('.mi-tema-servicio-item').length >= 6 ) {
 				document.getElementById('btn-add-servicio').style.display = 'none';
 			}
@@ -1076,10 +1076,10 @@ function tema_viera_opciones_landing_page() {
 			}
 		}
 
-		// Variable global para rastrear el Ã­ndice de sectores
+		// Variable global para rastrear el índice de sectores
 		var sectorIndex = <?php echo isset( $sectores_items ) ? count( (array) $sectores_items ) : 0; ?>;
 
-		// Agregar un nuevo sector dinÃ¡micamente
+		// Agregar un nuevo sector dinámicamente
 		var btnAddSector = document.getElementById('btn-add-sector');
 		if (btnAddSector) {
 			btnAddSector.addEventListener('click', function( e ) {
@@ -1088,11 +1088,11 @@ function tema_viera_opciones_landing_page() {
 				var html = '<div class="mi-tema-servicio-item mi-tema-sector-item" data-index="' + sectorIndex + '">' +
 					'<button type="button" class="btn-remove-servicio" onclick="removeSector(' + sectorIndex + ')">Eliminar</button>' +
 					'<div style="margin-bottom: 10px;">' +
-						'<label>TÃ­tulo del Sector</label>' +
+						'<label>Título del Sector</label>' +
 						'<input type="text" name="sectores[' + sectorIndex + '][titulo]" value="" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />' +
 					'</div>' +
 					'<div style="margin-bottom: 10px;">' +
-						'<label>DescripciÃ³n</label>' +
+						'<label>Descripción</label>' +
 						'<textarea name="sectores[' + sectorIndex + '][descripcion]" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"></textarea>' +
 					'</div>' +
 					'<div>' +
@@ -1120,7 +1120,7 @@ function tema_viera_opciones_landing_page() {
 			}
 		}
 
-		// FunciÃ³n para subir medios (para logo y hero)
+		// Función para subir medios (para logo y hero)
 		var miTemaMediaFrame;
 		function tema_viera_upload_media( fieldId ) {
 			if ( miTemaMediaFrame ) {
@@ -1145,7 +1145,7 @@ function tema_viera_opciones_landing_page() {
 			miTemaMediaFrame.open();
 		}
 
-		// FunciÃ³n para subir imagen de sector (crea frame nuevo cada vez)
+		// Función para subir imagen de sector (crea frame nuevo cada vez)
 		function tema_viera_upload_sector_media( fieldId ) {
 			var frame = wp.media({
 				title: '<?php esc_html_e( 'Seleccionar Imagen', 'tema-viera-abogados' ); ?>',
@@ -1164,7 +1164,7 @@ function tema_viera_opciones_landing_page() {
 			frame.open();
 		}
 
-		// FunciÃ³n para remover imagen
+		// Función para remover imagen
 		function tema_viera_remove_media( fieldId ) {
 			document.getElementById( fieldId ).value = '';
 			var preview = document.getElementById( fieldId + '_preview' );
@@ -1173,7 +1173,7 @@ function tema_viera_opciones_landing_page() {
 			}
 		}
 
-		// Variables para la galerÃ­a de awards
+		// Variables para la galería de awards
 		var awardsLogoIds = <?php echo ! empty( $awards_logos_ids ) ? json_encode( array_map( 'intval', (array) $awards_logos_ids ) ) : '[]'; ?>;
 		var awardsMediaFrame;
 
@@ -1185,7 +1185,7 @@ function tema_viera_opciones_landing_page() {
 
 			awardsMediaFrame = wp.media({
 				title: '<?php esc_html_e( 'Seleccionar Logos de Reconocimientos', 'tema-viera-abogados' ); ?>',
-				button: { text: '<?php esc_html_e( 'Agregar a la galerÃ­a', 'tema-viera-abogados' ); ?>' },
+				button: { text: '<?php esc_html_e( 'Agregar a la galería', 'tema-viera-abogados' ); ?>' },
 				multiple: true,
 				library: { type: 'image' }
 			});
@@ -1286,7 +1286,7 @@ function tema_viera_opciones_landing_page() {
 			updateAwardsField();
 		}
 
-		// Variables para la galerÃ­a de clientes
+		// Variables para la galería de clientes
 		var clientesLogoIds = <?php echo ! empty( $clientes_logos_ids ) ? json_encode( array_map( 'intval', (array) $clientes_logos_ids ) ) : '[]'; ?>;
 		var clientesMediaFrame;
 
@@ -1297,7 +1297,7 @@ function tema_viera_opciones_landing_page() {
 			}
 			clientesMediaFrame = wp.media({
 				title: '<?php esc_html_e( 'Seleccionar Logos de Clientes', 'tema-viera-abogados' ); ?>',
-				button: { text: '<?php esc_html_e( 'Agregar a la galerÃ­a', 'tema-viera-abogados' ); ?>' },
+				button: { text: '<?php esc_html_e( 'Agregar a la galería', 'tema-viera-abogados' ); ?>' },
 				multiple: true,
 				library: { type: 'image' }
 			});
@@ -1398,7 +1398,7 @@ function tema_viera_opciones_landing_page() {
 /**
  * Renderizar un item individual de servicio
  *
- * @param int $index Ãndice del servicio
+ * @param int $index Índice del servicio
  * @param array $servicio Datos del servicio
  */
 function tema_viera_render_servicio_item( $index, $servicio ) {
@@ -1410,11 +1410,11 @@ function tema_viera_render_servicio_item( $index, $servicio ) {
 			<?php esc_html_e( 'Eliminar', 'tema-viera-abogados' ); ?>
 		</button>
 		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'TÃ­tulo del Servicio', 'tema-viera-abogados' ); ?></label>
+			<label><?php esc_html_e( 'Título del Servicio', 'tema-viera-abogados' ); ?></label>
 			<input type="text" name="servicios[<?php echo esc_attr( $index ); ?>][titulo]" value="<?php echo esc_attr( $titulo ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
 		</div>
 		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'DescripciÃ³n', 'tema-viera-abogados' ); ?></label>
+			<label><?php esc_html_e( 'Descripción', 'tema-viera-abogados' ); ?></label>
 			<textarea name="servicios[<?php echo esc_attr( $index ); ?>][descripcion]" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"><?php echo esc_textarea( $descripcion ); ?></textarea>
 		</div>
 	</div>
@@ -1424,7 +1424,7 @@ function tema_viera_render_servicio_item( $index, $servicio ) {
 /**
  * Renderizar un item individual de sector (experiencia)
  *
- * @param int $index Ãndice del sector
+ * @param int $index Índice del sector
  * @param array $sector Datos del sector
  */
 function tema_viera_render_sector_item( $index, $sector ) {
@@ -1438,11 +1438,11 @@ function tema_viera_render_sector_item( $index, $sector ) {
 			<?php esc_html_e( 'Eliminar', 'tema-viera-abogados' ); ?>
 		</button>
 		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'TÃ­tulo del Sector', 'tema-viera-abogados' ); ?></label>
+			<label><?php esc_html_e( 'Título del Sector', 'tema-viera-abogados' ); ?></label>
 			<input type="text" name="sectores[<?php echo esc_attr( $index ); ?>][titulo]" value="<?php echo esc_attr( $titulo ); ?>" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
 		</div>
 		<div style="margin-bottom: 10px;">
-			<label><?php esc_html_e( 'DescripciÃ³n', 'tema-viera-abogados' ); ?></label>
+			<label><?php esc_html_e( 'Descripción', 'tema-viera-abogados' ); ?></label>
 			<textarea name="sectores[<?php echo esc_attr( $index ); ?>][descripcion]" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"><?php echo esc_textarea( $descripcion ); ?></textarea>
 		</div>
 		<div>

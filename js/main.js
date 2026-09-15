@@ -1114,6 +1114,146 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+// Búsqueda: panel + búsquedas recientes (localStorage, separadas por idioma)
+document.addEventListener('DOMContentLoaded', function() {
+  var toggle = document.getElementById('search-toggle');
+  var panel = document.getElementById('search-panel');
+  var backdrop = document.getElementById('search-backdrop');
+  var form = document.getElementById('search-form');
+  var input = document.getElementById('search-input');
+  var recent = document.getElementById('search-recent');
+  var chips = document.getElementById('search-chips');
+  var clearBtn = document.getElementById('search-clear');
+  var closeBtn = document.getElementById('search-close');
+
+  if (!toggle || !panel || !form || !input) return;
+
+  var MAX_RECENT = 6;
+
+  function lang() {
+    if (typeof miTemaAbogados !== 'undefined' && miTemaAbogados && miTemaAbogados.lang) {
+      return miTemaAbogados.lang;
+    }
+    return 'es';
+  }
+
+  function key() {
+    return 'viera_recent_searches_' + lang();
+  }
+
+  function load() {
+    try {
+      var list = JSON.parse(localStorage.getItem(key()));
+      if (!Array.isArray(list)) return [];
+      return list.filter(function(t) { return typeof t === 'string' && t.trim() !== ''; }).slice(0, MAX_RECENT);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function save(list) {
+    try {
+      localStorage.setItem(key(), JSON.stringify(list.slice(0, MAX_RECENT)));
+    } catch (e) {}
+  }
+
+  function remember(term) {
+    term = (term || '').trim();
+    if (term.length < 2) return;
+    var lowered = term.toLowerCase();
+    var list = load().filter(function(t) { return t.toLowerCase() !== lowered; });
+    list.unshift(term);
+    save(list);
+  }
+
+  function render() {
+    if (!recent || !chips) return;
+    var list = load();
+    chips.innerHTML = '';
+    if (!list.length) {
+      recent.hidden = true;
+      return;
+    }
+    recent.hidden = false;
+    list.forEach(function(term) {
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'search-chip';
+      chip.textContent = term;
+      chip.addEventListener('click', function() {
+        input.value = term;
+        remember(term);
+        form.submit();
+      });
+      chips.appendChild(chip);
+    });
+  }
+
+  function position() {
+    var header = document.querySelector('.site-header');
+    if (header) {
+      panel.style.top = header.offsetHeight + 'px';
+    }
+  }
+
+  function isOpen() {
+    return document.body.classList.contains('search-open');
+  }
+
+  function open() {
+    position();
+    render();
+    document.body.classList.add('search-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    setTimeout(function() { input.focus(); }, 80);
+  }
+
+  function close() {
+    document.body.classList.remove('search-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', function() {
+    if (isOpen()) {
+      close();
+    } else {
+      open();
+    }
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', close);
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', close);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if ((e.key === 'Escape' || e.keyCode === 27) && isOpen()) {
+      close();
+    }
+  });
+
+  window.addEventListener('resize', function() {
+    if (isOpen()) position();
+  });
+
+  form.addEventListener('submit', function() {
+    remember(input.value);
+  });
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      try {
+        localStorage.removeItem(key());
+      } catch (e) {}
+      render();
+      input.focus();
+    });
+  }
+});
+
 // Single post: copiar enlace en "Compartir"
 document.addEventListener('DOMContentLoaded', function() {
   var copyBtns = document.querySelectorAll('.sp-share-btn[data-copy]');

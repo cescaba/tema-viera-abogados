@@ -752,6 +752,11 @@ function tema_viera_register_polylang_strings() {
 		'COMPARTIR',
 		'ESCRITO POR',
 		'Artículos relacionados',
+		'Buscar',
+		'Cerrar',
+		'¿Qué estás buscando?',
+		'Búsquedas recientes',
+		'Limpiar',
 	);
 	foreach ( $ui_strings as $string ) {
 		tema_viera_pll_register_string( 'UI · ' . $string, $string, 'Interfaz' );
