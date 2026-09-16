@@ -528,6 +528,22 @@ body.search-open .search-panel {
   opacity: 1;
 }
 
+/* Oculta la X nativa del input search (WebKit/Edge): usamos Cerrar + Borrar todo propios. */
+.search-panel-input::-webkit-search-cancel-button,
+.search-panel-input::-webkit-search-decoration,
+.search-panel-input::-webkit-search-results-button,
+.search-panel-input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+.search-panel-input::-ms-clear,
+.search-panel-input::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .search-panel-body {
   width: 100%;
   max-width: 1000px;
