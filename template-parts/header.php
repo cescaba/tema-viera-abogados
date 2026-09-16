@@ -116,31 +116,55 @@ if ( ! defined( 'ABSPATH' ) ) {
 </header>
 
 <?php
-// Panel de búsqueda: gradient + overlay. Las búsquedas recientes se
-// gestionan en js/main.js con localStorage (separadas por idioma).
+// Panel de búsqueda: gradient + overlay. Recientes en localStorage (por idioma),
+// populares fijas y resultados vivos vía AJAX (inc/search.php).
+$search_popular = function_exists( 'tema_viera_search_popular' ) ? tema_viera_search_popular() : array();
 ?>
 <div class="search-backdrop" id="search-backdrop"></div>
 <section class="search-panel" id="search-panel" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr( tema_viera_t( 'Buscar' ) ); ?>">
   <div class="container">
-    <form role="search" method="get" class="search-panel-form" id="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-      <button type="submit" class="search-panel-submit" aria-label="<?php echo esc_attr( tema_viera_t( 'Buscar' ) ); ?>">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 50 50" fill="none" aria-hidden="true">
-          <path d="M22.9167 39.5833C32.1214 39.5833 39.5834 32.1214 39.5834 22.9167C39.5834 13.7119 32.1214 6.24997 22.9167 6.24997C13.7119 6.24997 6.25 13.7119 6.25 22.9167C6.25 32.1214 13.7119 39.5833 22.9167 39.5833Z" stroke="white" stroke-width="4.16667" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M43.7503 43.75L34.792 34.7917" stroke="white" stroke-width="4.16667" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+    <div class="search-panel-top">
+      <button type="button" class="search-close" id="search-close" aria-label="<?php echo esc_attr( tema_viera_t( 'Cerrar' ) ); ?>">
+        <span aria-hidden="true">✕</span> <?php echo esc_html( tema_viera_t( 'Cerrar' ) ); ?>
       </button>
+    </div>
+    <form role="search" method="get" class="search-panel-form" id="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
       <input type="search" class="search-panel-input" id="search-input" name="s"
         value="<?php echo esc_attr( get_search_query() ); ?>"
-        placeholder="<?php echo esc_attr( tema_viera_t( '¿Qué estás buscando?' ) ); ?>"
+        placeholder="<?php echo esc_attr( tema_viera_t( 'Buscar por palabras clave' ) ); ?>"
         autocomplete="off" aria-label="<?php echo esc_attr( tema_viera_t( 'Buscar' ) ); ?>">
-      <button type="button" class="search-panel-close" id="search-close" aria-label="<?php echo esc_attr( tema_viera_t( 'Cerrar' ) ); ?>">×</button>
+      <button type="submit" class="search-panel-submit" aria-label="<?php echo esc_attr( tema_viera_t( 'Buscar' ) ); ?>">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 50 50" fill="none" aria-hidden="true">
+          <path d="M22.9167 39.5833C32.1214 39.5833 39.5834 32.1214 39.5834 22.9167C39.5834 13.7119 32.1214 6.24997 22.9167 6.24997C13.7119 6.24997 6.25 13.7119 6.25 22.9167C6.25 32.1214 13.7119 39.5833 22.9167 39.5833Z" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M43.7503 43.75L34.792 34.7917" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </form>
-    <div class="search-recent" id="search-recent" hidden>
-      <div class="search-recent-head">
-        <span><?php echo esc_html( tema_viera_t( 'Búsquedas recientes' ) ); ?></span>
-        <button type="button" class="search-recent-clear" id="search-clear"><?php echo esc_html( tema_viera_t( 'Limpiar' ) ); ?></button>
+    <div class="search-panel-body">
+      <div class="search-initial" id="search-initial">
+        <div class="search-recent" id="search-recent" hidden>
+          <div class="search-label-row">
+            <span class="search-label"><?php echo esc_html( tema_viera_t( 'BÚSQUEDAS RECIENTES' ) ); ?></span>
+            <button type="button" class="search-clear-all" id="search-clear"><?php echo esc_html( tema_viera_t( 'Borrar todo' ) ); ?></button>
+          </div>
+          <div class="search-recent-list" id="search-recent-list"></div>
+        </div>
+        <?php if ( ! empty( $search_popular ) ) : ?>
+        <div class="search-popular">
+          <span class="search-label"><?php echo esc_html( tema_viera_t( 'BÚSQUEDAS POPULARES' ) ); ?></span>
+          <div class="search-popular-pills" id="search-popular">
+            <?php foreach ( $search_popular as $term ) : ?>
+              <button type="button" class="search-pill" data-term="<?php echo esc_attr( $term ); ?>"><?php echo esc_html( tema_viera_t( $term ) ); ?></button>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <?php endif; ?>
       </div>
-      <div class="search-chips" id="search-chips"></div>
+      <div class="search-results" id="search-results" hidden>
+        <p class="search-results-count" id="search-count" aria-live="polite"></p>
+        <div class="search-results-groups" id="search-groups"></div>
+        <p class="search-results-empty" id="search-empty" hidden><?php echo esc_html( tema_viera_t( 'Sin resultados. Prueba con otra palabra clave.' ) ); ?></p>
+      </div>
     </div>
   </div>
 </section>

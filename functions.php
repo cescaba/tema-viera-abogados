@@ -131,6 +131,7 @@ require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-landing.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-equipo.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/admin-opciones-terminos.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/citas.php';
+require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/search.php';
 require_once TEMA_VIERA_ABOGADOS_PATH . '/inc/polylang-integration.php';
 
 /**

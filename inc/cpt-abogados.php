@@ -36,28 +36,42 @@ function tema_viera_register_cpt_abogados() {
 	$args = array(
 		'labels'             => $labels,
 		'description'        => esc_html__( 'Custom Post Type para gestionar abogados del estudio', 'tema-viera-abogados' ),
-		'public'             => true,
-		'publicly_queryable' => true,
-		'show_ui'            => true,
-		'show_in_menu'       => true,
-		'query_var'          => true,
-		'capability_type'    => 'post',
-		'has_archive'        => false,
-		'hierarchical'       => false,
-		'menu_position'      => 5,
-		'menu_icon'          => 'dashicons-businessman',
-		'supports'           => array( 'title', 'thumbnail', 'page-attributes' ),
-		'show_in_rest'       => true, // Permite usar el editor Gutenberg
-		'rest_base'          => 'abogados',
-		'rewrite'            => array(
-			'slug'       => 'abogados',
-			'with_front' => false,
-		),
+		// Solo gestión interna: sin single público (/abogados/* → 404 + redirect a /equipo/).
+		'public'              => false,
+		'publicly_queryable'  => false,
+		'exclude_from_search' => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => false,
+		'show_in_admin_bar'   => false,
+		'query_var'           => false,
+		'capability_type'     => 'post',
+		'has_archive'         => false,
+		'hierarchical'        => false,
+		'menu_position'       => 5,
+		'menu_icon'           => 'dashicons-businessman',
+		'supports'            => array( 'title', 'thumbnail', 'page-attributes' ),
+		'show_in_rest'        => true, // Permite usar el editor Gutenberg
+		'rest_base'           => 'abogados',
+		'rewrite'             => false,
 	);
 
 	register_post_type( 'abogado', $args );
 }
 add_action( 'init', 'tema_viera_register_cpt_abogados' );
+
+/**
+ * Desactiva el frontal del CPT: /abogados/* y archivo → 301 a /equipo/.
+ * Cubre reglas de rewrite antiguas hasta que se guarden los enlaces permanentes.
+ */
+function tema_viera_disable_abogado_front() {
+	if ( is_singular( 'abogado' ) || is_post_type_archive( 'abogado' ) ) {
+		$url = function_exists( 'tema_viera_equipo_url' ) ? tema_viera_equipo_url() : home_url( '/equipo/' );
+		wp_safe_redirect( $url, 301 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'tema_viera_disable_abogado_front', 1 );
 
 /**
  * Flush rewrite rules cuando se activa el tema

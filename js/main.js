@@ -1114,7 +1114,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Búsqueda: panel + búsquedas recientes (localStorage, separadas por idioma)
+// Búsqueda: panel + recientes + populares + resultados vivos (AJAX)
 document.addEventListener('DOMContentLoaded', function() {
   var toggle = document.getElementById('search-toggle');
   var panel = document.getElementById('search-panel');
@@ -1122,13 +1122,21 @@ document.addEventListener('DOMContentLoaded', function() {
   var form = document.getElementById('search-form');
   var input = document.getElementById('search-input');
   var recent = document.getElementById('search-recent');
-  var chips = document.getElementById('search-chips');
+  var recentList = document.getElementById('search-recent-list');
   var clearBtn = document.getElementById('search-clear');
   var closeBtn = document.getElementById('search-close');
+  var initial = document.getElementById('search-initial');
+  var results = document.getElementById('search-results');
+  var countEl = document.getElementById('search-count');
+  var groupsEl = document.getElementById('search-groups');
+  var emptyEl = document.getElementById('search-empty');
+  var popularWrap = document.getElementById('search-popular');
 
   if (!toggle || !panel || !form || !input) return;
 
   var MAX_RECENT = 6;
+  var debounce = null;
+  var lastQuery = '';
 
   function lang() {
     if (typeof miTemaAbogados !== 'undefined' && miTemaAbogados && miTemaAbogados.lang) {
@@ -1166,27 +1174,154 @@ document.addEventListener('DOMContentLoaded', function() {
     save(list);
   }
 
-  function render() {
-    if (!recent || !chips) return;
+  function removeOne(term) {
+    var lowered = (term || '').toLowerCase();
+    save(load().filter(function(t) { return t.toLowerCase() !== lowered; }));
+    renderRecent();
+  }
+
+  var CLOCK_SVG = '<svg class="search-recent-clock" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="7.5" r="6.9" stroke="rgba(255,255,255,0.45)" stroke-width="1.2"/><path d="M7.5 4v3.5l2.2 1.4" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linecap="round"/></svg>';
+
+  function renderRecent() {
+    if (!recent || !recentList) return;
     var list = load();
-    chips.innerHTML = '';
+    recentList.innerHTML = '';
     if (!list.length) {
       recent.hidden = true;
       return;
     }
     recent.hidden = false;
     list.forEach(function(term) {
-      var chip = document.createElement('button');
-      chip.type = 'button';
-      chip.className = 'search-chip';
-      chip.textContent = term;
-      chip.addEventListener('click', function() {
+      var row = document.createElement('div');
+      row.className = 'search-recent-row';
+
+      var go = document.createElement('button');
+      go.type = 'button';
+      go.className = 'search-recent-go';
+      go.innerHTML = CLOCK_SVG;
+      var label = document.createElement('span');
+      label.textContent = term;
+      go.appendChild(label);
+      go.setAttribute('aria-label', term);
+      go.addEventListener('click', function() {
         input.value = term;
-        remember(term);
-        form.submit();
+        doLiveSearch(term);
+        input.focus();
       });
-      chips.appendChild(chip);
+
+      var del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'search-recent-del';
+      del.textContent = '✕';
+      del.setAttribute('aria-label', 'Eliminar');
+      del.addEventListener('click', function() {
+        removeOne(term);
+        input.focus();
+      });
+
+      row.appendChild(go);
+      row.appendChild(del);
+      recentList.appendChild(row);
     });
+  }
+
+  function showInitial() {
+    if (initial) initial.hidden = false;
+    if (results) results.hidden = true;
+  }
+
+  function showResults() {
+    if (initial) initial.hidden = true;
+    if (results) results.hidden = false;
+  }
+
+  function iconFor(groupKey) {
+    if (groupKey === 'servicios') {
+      return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="5" width="12" height="8" stroke="currentColor" stroke-width="1.3"/><path d="M6 5V4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.2"/></svg>';
+    }
+    return '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 3h12M1 7h12M1 11h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+  }
+
+  function renderGroups(data) {
+    if (!groupsEl || !countEl || !emptyEl) return;
+    groupsEl.innerHTML = '';
+    var total = data.total || 0;
+    var q = data.query || '';
+    if (!total) {
+      countEl.textContent = '';
+      emptyEl.hidden = false;
+      return;
+    }
+    emptyEl.hidden = true;
+    countEl.textContent = total + ' resultado' + (total === 1 ? '' : 's') + ' para \u201C' + q + '\u201D';
+    (data.groups || []).forEach(function(g) {
+      var wrap = document.createElement('div');
+      wrap.className = 'search-group';
+      var label = document.createElement('p');
+      label.className = 'search-group-label';
+      label.textContent = (g.label || '').toUpperCase() + ' · ' + (g.items || []).length;
+      wrap.appendChild(label);
+      (g.items || []).forEach(function(item) {
+        var a = document.createElement('a');
+        a.className = 'search-result-card';
+        a.href = item.url || '#';
+        var icon = document.createElement('span');
+        icon.className = 'search-result-icon';
+        icon.innerHTML = iconFor(g.key);
+        var txt = document.createElement('span');
+        txt.className = 'search-result-text';
+        var t = document.createElement('span');
+        t.className = 'search-result-title';
+        t.textContent = item.title || '';
+        var s = document.createElement('span');
+        s.className = 'search-result-sub';
+        s.textContent = item.subtitle || '';
+        txt.appendChild(t);
+        txt.appendChild(s);
+        var arrow = document.createElement('span');
+        arrow.className = 'search-result-arrow';
+        arrow.textContent = '›';
+        arrow.setAttribute('aria-hidden', 'true');
+        a.appendChild(icon);
+        a.appendChild(txt);
+        a.appendChild(arrow);
+        a.addEventListener('click', function() {
+          remember(q || input.value);
+        });
+        wrap.appendChild(a);
+      });
+      groupsEl.appendChild(wrap);
+    });
+  }
+
+  function doLiveSearch(q) {
+    q = (q || '').trim();
+    lastQuery = q;
+    if (q.length < 2) {
+      showInitial();
+      return;
+    }
+    showResults();
+    if (countEl) countEl.textContent = 'Buscando…';
+    if (groupsEl) groupsEl.innerHTML = '';
+    if (emptyEl) emptyEl.hidden = true;
+    var ajaxUrl = (typeof miTemaAbogados !== 'undefined' && miTemaAbogados.ajaxUrl) ? miTemaAbogados.ajaxUrl : '/wp-admin/admin-ajax.php';
+    var nonce = (typeof miTemaAbogados !== 'undefined' && miTemaAbogados.nonce) ? miTemaAbogados.nonce : '';
+    fetch(ajaxUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ action: 'tema_viera_search', nonce: nonce, q: q, pll_lang: lang() })
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (q !== lastQuery) return;
+        if (res && res.success) {
+          renderGroups(res.data);
+        }
+      })
+      .catch(function() {
+        if (emptyEl) emptyEl.hidden = false;
+      });
   }
 
   function position() {
@@ -1202,7 +1337,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function open() {
     position();
-    render();
+    renderRecent();
+    input.value = '';
+    lastQuery = '';
+    showInitial();
     document.body.classList.add('search-open');
     toggle.setAttribute('aria-expanded', 'true');
     setTimeout(function() { input.focus(); }, 80);
@@ -1239,8 +1377,30 @@ document.addEventListener('DOMContentLoaded', function() {
     if (isOpen()) position();
   });
 
-  form.addEventListener('submit', function() {
-    remember(input.value);
+  input.addEventListener('input', function() {
+    clearTimeout(debounce);
+    debounce = setTimeout(function() {
+      doLiveSearch(input.value);
+    }, 250);
+  });
+
+  if (popularWrap) {
+    popularWrap.addEventListener('click', function(e) {
+      var btn = e.target.closest ? e.target.closest('.search-pill') : null;
+      if (!btn || !popularWrap.contains(btn)) return;
+      var term = btn.getAttribute('data-term') || btn.textContent;
+      input.value = term;
+      doLiveSearch(term);
+      input.focus();
+    });
+  }
+
+  form.addEventListener('submit', function(e) {
+    var q = input.value.trim();
+    if (q.length >= 2 && results && !results.hidden && groupsEl && groupsEl.children.length) {
+      // Hay resultados vivos: ir al primero? No, dejar que WP haga /?s= como fallback.
+    }
+    remember(q);
   });
 
   if (clearBtn) {
@@ -1248,7 +1408,7 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         localStorage.removeItem(key());
       } catch (e) {}
-      render();
+      renderRecent();
       input.focus();
     });
   }

@@ -754,9 +754,17 @@ function tema_viera_register_polylang_strings() {
 		'Artículos relacionados',
 		'Buscar',
 		'Cerrar',
-		'¿Qué estás buscando?',
+		'Buscar por palabras clave',
 		'Búsquedas recientes',
 		'Limpiar',
+		'BÚSQUEDAS RECIENTES',
+		'Borrar todo',
+		'BÚSQUEDAS POPULARES',
+		'Litigios Civiles',
+		'Litigios Penales',
+		'Equipo legal',
+		'Agenda una reunión',
+		'Sin resultados. Prueba con otra palabra clave.',
 	);
 	foreach ( $ui_strings as $string ) {
 		tema_viera_pll_register_string( 'UI · ' . $string, $string, 'Interfaz' );
