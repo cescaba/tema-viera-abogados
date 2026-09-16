@@ -1396,11 +1396,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   form.addEventListener('submit', function(e) {
+    // El overlay muestra resultados vivos: nunca navegar a /?s=.
+    e.preventDefault();
     var q = input.value.trim();
-    if (q.length >= 2 && results && !results.hidden && groupsEl && groupsEl.children.length) {
-      // Hay resultados vivos: ir al primero? No, dejar que WP haga /?s= como fallback.
-    }
     remember(q);
+    renderRecent();
+    doLiveSearch(q);
+    input.focus();
   });
 
   if (clearBtn) {
