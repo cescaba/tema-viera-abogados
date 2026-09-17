@@ -142,6 +142,19 @@ if ( ! isset( $content_width ) ) {
 }
 
 /**
+ * Permitir subida de videos de fondo del hero (.mov, .m4v, etc.)
+ */
+function tema_viera_abogados_extra_video_mimes( $mimes ) {
+	$mimes['mov']  = 'video/quicktime';
+	$mimes['m4v']  = 'video/x-m4v';
+	$mimes['mp4']  = 'video/mp4';
+	$mimes['webm'] = 'video/webm';
+	$mimes['ogv']  = 'video/ogg';
+	return $mimes;
+}
+add_filter( 'upload_mimes', 'tema_viera_abogados_extra_video_mimes' );
+
+/**
  * Función auxiliar para obtener opción del tema con valor por defecto
  *
  * @param string $option Nombre de la opción

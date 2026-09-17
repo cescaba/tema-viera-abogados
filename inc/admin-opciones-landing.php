@@ -59,6 +59,10 @@ function tema_viera_register_settings() {
 	);
 	register_setting(
 		'tema_viera_opciones_landing',
+		'tema_viera_abogados_hero_video'
+	);
+	register_setting(
+		'tema_viera_opciones_landing',
 		'tema_viera_abogados_hero_btn1_texto'
 	);
 	register_setting(
@@ -248,6 +252,7 @@ function tema_viera_opciones_landing_page() {
 	$hero_titulo           = get_option( 'tema_viera_abogados_hero_titulo', '' );
 	$hero_subtitulo        = get_option( 'tema_viera_abogados_hero_subtitulo', '' );
 	$hero_imagen_id        = get_option( 'tema_viera_abogados_hero_imagen', '' );
+	$hero_video_id         = get_option( 'tema_viera_abogados_hero_video', '' );
 	$hero_btn1_texto       = get_option( 'tema_viera_abogados_hero_btn1_texto', '' );
 	$hero_btn2_texto       = get_option( 'tema_viera_abogados_hero_btn2_texto', '' );
 	$awards_logos_ids      = get_option( 'tema_viera_abogados_awards_logos', array() );
@@ -327,6 +332,7 @@ function tema_viera_opciones_landing_page() {
 	// Obtener URLs de imágenes si existen
 	$logo_url = $logo_id ? wp_get_attachment_url( $logo_id ) : '';
 	$hero_imagen_url = $hero_imagen_id ? wp_get_attachment_url( $hero_imagen_id ) : '';
+	$hero_video_url = $hero_video_id ? wp_get_attachment_url( $hero_video_id ) : '';
 	?>
 
 	<div class="wrap">
@@ -491,7 +497,7 @@ function tema_viera_opciones_landing_page() {
 				</div>
 
 				<div class="mi-tema-form-group">
-					<label><?php esc_html_e( 'Imagen de Fondo', 'tema-viera-abogados' ); ?></label>
+					<label><?php esc_html_e( 'Imagen de Fondo (fallback / poster)', 'tema-viera-abogados' ); ?></label>
 					<input type="hidden" id="hero_imagen" name="hero_imagen" value="<?php echo esc_attr( $hero_imagen_id ); ?>" />
 					<button type="button" class="mi-tema-btn-upload" onclick="tema_viera_upload_media('hero_imagen')">
 						<?php esc_html_e( 'Seleccionar Imagen', 'tema-viera-abogados' ); ?>
@@ -504,6 +510,26 @@ function tema_viera_opciones_landing_page() {
 							<img id="hero_imagen_preview" src="<?php echo esc_url( $hero_imagen_url ); ?>" alt="" />
 						</div>
 					<?php endif; ?>
+				</div>
+
+				<div class="mi-tema-form-group">
+					<label><?php esc_html_e( 'Video de Fondo (opcional, MP4 / MOV / WebM)', 'tema-viera-abogados' ); ?></label>
+					<input type="hidden" id="hero_video" name="hero_video" value="<?php echo esc_attr( $hero_video_id ); ?>" />
+					<button type="button" class="mi-tema-btn-upload" onclick="tema_viera_upload_video('hero_video')">
+						<?php esc_html_e( 'Seleccionar Video', 'tema-viera-abogados' ); ?>
+					</button>
+					<button type="button" class="mi-tema-btn-remove" onclick="tema_viera_remove_video('hero_video')" style="<?php echo $hero_video_url ? '' : 'display:none;'; ?>">
+						<?php esc_html_e( 'Eliminar Video', 'tema-viera-abogados' ); ?>
+					</button>
+					<div id="hero_video_preview_wrap" class="mi-tema-image-preview" style="<?php echo $hero_video_url ? '' : 'display:none;'; ?>">
+						<?php if ( $hero_video_url ) : ?>
+							<video id="hero_video_preview" src="<?php echo esc_url( $hero_video_url ); ?>" style="max-width:320px;height:auto;" muted playsinline></video>
+							<p class="description" style="word-break:break-all;"><?php echo esc_html( basename( get_attached_file( $hero_video_id ) ) ); ?></p>
+						<?php else : ?>
+							<video id="hero_video_preview" src="" style="max-width:320px;height:auto;display:none;" muted playsinline></video>
+						<?php endif; ?>
+					</div>
+					<p class="description"><?php esc_html_e( 'Si hay video, reemplaza a la imagen de fondo. La imagen queda como poster mientras carga. Se reproducirá en silencio, en bucle y sin controles. Nota: .mov funciona en Safari; en Chrome/Edge se recomienda MP4 (H.264) o WebM para máxima compatibilidad.', 'tema-viera-abogados' ); ?></p>
 				</div>
 
 				<h3 style="margin-top:30px;color:#1a3a52;"><?php esc_html_e( 'Botón 1 — lleva a #servicios', 'tema-viera-abogados' ); ?></h3>
@@ -1173,6 +1199,57 @@ function tema_viera_opciones_landing_page() {
 			}
 		}
 
+		// Función para subir video de fondo del hero (mp4, mov, webm, etc.)
+		var temaVieraVideoFrame;
+		function tema_viera_upload_video( fieldId ) {
+			if ( temaVieraVideoFrame ) {
+				temaVieraVideoFrame.open();
+				return;
+			}
+
+			temaVieraVideoFrame = wp.media({
+				title: '<?php esc_html_e( 'Seleccionar Video de Fondo', 'tema-viera-abogados' ); ?>',
+				button: { text: '<?php esc_html_e( 'Usar este video', 'tema-viera-abogados' ); ?>' },
+				multiple: false,
+				library: { type: 'video' }
+			});
+
+			temaVieraVideoFrame.on( 'select', function() {
+				var attachment = temaVieraVideoFrame.state().get('selection').first().toJSON();
+				document.getElementById( fieldId ).value = attachment.id;
+				var preview = document.getElementById( fieldId + '_preview' );
+				if ( preview ) {
+					preview.src = attachment.url;
+					preview.style.display = 'block';
+					preview.load();
+				}
+				var wrap = document.getElementById( fieldId + '_preview_wrap' );
+				if ( wrap ) {
+					wrap.style.display = 'block';
+				}
+				var btn = document.querySelector("button[onclick=\"tema_viera_remove_video('" + fieldId + "')\"]");
+				if ( btn ) {
+					btn.style.display = '';
+				}
+				temaVieraVideoFrame = null;
+			});
+
+			temaVieraVideoFrame.open();
+		}
+
+		function tema_viera_remove_video( fieldId ) {
+			document.getElementById( fieldId ).value = '';
+			var preview = document.getElementById( fieldId + '_preview' );
+			if ( preview ) {
+				preview.removeAttribute('src');
+				preview.style.display = 'none';
+			}
+			var wrap = document.getElementById( fieldId + '_preview_wrap' );
+			if ( wrap ) {
+				wrap.style.display = 'none';
+			}
+		}
+
 		// Variables para la galería de awards
 		var awardsLogoIds = <?php echo ! empty( $awards_logos_ids ) ? json_encode( array_map( 'intval', (array) $awards_logos_ids ) ) : '[]'; ?>;
 		var awardsMediaFrame;
@@ -1487,6 +1564,9 @@ function tema_viera_procesar_opciones_landing() {
 	}
 	if ( isset( $_POST['hero_imagen'] ) ) {
 		update_option( 'tema_viera_abogados_hero_imagen', intval( $_POST['hero_imagen'] ) );
+	}
+	if ( isset( $_POST['hero_video'] ) ) {
+		update_option( 'tema_viera_abogados_hero_video', intval( $_POST['hero_video'] ) );
 	}
 	if ( isset( $_POST['hero_btn1_texto'] ) ) {
 		update_option( 'tema_viera_abogados_hero_btn1_texto', sanitize_text_field( $_POST['hero_btn1_texto'] ) );

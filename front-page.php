@@ -16,11 +16,14 @@ get_header();
 $hero_titulo           = tema_viera_t( get_option( 'tema_viera_abogados_hero_titulo', 'SOMOS EXPERTOS EN LITIGIOS COMPLEJOS' ) );
 $hero_subtitulo        = tema_viera_t( get_option( 'tema_viera_abogados_hero_subtitulo', 'Resolvemos lo que otros no pueden.' ) );
 $hero_imagen_id        = get_option( 'tema_viera_abogados_hero_imagen', '' );
+$hero_video_id         = get_option( 'tema_viera_abogados_hero_video', '' );
 
 $hero_btn1_texto       = tema_viera_t( get_option( 'tema_viera_abogados_hero_btn1_texto', 'NUESTROS SERVICIOS' ) );
 $hero_btn2_texto       = tema_viera_t( get_option( 'tema_viera_abogados_hero_btn2_texto', 'AGENDA UNA CITA' ) );
 
 $hero_imagen_url       = $hero_imagen_id ? wp_get_attachment_url( $hero_imagen_id ) : '';
+$hero_video_url        = $hero_video_id ? wp_get_attachment_url( $hero_video_id ) : '';
+$hero_video_mime       = $hero_video_id ? get_post_mime_type( $hero_video_id ) : '';
 
 $awards_logos_ids      = get_option( 'tema_viera_abogados_awards_logos', array() );
 
@@ -41,7 +44,13 @@ $contacto_direccion    = tema_viera_t( get_option( 'tema_viera_abogados_contacto
 $contacto_telefono     = get_option( 'tema_viera_abogados_contacto_telefono', '' );
 $contacto_email        = get_option( 'tema_viera_abogados_contacto_email', '' );
 ?>
-<section class="hero-viera" <?php echo $hero_imagen_url ? 'style="background-image: url(\'' . esc_url( $hero_imagen_url ) . '\');"' : ''; ?>>
+<section class="hero-viera<?php echo $hero_video_url ? ' has-video' : ''; ?>" <?php echo $hero_imagen_url ? 'style="background-image: url(\'' . esc_url( $hero_imagen_url ) . '\');"' : ''; ?>>
+  <?php if ( $hero_video_url ) : ?>
+    <video class="hero-video-bg" autoplay muted loop playsinline preload="metadata"<?php echo $hero_imagen_url ? ' poster="' . esc_url( $hero_imagen_url ) . '"' : ''; ?>>
+      <source src="<?php echo esc_url( $hero_video_url ); ?>"<?php echo $hero_video_mime ? ' type="' . esc_attr( $hero_video_mime ) . '"' : ''; ?>>
+    </video>
+    <div class="hero-video-overlay" aria-hidden="true"></div>
+  <?php endif; ?>
   
   <div class="container hero-container">
     <div class="hero-content-box reveal">

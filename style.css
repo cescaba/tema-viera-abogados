@@ -1008,9 +1008,29 @@ body.search-open .search-panel {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-color: #0b1a30;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
+}
+
+.hero-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(11,26,48,.72) 0%, rgba(11,26,48,.45) 55%, rgba(11,26,48,.25) 100%);
+  pointer-events: none;
 }
 
 .hero-container {
