@@ -107,6 +107,11 @@ function tema_viera_opciones_equipo_page() {
 		<form method="post" id="mi-tema-opciones-equipo-form">
 			<?php wp_nonce_field( 'tema_viera_opciones_equipo_action', 'tema_viera_opciones_equipo_nonce' ); ?>
 
+			<div class="mi-tema-sticky-bar">
+				<span><?php esc_html_e( 'Opciones de Página Equipo — guarda en cualquier momento', 'tema-viera-abogados' ); ?></span>
+				<button type="submit" name="submit" class="button button-primary"><?php esc_html_e( 'Guardar Cambios', 'tema-viera-abogados' ); ?></button>
+			</div>
+
 			<style>
 				.mi-tema-form-section {
 					background: #fff;
@@ -175,8 +180,45 @@ function tema_viera_opciones_equipo_page() {
 					font-size: 14px;
 				}
 				.mi-tema-btn-remove:hover { background: #c82333; }
-				.submit { margin-top: 30px; }
-				.submit button {
+			.submit.mi-tema-sticky-save {
+				position: sticky;
+				bottom: 0;
+				z-index: 50;
+				background: #fff;
+				border: 1px solid #e0e0e0;
+				border-radius: 4px;
+				padding: 12px 20px;
+				margin-top: 30px;
+				box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+				display: flex;
+				align-items: center;
+				gap: 12px;
+			}
+			.mi-tema-sticky-bar {
+				position: sticky;
+				top: 32px;
+				z-index: 50;
+				background: #fff;
+				border: 1px solid #e0e0e0;
+				border-radius: 4px;
+				padding: 10px 20px;
+				margin: 15px 0 0;
+				box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 12px;
+			}
+			.mi-tema-sticky-bar span {
+				font-weight: 600;
+				color: #1a3a52;
+			}
+			@media screen and (max-width: 782px) {
+				.mi-tema-sticky-bar {
+					top: 46px;
+				}
+			}
+			.submit button {
 					background: #1a3a52;
 					color: white;
 					padding: 12px 30px;
@@ -379,10 +421,11 @@ function tema_viera_opciones_equipo_page() {
 				</div>
 			</div>
 
-			<div class="submit">
+			<div class="submit mi-tema-sticky-save">
 				<button type="submit" name="submit" class="button button-primary button-large">
 					<?php esc_html_e( 'Guardar Cambios', 'tema-viera-abogados' ); ?>
 				</button>
+				<span style="color:#666;font-size:13px;"><?php esc_html_e( 'Esta barra queda siempre visible al hacer scroll.', 'tema-viera-abogados' ); ?></span>
 			</div>
 		</form>
 	</div>

@@ -184,6 +184,11 @@ function tema_viera_opciones_terminos_page() {
 		<form method="post">
 			<?php wp_nonce_field( 'tema_viera_opciones_terminos_action', 'tema_viera_opciones_terminos_nonce' ); ?>
 
+			<div class="mi-tema-sticky-bar">
+				<span><?php esc_html_e( 'Términos y Condiciones — guarda en cualquier momento', 'tema-viera-abogados' ); ?></span>
+				<button type="submit" name="submit" class="button button-primary"><?php esc_html_e( 'Guardar Cambios', 'tema-viera-abogados' ); ?></button>
+			</div>
+
 			<style>
 				.mi-tema-form-section { background: #fff; padding: 20px; margin: 20px 0; border: 1px solid #e0e0e0; border-radius: 4px; }
 				.mi-tema-form-section h2 { margin-top: 0; color: #1a3a52; border-bottom: 2px solid #d4af37; padding-bottom: 10px; }
@@ -194,7 +199,10 @@ function tema_viera_opciones_terminos_page() {
 				.mi-tema-termino-item { background: #f7f9fc; border: 1px solid #e2e6ed; border-radius: 4px; padding: 15px; margin-bottom: 15px; position: relative; }
 				.btn-remove-termino { position: absolute; top: 10px; right: 10px; background: #dc3545; color: #fff; border: none; border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 12px; }
 				.btn-remove-termino:hover { background: #c82333; }
-				.submit { margin-top: 30px; }
+				.submit.mi-tema-sticky-save { position: sticky; bottom: 0; z-index: 50; background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 12px 20px; margin-top: 30px; box-shadow: 0 -2px 12px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 12px; }
+			.mi-tema-sticky-bar { position: sticky; top: 32px; z-index: 50; background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px 20px; margin: 15px 0 0; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+			.mi-tema-sticky-bar span { font-weight: 600; color: #1a3a52; }
+			@media screen and (max-width: 782px) { .mi-tema-sticky-bar { top: 46px; } }
 				.submit button { background: #1a3a52; color: white; padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: 600; }
 				.submit button:hover { background: #0f1419; }
 			</style>
@@ -241,10 +249,11 @@ function tema_viera_opciones_terminos_page() {
 				</button>
 			</div>
 
-			<div class="submit">
+			<div class="submit mi-tema-sticky-save">
 				<button type="submit" name="submit" class="button button-primary button-large">
 					<?php esc_html_e( 'Guardar Cambios', 'tema-viera-abogados' ); ?>
 				</button>
+				<span style="color:#666;font-size:13px;"><?php esc_html_e( 'Esta barra queda siempre visible al hacer scroll.', 'tema-viera-abogados' ); ?></span>
 			</div>
 		</form>
 	</div>
