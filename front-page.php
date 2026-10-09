@@ -266,6 +266,7 @@ $sectores = get_option( 'tema_viera_abogados_sectores_items', array() );
   </div>
 </section>
 
+<?php if ( false ) : // SECCIÓN OCULTA TEMPORALMENTE: Clientes ?>
 <?php
 $clientes_titulo = tema_viera_t( get_option( 'tema_viera_abogados_clientes_titulo', 'ELLOS CONFÍAN EN NOSOTROS' ) );
 $clientes_logos  = get_option( 'tema_viera_abogados_clientes_logos', array() );
@@ -301,6 +302,7 @@ $clientes_count  = count( array_filter( $clientes_logos ) );
     <?php endif; ?>
   </div>
 </section>
+<?php endif; // FIN SECCIÓN OCULTA: Clientes ?>
 
 
 <?php
@@ -476,6 +478,7 @@ if ( ! empty( $equipo_seleccionados ) && is_array( $equipo_seleccionados ) ) {
   </div>
 </section>
 
+<?php if ( false ) : // SECCIÓN OCULTA TEMPORALMENTE: KPIs ?>
 <?php
 $kpis = array(
   array(
@@ -537,6 +540,7 @@ if ( ! empty( $kpi_4_num ) ) {
     </div>
   </div>
 </section>
+<?php endif; // FIN SECCIÓN OCULTA: KPIs ?>
 
 <?php
 $agenda_pre_titulo = tema_viera_t( get_option( 'tema_viera_abogados_agenda_pre', 'AGENDAMIENTO DIRECTO' ) );
