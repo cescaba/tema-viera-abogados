@@ -898,11 +898,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
       var nombre = (form.querySelector('input[name="nombre"]') || {}).value || '';
       var whatsapp = (form.querySelector('input[name="whatsapp"]') || {}).value || '';
+      var email = (form.querySelector('input[name="email"]') || {}).value || '';
       var servicio = selectInput ? selectInput.value : '';
 
       if (!selectedDate) { showMessage('Selecciona un día en el calendario.', 'error'); return; }
       if (!selectedSlot) { showMessage('Selecciona un horario disponible.', 'error'); return; }
       if (!nombre.trim()) { showMessage('Ingresa tu nombre.', 'error'); return; }
+      if (!email.trim()) { showMessage('Ingresa tu correo electrónico.', 'error'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { showMessage('Ingresa un correo electrónico válido.', 'error'); return; }
 
       var submitBtn = form.querySelector('.booking-submit');
       var span = submitBtn ? submitBtn.querySelector('span') : null;
@@ -914,6 +917,7 @@ document.addEventListener('DOMContentLoaded', function() {
         nonce: miTemaAbogados.nonce,
         nombre: nombre.trim(),
         whatsapp: whatsapp.trim(),
+        email: email.trim(),
         servicio: servicio.trim(),
         fecha: selectedDate,
         hora: selectedSlot
@@ -929,6 +933,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var datos = {
               '{nombre}': nombre.trim(),
               '{whatsapp}': whatsapp.trim(),
+              '{email}': email.trim(),
               '{servicio}': servicio.trim(),
               '{fecha}': selectedDate,
               '{hora}': selectedSlot

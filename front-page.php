@@ -231,12 +231,11 @@ $sectores = get_option( 'tema_viera_abogados_sectores_items', array() );
           <ul class="sectores-list" id="sectores-list">
             <?php if ( ! empty( $sectores ) ) : ?>
               <?php foreach ( $sectores as $index => $sector ) : 
-                $open_class = ( $index === 0 ) ? 'is-open' : '';
                 $imagen_url = !empty($sector['imagen']) ? wp_get_attachment_url( $sector['imagen'] ) : '';
                 $sector_titulo = tema_viera_t( $sector['titulo'] ?? '' );
                 $sector_desc   = tema_viera_t( $sector['descripcion'] ?? '' );
               ?>
-                <li class="sector-item <?php echo $open_class; ?>" data-image="<?php echo esc_url( $imagen_url ); ?>">
+                <li class="sector-item" data-image="<?php echo esc_url( $imagen_url ); ?>">
                   
                   <div class="sector-header">
                     <span class="sector-nombre"><?php echo esc_html( $sector_titulo ); ?></span>
@@ -626,7 +625,12 @@ $citas_wa_msg      = tema_viera_t( get_option( 'tema_viera_abogados_citas_wa_msg
           </div>
 
           <div class="booking-field">
-            <label for="booking-servicio"><?php echo esc_html( tema_viera_t( 'SERVICIO DE INTERÉS' ) ); ?></label>
+            <label for="booking-email"><?php echo esc_html( tema_viera_t( 'CORREO ELECTRÓNICO' ) ); ?></label>
+            <input type="email" id="booking-email" name="email" placeholder="juan@correo.com" autocomplete="email">
+          </div>
+
+          <div class="booking-field">
+            <label for="booking-servicio"><?php echo esc_html( tema_viera_t( 'SERVICIO DE INTERÉS' ) ); ?> <span class="booking-label-optional"><?php echo esc_html( tema_viera_t( '(Opcional)' ) ); ?></span></label>
             <div class="booking-select" id="booking-servicio">
               <button type="button" class="booking-select-trigger" aria-haspopup="listbox" aria-expanded="false">
                 <span class="booking-select-value"><?php echo esc_html( tema_viera_t( 'Selecciona un servicio o tema…' ) ); ?></span>

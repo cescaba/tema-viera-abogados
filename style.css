@@ -2981,6 +2981,13 @@ body.search-open .search-panel {
   color: #222F50;
 }
 
+.booking-field label .booking-label-optional {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #808799;
+}
+
 .booking-field input,
 .booking-select-trigger {
   box-sizing: border-box;

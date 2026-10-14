@@ -66,6 +66,7 @@ function tema_viera_citas_columns( $columns ) {
 		'cita_fecha'     => esc_html__( 'Fecha', 'tema-viera-abogados' ),
 		'cita_hora'      => esc_html__( 'Hora', 'tema-viera-abogados' ),
 		'cita_whatsapp'  => esc_html__( 'WhatsApp', 'tema-viera-abogados' ),
+		'cita_email'     => esc_html__( 'Correo', 'tema-viera-abogados' ),
 		'cita_servicio'  => esc_html__( 'Servicio', 'tema-viera-abogados' ),
 		'date'           => esc_html__( 'Registrada', 'tema-viera-abogados' ),
 	);
@@ -84,6 +85,9 @@ function tema_viera_citas_columns_content( $column, $post_id ) {
 			break;
 		case 'cita_whatsapp':
 			echo esc_html( get_post_meta( $post_id, '_cita_whatsapp', true ) );
+			break;
+		case 'cita_email':
+			echo esc_html( get_post_meta( $post_id, '_cita_email', true ) );
 			break;
 		case 'cita_servicio':
 			echo esc_html( get_post_meta( $post_id, '_cita_servicio', true ) );
@@ -112,6 +116,7 @@ function tema_viera_citas_metabox_render( $post ) {
 
 	$campos = array(
 		'whatsapp' => esc_html__( 'WhatsApp', 'tema-viera-abogados' ),
+		'email'    => esc_html__( 'Correo electrónico', 'tema-viera-abogados' ),
 		'servicio' => esc_html__( 'Servicio', 'tema-viera-abogados' ),
 		'fecha'    => esc_html__( 'Fecha (YYYY-MM-DD)', 'tema-viera-abogados' ),
 		'hora'     => esc_html__( 'Hora (HH:MM)', 'tema-viera-abogados' ),
@@ -139,7 +144,7 @@ function tema_viera_citas_save_metabox( $post_id ) {
 		return;
 	}
 
-	foreach ( array( 'whatsapp', 'servicio', 'fecha', 'hora' ) as $campo ) {
+	foreach ( array( 'whatsapp', 'email', 'servicio', 'fecha', 'hora' ) as $campo ) {
 		if ( isset( $_POST[ '_cita_' . $campo ] ) ) {
 			update_post_meta( $post_id, '_cita_' . $campo, sanitize_text_field( $_POST[ '_cita_' . $campo ] ) );
 		}
@@ -242,12 +247,17 @@ function tema_viera_citas_book_ajax() {
 
 	$nombre   = isset( $_POST['nombre'] ) ? sanitize_text_field( wp_unslash( $_POST['nombre'] ) ) : '';
 	$whatsapp = isset( $_POST['whatsapp'] ) ? sanitize_text_field( wp_unslash( $_POST['whatsapp'] ) ) : '';
+	$email    = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
 	$servicio = isset( $_POST['servicio'] ) ? sanitize_text_field( wp_unslash( $_POST['servicio'] ) ) : '';
 	$fecha    = isset( $_POST['fecha'] ) ? sanitize_text_field( wp_unslash( $_POST['fecha'] ) ) : '';
 	$hora     = isset( $_POST['hora'] ) ? sanitize_text_field( wp_unslash( $_POST['hora'] ) ) : '';
 
-	if ( ! $nombre || ! $fecha || ! $hora ) {
+	if ( ! $nombre || ! $email || ! $fecha || ! $hora ) {
 		wp_send_json_error( array( 'mensaje' => esc_html__( 'Completa los campos obligatorios.', 'tema-viera-abogados' ) ) );
+	}
+
+	if ( ! is_email( $email ) ) {
+		wp_send_json_error( array( 'mensaje' => esc_html__( 'Ingresa un correo electrónico válido.', 'tema-viera-abogados' ) ) );
 	}
 
 	if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $fecha ) ) {
@@ -281,12 +291,13 @@ function tema_viera_citas_book_ajax() {
 
 	update_post_meta( $post_id, '_cita_nombre', $nombre );
 	update_post_meta( $post_id, '_cita_whatsapp', $whatsapp );
+	update_post_meta( $post_id, '_cita_email', $email );
 	update_post_meta( $post_id, '_cita_servicio', $servicio );
 	update_post_meta( $post_id, '_cita_fecha', $fecha );
 	update_post_meta( $post_id, '_cita_hora', $hora );
 
 	// Notificar al estudio por email.
-	tema_viera_citas_notify_email( $nombre, $whatsapp, $servicio, $fecha, $hora );
+	tema_viera_citas_notify_email( $nombre, $whatsapp, $email, $servicio, $fecha, $hora );
 
 	$whatsapp_numero = preg_replace( '/[^0-9]/', '', (string) get_option( 'tema_viera_abogados_contacto_telefono', '' ) );
 
@@ -301,13 +312,14 @@ add_action( 'wp_ajax_nopriv_tema_viera_citas_book', 'tema_viera_citas_book_ajax'
 /**
  * Enviar email de notificación al estudio.
  */
-function tema_viera_citas_notify_email( $nombre, $whatsapp, $servicio, $fecha, $hora ) {
+function tema_viera_citas_notify_email( $nombre, $whatsapp, $email, $servicio, $fecha, $hora ) {
 	$to      = tema_viera_get_citas_email();
 	$subject = sprintf( 'Nueva cita agendada: %s — %s', $fecha, $hora );
 	$body    = sprintf(
-		"Se agendó una nueva cita:\n\nNombre: %s\nWhatsApp: %s\nServicio: %s\nFecha: %s\nHora: %s",
+		"Se agendó una nueva cita:\n\nNombre: %s\nWhatsApp: %s\nCorreo: %s\nServicio: %s\nFecha: %s\nHora: %s",
 		$nombre,
 		$whatsapp ? $whatsapp : '—',
+		$email ? $email : '—',
 		$servicio ? $servicio : '—',
 		mysql2date( 'd/m/Y', $fecha ),
 		$hora
